@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="color_primary">#BDB3D5</color>
+    <color name="color_primary_variant">#A995DC</color>
+    <color name="color_on_primary">#FFFFFF</color>
+    <color name="color_secondary">#A6D6C8</color>
+    <color name="color_secondary_variant">#7AD5BA</color>
+    <color name="color_on_secondary">#FFFFFF</color>
+    <color name="color_error">#F44336</color>
+    <color name="color_on_error">#FFFFFF</color>
+    <color name="color_surface">#FFFFFF</color>
+    <color name="color_on_surface">#000000</color>
+    <color name="color_background">#FAFAFA</color>
+    <color name="color_on_background">#000000</color>
+    <color name="color_status_bar">#A6D6C8</color>
+    <color name="color_progress_bar_cover">#3E000000</color>
+<!--    <color name="on_click_btn_launcher_ripple">#3BBDB3D5</color>-->
+    <color name="transparent">#00BDB3D5</color>
+<!--    <color name="mtrl_textinput_default_box_stroke_color" tools:ignore="PrivateResource">#FFFFFF</color>-->
+</resources>

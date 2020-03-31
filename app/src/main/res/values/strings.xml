@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">YammyNyammy</string>
+    <string name="home">Home</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="login">Войти</string>
+    <string name="register">Регистрация</string>
+    <string name="login_via_google">Войти с помощью Google</string>
+    <string name="name">Имя</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="repeat_password">Подтверждение пароля</string>
+    <string name="register_variant">Зарегистрироваться</string>
+    <string name="hello">Здраствуйте</string>
+    <string name="we_need_your_phone_number_for_register">Нам понадобится ваш номер телефона для авторизации.</string>
+</resources>

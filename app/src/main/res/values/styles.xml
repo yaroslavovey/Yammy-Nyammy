@@ -1,0 +1,127 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Global color attributes -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorError">@color/color_error</item>
+        <item name="colorOnError">@color/color_on_error</item>
+        <item name="colorSurface">@color/color_surface</item>
+        <item name="colorOnSurface">@color/color_on_surface</item>
+        <item name="android:colorBackground">@color/color_background</item>
+        <item name="colorOnBackground">@color/color_on_background</item>
+        <item name="android:statusBarColor">@color/color_status_bar</item>
+        <item name="textAppearanceButton">@style/AppTextAppearance.Button</item>
+        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/AppShapeAppearance.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/AppShapeAppearance.LargeComponent</item>
+        <item name="materialButtonStyle">@style/AppButton</item>
+        <item name="textInputStyle">@style/AppTextField</item>
+        <item name="android:scrollViewStyle">@style/AppScrollView</item>
+        <item name="android:textViewStyle">@style/AppTextView</item>
+        <item name="materialCardViewStyle">@style/AppCard</item>
+    </style>
+
+
+    <style name="AppTextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="AppShapeAppearance.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="AppShapeAppearance.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="AppButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="iconTint">@color/button_text_color</item>
+        <item name="rippleColor">@color/button_ripple_color</item>
+    </style>
+
+
+    <style name="AppCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">8dp</item>
+        <item name="cardCornerRadius">4dp</item>
+    </style>
+
+    <style name="AppTheme.Splash">
+        <item name="android:windowBackground">@drawable/splash_centered</item>
+    </style>
+
+    <style name="AppTheme.Login">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@color/color_primary</item>
+        <item name="windowNoTitle">true</item>
+        <item name="backgroundColor">@color/color_primary</item>
+        <item name="colorPrimary">@color/color_surface</item>
+        <item name="android:editTextColor">@color/color_surface</item>
+        <item name="colorSurface">@color/color_primary</item>
+        <item name="android:textViewStyle">@style/LoginTextView</item>
+        <item name="textInputStyle">@style/LoginTextField</item>
+        <item name="materialButtonStyle">@style/LoginButton</item>
+    </style>
+
+    <style name="AppScrollView" parent="android:Widget.ScrollView">
+        <item name="android:overScrollMode">never</item>
+    </style>
+
+    <style name="AppTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxCornerRadiusBottomStart">0dp</item>
+        <item name="boxCornerRadiusBottomEnd">0dp</item>
+        <item name="boxCornerRadiusTopEnd">0dp</item>
+        <item name="boxCornerRadiusTopStart">0dp</item>
+    </style>
+
+    <style name="LoginTextField" parent="AppTextField">
+        <item name="boxStrokeColor">@color/edit_text_box_stroke_selector_white</item>
+        <item name="android:textColorHint">@color/color_surface</item>
+        <item name="passwordToggleTint">@color/color_surface</item>
+    </style>
+
+    <style name="AppTextView">
+
+    </style>
+
+    <style name="LoginTextView">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+        <item name="android:textColor">@color/color_surface</item>
+    </style>
+
+    <style name="RoundButton" parent="@style/Widget.MaterialComponents.Button.Icon">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="iconSize">24dp</item>
+        <item name="iconPadding">0dp</item>
+        <item name="android:outlineProvider">none</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:backgroundTint">@color/color_primary</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="LoginButton" parent="AppButton">
+        <item name="android:backgroundTint">@color/color_secondary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="rippleColor">@color/launcher_button_ripple_color</item>>
+        <item name="android:letterSpacing">.01</item>
+    </style>
+
+</resources>
