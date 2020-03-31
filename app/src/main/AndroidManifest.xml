@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.phooper.yammynyammy">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".App"
         android:fullBackupContent="true"
@@ -16,7 +18,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".views.activities.LoginActivity"
-            android:theme="@style/AppTheme.Login" />
+            android:theme="@style/AppTheme.LoginTheme" />
         <activity
             android:name=".views.activities.SplashScreenActivity"
             android:theme="@style/AppTheme.Splash">

@@ -14,13 +14,6 @@
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
-        <action
-            android:id="@+id/action_loginFragment_to_registerViaGoogleFragment"
-            app:destination="@id/registerViaGoogleFragment"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -28,14 +21,6 @@
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/registerViaGoogleFragment"
-        android:name="com.phooper.yammynyammy.views.fragments.RegisterViaGoogleFragment"
-        android:label="RegisterViaGoogleFragment" >
-        <action
-            android:id="@+id/action_registerViaGoogleFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

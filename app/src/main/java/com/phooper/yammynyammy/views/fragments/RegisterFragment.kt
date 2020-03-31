@@ -12,6 +12,8 @@ class RegisterFragment : BaseFragment() {
     override val layoutRes = R.layout.fragment_register
     private lateinit var navController: NavController
 
+
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initViews()

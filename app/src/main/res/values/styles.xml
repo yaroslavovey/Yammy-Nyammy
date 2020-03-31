@@ -23,6 +23,8 @@
         <item name="textInputStyle">@style/AppTextField</item>
         <item name="android:scrollViewStyle">@style/AppScrollView</item>
         <item name="android:textViewStyle">@style/AppTextView</item>
+        <item name="snackbarStyle">@style/Snackbar</item>
+        <item name="snackbarTextViewStyle">@style/SnackbarTextView</item>
         <item name="materialCardViewStyle">@style/AppCard</item>
     </style>
 
@@ -60,7 +62,7 @@
         <item name="android:windowBackground">@drawable/splash_centered</item>
     </style>
 
-    <style name="AppTheme.Login">
+    <style name="AppTheme.LoginTheme">
         <item name="windowActionBar">false</item>
         <item name="android:windowBackground">@color/color_primary</item>
         <item name="windowNoTitle">true</item>
@@ -122,6 +124,15 @@
         <item name="android:textSize">16sp</item>
         <item name="rippleColor">@color/launcher_button_ripple_color</item>>
         <item name="android:letterSpacing">.01</item>
+    </style>
+
+    <style name="Snackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth">
+
+    </style>
+
+    <style name="SnackbarTextView">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>
