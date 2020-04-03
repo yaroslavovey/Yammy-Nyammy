@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.phooper.yammynyammy.views.fragments.LoginFragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.phooper.yammynyammy.views.fragments.RegisterFragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"

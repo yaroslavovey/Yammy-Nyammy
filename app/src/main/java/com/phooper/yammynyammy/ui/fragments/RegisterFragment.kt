@@ -1,11 +1,10 @@
-package com.phooper.yammynyammy.views.fragments
+package com.phooper.yammynyammy.ui.fragments
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.utils.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_register.*
 
 class RegisterFragment : BaseFragment() {
@@ -30,7 +29,6 @@ class RegisterFragment : BaseFragment() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 view.apply {
                     clearFocus()
-                    this.context.hideKeyboard(this)
                 }
                 return@setOnEditorActionListener true
             }

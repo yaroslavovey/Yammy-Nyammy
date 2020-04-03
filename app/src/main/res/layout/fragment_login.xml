@@ -111,7 +111,7 @@
                 />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/register_via_google"
+                android:id="@+id/login_via_google"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="1dp"

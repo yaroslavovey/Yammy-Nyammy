@@ -1,4 +1,4 @@
-package com.phooper.yammynyammy.views.fragments
+package com.phooper.yammynyammy.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.activities.LoginActivity">
+    tools:context=".ui.activities.LoginActivity">
 
     <fragment
         android:id="@+id/login_nav_host_fragment"

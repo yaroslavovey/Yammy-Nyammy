@@ -17,10 +17,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".views.activities.LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:theme="@style/AppTheme.LoginTheme" />
         <activity
-            android:name=".views.activities.SplashScreenActivity"
+            android:name=".ui.activities.SplashScreenActivity"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.activities.MainContainerActivity" />
+        <activity android:name=".ui.activities.MainContainerActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -1,4 +1,4 @@
-package com.phooper.yammynyammy.views.activities
+package com.phooper.yammynyammy.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
