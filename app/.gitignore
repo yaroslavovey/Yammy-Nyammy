@@ -1,1 +1,8 @@
 /build
+google-services.json
+.gradle
+gradlew
+gradlew.bat
+gradle.properties
+.idea
+*.iml
