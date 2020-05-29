@@ -2,6 +2,7 @@ package com.phooper.yammynyammy
 
 import android.app.Application
 import com.phooper.yammynyammy.di.firebaseModule
+import com.phooper.yammynyammy.di.repositoryModule
 import com.phooper.yammynyammy.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -12,7 +13,7 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(listOf(viewModelModule, firebaseModule))
+            modules(listOf(viewModelModule, firebaseModule, repositoryModule))
         }
         Timber.plant(Timber.DebugTree())
     }

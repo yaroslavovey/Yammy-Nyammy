@@ -4,6 +4,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.phooper.yammynyammy.R
+import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.SplashScreenViewModel
 import org.koin.android.ext.koin.androidContext
@@ -13,6 +14,7 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel { MainContainerViewModel() }
     viewModel { SplashScreenViewModel() }
+    viewModel { LoginViewModel() }
 }
 
 val firebaseModule = module {
