@@ -70,13 +70,13 @@ class LoginFragment : BaseFragment() {
                 email_input.text.toString().isEmpty()
 
     private fun showFillFieldsError() {
-        email_input_layout.error =
-            if (email_input.text.toString().isEmpty()) getString(R.string.fill_email) else null
+        if (email_input.text.toString().isEmpty())
+            email_input_layout.error =
+                getString(R.string.fill_email)
 
-        password_input_layout.error =
-            if (password_input.text.toString()
-                    .isEmpty()
-            ) getString(R.string.fill_password) else null
+        if (password_input.text.toString().isEmpty())
+            password_input_layout.error = getString(R.string.fill_password)
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
