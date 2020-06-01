@@ -7,7 +7,6 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.data.repositories.UserRepository
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
-import com.phooper.yammynyammy.viewmodels.SplashScreenViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -34,8 +33,7 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel { MainContainerViewModel() }
-    viewModel { SplashScreenViewModel(get()) }
-    viewModel { LoginViewModel() }
+    viewModel { LoginViewModel(get()) }
 }
 
 
