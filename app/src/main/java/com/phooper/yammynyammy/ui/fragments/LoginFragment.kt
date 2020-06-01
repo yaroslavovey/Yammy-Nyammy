@@ -54,7 +54,7 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun signInViaEmail() {
-        if (areInputsEmpty()) {
+        if (areSomeInputsEmpty()) {
             showFillFieldsError()
             return
         }
@@ -65,7 +65,7 @@ class LoginFragment : BaseFragment() {
         )
     }
 
-    private fun areInputsEmpty() =
+    private fun areSomeInputsEmpty() =
         password_input.text.toString().isEmpty() ||
                 email_input.text.toString().isEmpty()
 
