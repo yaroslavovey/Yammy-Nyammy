@@ -19,4 +19,6 @@
     <string name="we_need_your_phone_number_for_register">Нам понадобится ваш номер телефона для авторизации.</string>
     <string name="fill_password">Заполните Пароль</string>
     <string name="fill_email">Заполните Email</string>
+    <string name="error">Ошибка</string>
+    <string name="auth_error">Ошибка авторизации</string>
 </resources>
