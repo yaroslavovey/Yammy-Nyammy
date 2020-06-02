@@ -13,7 +13,7 @@
     <string name="phone_number">Номер телефона</string>
     <string name="repeat_password">Подтверждение пароля</string>
     <string name="register_verb">Зарегистрироваться</string>
-    <string name="hello">Здраствуйте</string>
+    <string name="hello">Здравствуйте</string>
     <string name="we_need_your_phone_number_for_register">Нам понадобится ваш номер телефона для авторизации.</string>
     <string name="fill_password">Заполните Пароль</string>
     <string name="fill_email">Заполните Email</string>

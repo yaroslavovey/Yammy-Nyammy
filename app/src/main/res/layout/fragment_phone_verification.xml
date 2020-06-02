@@ -60,6 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:imeOptions="actionDone"
+                    android:maxLength="11"
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
