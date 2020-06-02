@@ -18,7 +18,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.activities.LoginActivity"
-            android:theme="@style/AppTheme.Splash" >
+            android:theme="@style/AppTheme.LoginTheme.Splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

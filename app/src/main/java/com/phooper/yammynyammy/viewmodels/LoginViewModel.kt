@@ -9,6 +9,7 @@ import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.phooper.yammynyammy.data.repositories.UserRepository
 import com.phooper.yammynyammy.utils.Constants
+import com.phooper.yammynyammy.utils.Event
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,17 +19,22 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     private val _state = MutableLiveData<LoginState>()
     val state: LiveData<LoginState> get() = _state
 
+    private val _event = MutableLiveData<Event<LoginEvent>>()
+    val event: LiveData<Event<LoginEvent>> get() = _event
+
+    private val _username = MutableLiveData<String>()
+    val username: LiveData<String> get() = _username
+
     init {
         checkCurrentUser()
     }
 
     private fun checkCurrentUser() {
         viewModelScope.launch(IO) {
-            _state.postValue(
-                if (userRepository
-                        .getCurrentUser() != null
-                ) LoginState.AUTHENTICATED else LoginState.DEFAULT
-            )
+            if (userRepository.getCurrentUser() != null)
+                _event.postValue(Event(LoginEvent.NAVIGATE_TO_MAIN_ACTIVITY))
+            else
+                _state.postValue(LoginState.DEFAULT)
         }
     }
 
@@ -37,10 +43,11 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
         viewModelScope.launch(IO) {
             userRepository.signInViaEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    _state.postValue(LoginState.DEFAULT)
+
                 } else {
-                    _state.postValue(LoginState.AUTH_ERROR)
+                    _event.postValue(Event(LoginEvent.AUTH_ERROR))
                 }
+                _state.postValue(LoginState.DEFAULT)
             }
         }
     }
@@ -49,12 +56,13 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
         if (requestCode == Constants.G_AUTH_REQUEST_CODE) {
             Auth.GoogleSignInApi.getSignInResultFromIntent(data)?.let { result ->
                 if (result.isSuccess) {
-                    Timber.d("Logging in")
                     result.signInAccount?.let {
-                        handleSignInViaGoogle(it)
+                        Timber.d(it.displayName)
+                        _username.postValue(it.displayName)
+                        _event.postValue(Event(LoginEvent.NAVIGATE_TO_PHONE_FRAGMENT))
                     }
                 } else {
-                    _state.postValue(LoginState.AUTH_ERROR)
+                    _event.postValue(Event(LoginEvent.AUTH_ERROR))
                 }
             }
         }
@@ -65,9 +73,9 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
         viewModelScope.launch(IO) {
             userRepository.signInViaGoogle(signInAccount).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    _state.postValue(LoginState.AUTHENTICATED)
+                    _event.postValue(Event(LoginEvent.NAVIGATE_TO_MAIN_ACTIVITY))
                 } else {
-                    _state.postValue(LoginState.AUTH_ERROR)
+                    _event.postValue(Event(LoginEvent.AUTH_ERROR))
                 }
             }
         }
@@ -75,9 +83,13 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     enum class LoginState {
         DEFAULT,
-        AUTHENTICATED,
-        AUTH_ERROR,
         LOADING
+    }
+
+    enum class LoginEvent {
+        NAVIGATE_TO_MAIN_ACTIVITY,
+        NAVIGATE_TO_PHONE_FRAGMENT,
+        AUTH_ERROR
     }
 }
 

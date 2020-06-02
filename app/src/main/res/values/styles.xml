@@ -58,7 +58,7 @@
         <item name="cardCornerRadius">4dp</item>
     </style>
 
-    <style name="AppTheme.Splash">
+    <style name="AppTheme.LoginTheme.Splash">
         <item name="android:windowBackground">@drawable/splash_centered</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -66,12 +66,10 @@
 
     <style name="AppTheme.LoginTheme">
         <item name="windowActionBar">false</item>
-        <item name="android:windowBackground">@color/color_primary</item>
+        <item name="android:colorBackground">@color/color_primary</item>
         <item name="windowNoTitle">true</item>
-        <item name="backgroundColor">@color/color_primary</item>
         <item name="colorPrimary">@color/color_surface</item>
         <item name="android:editTextColor">@color/color_surface</item>
-        <item name="colorSurface">@color/color_primary</item>
         <item name="android:textViewStyle">@style/LoginTextView</item>
         <item name="textInputStyle">@style/LoginTextField</item>
         <item name="materialButtonStyle">@style/LoginButton</item>

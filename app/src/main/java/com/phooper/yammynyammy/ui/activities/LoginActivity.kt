@@ -20,29 +20,42 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme_LoginTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        setTheme(R.style.AppTheme_LoginTheme)
 
         navController = findNavController(R.id.login_nav_host_fragment)
 
-        viewModel.state.observe(this, Observer {
-            when (it) {
-                LoginViewModel.LoginState.AUTHENTICATED -> {
-                    startActivity(Intent(this, MainContainerActivity::class.java))
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                    finish()
+        viewModel.event.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { loginEvent ->
+                when (loginEvent) {
+                    LoginViewModel.LoginEvent.NAVIGATE_TO_MAIN_ACTIVITY -> {
+                        login_fragment_layout.visibility = View.GONE
+                        startActivity(Intent(this, MainContainerActivity::class.java))
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        finish()
+                    }
+                    LoginViewModel.LoginEvent.NAVIGATE_TO_PHONE_FRAGMENT -> {
+                        navController.navigate(R.id.action_loginFragment_to_phoneVerificationFragment)
+
+                    }
+                    LoginViewModel.LoginEvent.AUTH_ERROR -> {
+                        Snackbar.make(frame_layout, R.string.auth_error, Snackbar.LENGTH_SHORT)
+                            .show()
+                    }
                 }
-                LoginViewModel.LoginState.LOADING -> {
-                    progress_bar.visibility = View.VISIBLE
-                }
-                LoginViewModel.LoginState.DEFAULT -> {
-                    login_fragment_layout.visibility = View.VISIBLE
-                    progress_bar.visibility = View.GONE
-                }
-                LoginViewModel.LoginState.AUTH_ERROR -> {
-                    progress_bar.visibility = View.GONE
-                    Snackbar.make(frame_layout, R.string.auth_error, Snackbar.LENGTH_SHORT).show()
+            }
+        })
+
+        viewModel.state.observe(this, Observer { loginState ->
+            loginState?.let {
+                when (it) {
+                    LoginViewModel.LoginState.LOADING -> {
+                        progress_bar.visibility = View.VISIBLE
+                    }
+                    LoginViewModel.LoginState.DEFAULT -> {
+                        progress_bar.visibility = View.GONE
+                    }
                 }
             }
         })
