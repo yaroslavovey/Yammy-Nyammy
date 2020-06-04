@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.utils.hideKeyboard
+import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_register.*
 
@@ -23,36 +24,42 @@ class RegisterFragment : BaseFragment() {
     }
 
     private fun initViews() {
+        email_input.setHideLayoutErrorOnTextChangedListener(email_input_layout)
+        password_input.setHideLayoutErrorOnTextChangedListener(password_input_layout)
+        password_repeat_input.setHideLayoutErrorOnTextChangedListener(password_repeat_input_layout)
+
         close_btn.setOnClickListener {
             navController.navigateUp()
         }
 
         register_btn.setOnClickListener {
-            register()
+            signUp()
         }
 
         password_repeat_input.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                register()
+                signUp()
                 return@setOnEditorActionListener true
             }
             false
         }
     }
 
-    private fun register() {
+    private fun signUp() {
         if (areSomeInputsEmpty()) {
             showFillFieldsError()
             return
         }
         hideKeyboard()
-//        viewModel.handleRegister()
+        viewModel.handleSignUpViaEmail(
+            email = email_input.text.toString(),
+            password = password_input.text.toString()
+        )
     }
 
     private fun areSomeInputsEmpty() =
         email_input.text.toString().isEmpty() ||
                 password_input.text.toString().isEmpty() ||
-                name_input.text.toString().isEmpty() ||
                 password_repeat_input.text.toString().isEmpty()
 
     private fun showFillFieldsError() {
@@ -65,9 +72,6 @@ class RegisterFragment : BaseFragment() {
 
         if (password_repeat_input.text.toString().isEmpty())
             password_repeat_input_layout.error = getString(R.string.fill_password)
-
-        if (name_input.text.toString().isEmpty())
-            name_input_layout.error = getString(R.string.fill_name)
 
     }
 }

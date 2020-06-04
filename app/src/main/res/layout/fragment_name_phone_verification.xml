@@ -32,21 +32,26 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/hello_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="@string/hello"
-                android:layout_marginBottom="4dp"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/we_need_your_phone_number_for_register"
-                android:textAlignment="center"
                 android:layout_marginBottom="16dp"
-                />
+                android:text="@string/we_need_your_phone_number_and_name_for_register"
+                android:textAlignment="center" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textAutoComplete" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/phone_number_input_layout"
@@ -59,13 +64,13 @@
                     android:id="@+id/phone_number_input"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:imeOptions="actionDone"
+                    android:inputType="phone"
                     android:maxLength="11"
-                    android:inputType="phone" />
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/register_btn"
+                android:id="@+id/sign_in_btn"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:text="@string/login" />

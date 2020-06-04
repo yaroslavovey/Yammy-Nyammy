@@ -23,7 +23,7 @@
         android:translationZ="90dp"
         android:gravity="center"
         android:focusable="true"
-        android:visibility="gone"
+        android:visibility="visible"
         >
 
         <ProgressBar

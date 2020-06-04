@@ -1,49 +1,68 @@
 package com.phooper.yammynyammy.data.repositories
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.phooper.yammynyammy.data.models.User
 import com.phooper.yammynyammy.utils.Constants.Companion.USERS
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class UserRepository(
     private val firebaseAuth: FirebaseAuth,
-    private val firebaseDatabase: FirebaseDatabase
+    private val firebaseFirestone: FirebaseFirestore
 ) {
 
     suspend fun getCurrentUser(): FirebaseUser? = withContext(IO) { firebaseAuth.currentUser }
 
-    suspend fun signInViaEmailAndPassword(email: String, password: String) = withContext(IO) {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
+    suspend fun signInViaEmailAndPassword(email: String, password: String): AuthResult? {
+        return try {
+            firebaseAuth.signInWithEmailAndPassword(email, password).await()
+        } catch (e: Exception) {
+            null
+        }
     }
 
-    suspend fun signInViaGoogle(signInAccount: GoogleSignInAccount?) = withContext(IO) {
+    suspend fun signInViaGoogle(signInAccount: GoogleSignInAccount?): AuthResult? {
         val credential =
             GoogleAuthProvider.getCredential(signInAccount?.idToken, null)
-        firebaseAuth.signInWithCredential(credential)
+        return try {
+            firebaseAuth.signInWithCredential(credential).await()
+        } catch (e: Exception) {
+            null
+        }
     }
 
     suspend fun signOut() = withContext(IO) { firebaseAuth.signOut() }
 
-    suspend fun registerWithEmailAndPassword(email: String, password: String) =
-        withContext(IO) { firebaseAuth.createUserWithEmailAndPassword(email, password) }
-
-    suspend fun addCurrentUserData(data: User) = withContext(IO) {
-        firebaseAuth.currentUser?.uid?.let { uid ->
-            firebaseDatabase.getReference(USERS).child(uid).setValue(data)
+    suspend fun signUpViaEmailAndPassword(email: String, password: String): AuthResult? {
+        return try {
+            firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+        } catch (e: Exception) {
+            return null
         }
     }
 
-    suspend fun getCurrentUserData() =
-        withContext(IO) {
-            firebaseAuth.currentUser?.uid?.let { uid ->
-                firebaseDatabase.reference.child(
-                    USERS
-                ).child(uid)
-            }
+    suspend fun addUserData(uid: String, data: User): Boolean? {
+        return try {
+            firebaseFirestone.collection(USERS).document(uid).set(data).await()
+            true
+        } catch (e: Exception) {
+            false
         }
+    }
+
+    suspend fun getUserData(uid: String): DocumentSnapshot? {
+        return try {
+            firebaseFirestone.collection(USERS).document(uid).get().await()
+        } catch (e: Exception) {
+            null
+        }
+    }
 }
+

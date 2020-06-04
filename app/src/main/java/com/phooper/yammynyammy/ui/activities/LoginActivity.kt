@@ -30,14 +30,15 @@ class LoginActivity : AppCompatActivity() {
             it.getContentIfNotHandled()?.let { loginEvent ->
                 when (loginEvent) {
                     LoginViewModel.LoginEvent.NAVIGATE_TO_MAIN_ACTIVITY -> {
-                        login_fragment_layout.visibility = View.GONE
                         startActivity(Intent(this, MainContainerActivity::class.java))
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                         finish()
                     }
-                    LoginViewModel.LoginEvent.NAVIGATE_TO_PHONE_FRAGMENT -> {
-                        navController.navigate(R.id.action_loginFragment_to_phoneVerificationFragment)
-
+                    LoginViewModel.LoginEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN -> {
+                        navController.navigate(R.id.action_loginFragment_to_namePhoneVerificationFragment)
+                    }
+                    LoginViewModel.LoginEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER -> {
+                        navController.navigate(R.id.action_registerFragment_to_namePhoneVerificationFragment)
                     }
                     LoginViewModel.LoginEvent.AUTH_ERROR -> {
                         Snackbar.make(frame_layout, R.string.auth_error, Snackbar.LENGTH_SHORT)

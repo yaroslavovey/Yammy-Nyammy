@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/login_nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/login_nav_graph"
     app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.phooper.yammynyammy.ui.fragments.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment"
@@ -15,8 +16,8 @@
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
         <action
-            android:id="@+id/action_loginFragment_to_phoneVerificationFragment"
-            app:destination="@id/phoneVerificationFragment"
+            android:id="@+id/action_loginFragment_to_namePhoneVerificationFragment"
+            app:destination="@id/namePhoneVerificationFragment"
             app:enterAnim="@anim/fragment_fade_enter"
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
@@ -25,7 +26,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.phooper.yammynyammy.ui.fragments.RegisterFragment"
-        android:label="RegisterFragment" >
+        android:label="RegisterFragment">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -33,13 +34,27 @@
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
+        <action
+            android:id="@+id/action_registerFragment_to_namePhoneVerificationFragment"
+            app:destination="@id/namePhoneVerificationFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
     </fragment>
     <fragment
-        android:id="@+id/phoneVerificationFragment"
-        android:name="com.phooper.yammynyammy.ui.fragments.PhoneVerificationFragment"
-        android:label="PhoneVerificationFragment" >
+        android:id="@+id/namePhoneVerificationFragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.NamePhoneVerificationFragment"
+        android:label="NamePhoneVerificationFragment">
         <action
-            android:id="@+id/action_phoneVerificationFragment_to_loginFragment"
+            android:id="@+id/action_namePhoneVerificationFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+        <action
+            android:id="@+id/action_namePhoneVerificationFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/fragment_fade_enter"
             app:exitAnim="@anim/fragment_fade_exit"
