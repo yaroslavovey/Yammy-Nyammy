@@ -3,16 +3,22 @@ package com.phooper.yammynyammy.di
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.phooper.yammynyammy.R
+import com.phooper.yammynyammy.data.api.ShopApi
+import com.phooper.yammynyammy.data.repositories.ProductsRepository
 import com.phooper.yammynyammy.data.repositories.UserRepository
+import com.phooper.yammynyammy.utils.Constants.Companion.BASE_URL
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
+import com.phooper.yammynyammy.viewmodels.MenuViewModel
+import com.squareup.picasso.Picasso
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 val firebaseModule = module {
     single { FirebaseAuth.getInstance() }
@@ -29,15 +35,32 @@ val firebaseModule = module {
     single { Firebase.firestore }
 }
 
+val netModule = module {
+    single {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+    }
+    single { Picasso.Builder(androidContext()).build() }
+}
+
+val apiModule = module {
+    single { get<Retrofit>().create(ShopApi::class.java) }
+}
+
 val repositoryModule = module {
     single {
-        UserRepository(get(), get())
+        UserRepository(firebaseAuth = get(), firebaseFirestone = get())
+    }
+    single {
+        ProductsRepository(shopApi = get())
     }
 }
 
 val viewModelModule = module {
     viewModel { MainContainerViewModel() }
-    viewModel { LoginViewModel(get()) }
+    viewModel { LoginViewModel(userRepository = get()) }
 }
 
 
