@@ -3,7 +3,6 @@
     <string name="home">Home</string>
     <string name="cart">Cart</string>
     <string name="profile">Profile</string>
-
     <string name="email">Email</string>
     <string name="password">Пароль</string>
     <string name="login">Войти</string>
@@ -22,4 +21,9 @@
     <string name="fill_name">Заполните имя</string>
     <string name="we_need_your_phone_number_and_name_for_register">Нам понадобится ваше имя и номер телефона для авторизации.</string>
     <string name="fill_phone">Заполните номер телефона</string>
+    <string name="ice_cream">Мороженное</string>
+    <string name="cupcakes">Кексы</string>
+    <string name="cookies">Печенье</string>
+    <string name="chocolate">Шоколад</string>
+
 </resources>

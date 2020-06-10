@@ -9,6 +9,7 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.data.api.ShopApi
 import com.phooper.yammynyammy.data.repositories.ProductsRepository
 import com.phooper.yammynyammy.data.repositories.UserRepository
+import com.phooper.yammynyammy.ui.adapters.ProductListAdapter
 import com.phooper.yammynyammy.utils.Constants.Companion.BASE_URL
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
@@ -61,6 +62,11 @@ val repositoryModule = module {
 val viewModelModule = module {
     viewModel { MainContainerViewModel() }
     viewModel { LoginViewModel(userRepository = get()) }
+    viewModel { MenuViewModel(productsRepository = get()) }
+}
+
+val adapterModule = module {
+    factory { ProductListAdapter(get()) }
 }
 
 

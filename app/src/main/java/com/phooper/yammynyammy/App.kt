@@ -11,7 +11,16 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(listOf(viewModelModule, firebaseModule, repositoryModule, apiModule, netModule))
+            modules(
+                listOf(
+                    viewModelModule,
+                    firebaseModule,
+                    repositoryModule,
+                    apiModule,
+                    netModule,
+                    adapterModule
+                )
+            )
         }
         Timber.plant(Timber.DebugTree())
     }
