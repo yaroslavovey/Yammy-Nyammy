@@ -48,12 +48,11 @@ class UserRepository(
         }
     }
 
-    suspend fun addUserData(uid: String, data: User): Boolean? {
+    suspend fun addUserData(uid: String, data: User): Void? {
         return try {
             firebaseFirestone.collection(USERS).document(uid).set(data).await()
-            true
         } catch (e: Exception) {
-            false
+            null
         }
     }
 
