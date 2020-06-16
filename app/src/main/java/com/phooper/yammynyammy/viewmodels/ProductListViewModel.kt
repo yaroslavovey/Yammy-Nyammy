@@ -9,7 +9,7 @@ import com.phooper.yammynyammy.data.repositories.ProductsRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-class MenuViewModel(private val productsRepository: ProductsRepository) : ViewModel() {
+class ProductListViewModel(private val productsRepository: ProductsRepository) : ViewModel() {
 
     private val _products = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> get() = _products

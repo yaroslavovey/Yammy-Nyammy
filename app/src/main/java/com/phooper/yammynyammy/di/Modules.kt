@@ -13,7 +13,7 @@ import com.phooper.yammynyammy.ui.adapters.ProductListAdapter
 import com.phooper.yammynyammy.utils.Constants.Companion.BASE_URL
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
-import com.phooper.yammynyammy.viewmodels.MenuViewModel
+import com.phooper.yammynyammy.viewmodels.ProductListViewModel
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -62,7 +62,7 @@ val repositoryModule = module {
 val viewModelModule = module {
     viewModel { MainContainerViewModel() }
     viewModel { LoginViewModel(userRepository = get()) }
-    viewModel { MenuViewModel(productsRepository = get()) }
+    viewModel { ProductListViewModel(productsRepository = get()) }
 }
 
 val adapterModule = module {
