@@ -17,11 +17,11 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    private val _state = MutableLiveData<LoginState>()
-    val state: LiveData<LoginState> get() = _state
+    private val _state = MutableLiveData<ViewState>()
+    val state: LiveData<ViewState> get() = _state
 
-    private val _event = MutableLiveData<Event<LoginEvent>>()
-    val event: LiveData<Event<LoginEvent>> get() = _event
+    private val _event = MutableLiveData<Event<ViewEvent>>()
+    val event: LiveData<Event<ViewEvent>> get() = _event
 
     private val _username = MutableLiveData<String>()
     val username: LiveData<String> get() = _username
@@ -36,26 +36,26 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
             userRepository.getCurrentUser()?.let { currentUser ->
                 //If signed in and has no phone & name
                 if (userRepository.getUserData(currentUser.uid)?.toObject<User>() == null) {
-                    _event.postValue(Event(LoginEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN))
-                    _state.postValue(LoginState.DEFAULT)
+                    _event.postValue(Event(ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN))
+                    _state.postValue(ViewState.DEFAULT)
                     return@launch
                 }
-                _event.postValue(Event(LoginEvent.NAVIGATE_TO_MAIN_ACTIVITY))
+                _event.postValue(Event(ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY))
                 return@launch
             }
-            _state.postValue(LoginState.DEFAULT)
+            _state.postValue(ViewState.DEFAULT)
         }
     }
 
     fun handleSignInViaEmail(email: String, password: String) {
-        _state.value = LoginState.LOADING
+        _state.value = ViewState.LOADING
         viewModelScope.launch(IO) {
             userRepository.signInViaEmailAndPassword(email, password)?.let {
                 checkCurrentUser()
                 return@launch
             }
-            _event.postValue(Event(LoginEvent.AUTH_ERROR))
-            _state.postValue(LoginState.DEFAULT)
+            _event.postValue(Event(ViewEvent.AUTH_ERROR))
+            _state.postValue(ViewState.DEFAULT)
         }
     }
 
@@ -67,22 +67,22 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
                         handleSignInViaGoogle(it)
                     }
                 } else {
-                    _event.postValue(Event(LoginEvent.AUTH_ERROR))
+                    _event.postValue(Event(ViewEvent.AUTH_ERROR))
                 }
             }
         }
     }
 
     private fun handleSignInViaGoogle(signInAccount: GoogleSignInAccount) {
-        _state.value = LoginState.LOADING
+        _state.value = ViewState.LOADING
         viewModelScope.launch(IO) {
             _username.postValue(signInAccount.displayName)
             userRepository.signInViaGoogle(signInAccount)?.let {
                 checkCurrentUser()
                 return@launch
             }
-            _event.postValue(Event(LoginEvent.AUTH_ERROR))
-            _state.postValue(LoginState.DEFAULT)
+            _event.postValue(Event(ViewEvent.AUTH_ERROR))
+            _state.postValue(ViewState.DEFAULT)
         }
     }
 
@@ -90,41 +90,41 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
         email: String,
         password: String
     ) {
-        _state.value = LoginState.LOADING
+        _state.value = ViewState.LOADING
         viewModelScope.launch(IO) {
             userRepository.signUpViaEmailAndPassword(email, password)?.let {
-                _event.postValue(Event(LoginEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER))
-                _state.postValue(LoginState.DEFAULT)
+                _event.postValue(Event(ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER))
+                _state.postValue(ViewState.DEFAULT)
                 return@launch
             }
-            _event.postValue(Event(LoginEvent.AUTH_ERROR))
-            _state.postValue(LoginState.DEFAULT)
+            _event.postValue(Event(ViewEvent.AUTH_ERROR))
+            _state.postValue(ViewState.DEFAULT)
         }
     }
 
     fun handleAddUserData(name: String, phoneNum: String) {
-        _state.value = LoginState.LOADING
+        _state.value = ViewState.LOADING
         viewModelScope.launch(IO) {
             userRepository.getCurrentUser()?.let { currentUser ->
                 userRepository.addUserData(
                     currentUser.uid,
                     User(email = currentUser.email!!, name = name, phoneNum = phoneNum.toInt())
                 )?.let {
-                    _event.postValue(Event(LoginEvent.NAVIGATE_TO_MAIN_ACTIVITY))
+                    _event.postValue(Event(ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY))
                     return@launch
                 }
-                _event.postValue(Event(LoginEvent.AUTH_ERROR))
-                _state.postValue(LoginState.DEFAULT)
+                _event.postValue(Event(ViewEvent.AUTH_ERROR))
+                _state.postValue(ViewState.DEFAULT)
             }
         }
     }
 
-    enum class LoginState {
+    enum class ViewState {
         DEFAULT,
         LOADING
     }
 
-    enum class LoginEvent {
+    enum class ViewEvent {
         NAVIGATE_TO_MAIN_ACTIVITY,
         NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN,
         NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER,

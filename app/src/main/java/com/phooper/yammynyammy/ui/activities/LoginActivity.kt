@@ -11,7 +11,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -29,18 +28,18 @@ class LoginActivity : AppCompatActivity() {
         viewModel.event.observe(this, Observer {
             it.getContentIfNotHandled()?.let { loginEvent ->
                 when (loginEvent) {
-                    LoginViewModel.LoginEvent.NAVIGATE_TO_MAIN_ACTIVITY -> {
+                    LoginViewModel.ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY -> {
                         startActivity(Intent(this, MainContainerActivity::class.java))
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                         finish()
                     }
-                    LoginViewModel.LoginEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN -> {
+                    LoginViewModel.ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN -> {
                         navController.navigate(R.id.action_loginFragment_to_namePhoneVerificationFragment)
                     }
-                    LoginViewModel.LoginEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER -> {
+                    LoginViewModel.ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER -> {
                         navController.navigate(R.id.action_registerFragment_to_namePhoneVerificationFragment)
                     }
-                    LoginViewModel.LoginEvent.AUTH_ERROR -> {
+                    LoginViewModel.ViewEvent.AUTH_ERROR -> {
                         Snackbar.make(frame_layout, R.string.auth_error, Snackbar.LENGTH_SHORT)
                             .show()
                     }
@@ -51,10 +50,10 @@ class LoginActivity : AppCompatActivity() {
         viewModel.state.observe(this, Observer { loginState ->
             loginState?.let {
                 when (it) {
-                    LoginViewModel.LoginState.LOADING -> {
+                    LoginViewModel.ViewState.LOADING -> {
                         progress_bar.visibility = View.VISIBLE
                     }
-                    LoginViewModel.LoginState.DEFAULT -> {
+                    LoginViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
                     }
                 }
