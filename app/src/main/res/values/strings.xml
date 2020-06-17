@@ -25,5 +25,6 @@
     <string name="cupcakes">Кексы</string>
     <string name="cookies">Печенье</string>
     <string name="chocolate">Шоколад</string>
+    <string name="net_error">Ошибка сети</string>
 
 </resources>

@@ -62,7 +62,7 @@ val repositoryModule = module {
 val viewModelModule = module {
     viewModel { MainContainerViewModel() }
     viewModel { LoginViewModel(userRepository = get()) }
-    viewModel { ProductListViewModel(productsRepository = get()) }
+    viewModel { (category : Int?) -> ProductListViewModel(category, productsRepository = get()) }
 }
 
 val adapterModule = module {
