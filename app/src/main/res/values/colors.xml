@@ -14,7 +14,6 @@
     <color name="color_on_background">#000000</color>
     <color name="color_status_bar">#A6D6C8</color>
     <color name="color_progress_bar_cover">#3E000000</color>
-<!--    <color name="on_click_btn_launcher_ripple">#3BBDB3D5</color>-->
     <color name="transparent">#00BDB3D5</color>
-<!--    <color name="mtrl_textinput_default_box_stroke_color" tools:ignore="PrivateResource">#FFFFFF</color>-->
+    <color name="color_unactive_icon">#8A8A8A</color>
 </resources>

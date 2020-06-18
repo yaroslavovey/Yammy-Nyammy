@@ -3,6 +3,9 @@ package com.phooper.yammynyammy.ui.fragments
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.ui.adapters.ViewPagerFragmentAdapter
@@ -10,6 +13,7 @@ import com.phooper.yammynyammy.utils.Constants.Companion.CHOCOLATE_CATEGORY
 import com.phooper.yammynyammy.utils.Constants.Companion.COOKIES_CATEGORY
 import com.phooper.yammynyammy.utils.Constants.Companion.CUPCAKES_CATEGORY
 import com.phooper.yammynyammy.utils.Constants.Companion.ICE_CREAM_CATEGORY
+import kotlinx.android.synthetic.main.activity_main_container.*
 import kotlinx.android.synthetic.main.fragment_menu.*
 
 class MenuFragment : BaseFragment() {
@@ -33,6 +37,5 @@ class MenuFragment : BaseFragment() {
                 else -> null
             }
         }.attach()
-
     }
 }

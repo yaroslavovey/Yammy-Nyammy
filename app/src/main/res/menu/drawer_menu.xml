@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_fragment"
+            android:icon="@drawable/ic_spoon_knife"
+            android:title="@string/menu" />
+        <item
+            android:id="@+id/orders_fragment"
+            android:icon="@drawable/ic_orders"
+            android:title="@string/orders" />
+        <item
+            android:id="@+id/cart_fragment"
+            android:icon="@drawable/ic_cart"
+            android:title="@string/cart" />
+        <item
+            android:id="@+id/profile_fragment"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/profile" />
+    </group>
+</menu>

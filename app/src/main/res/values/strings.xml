@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">YammyNyammy</string>
-    <string name="home">Home</string>
-    <string name="cart">Cart</string>
-    <string name="profile">Profile</string>
+    <string name="home">Дом</string>
+    <string name="cart">Корзина</string>
+    <string name="profile">Профиль</string>
     <string name="email">Email</string>
     <string name="password">Пароль</string>
     <string name="login">Войти</string>
@@ -26,5 +26,7 @@
     <string name="cookies">Печенье</string>
     <string name="chocolate">Шоколад</string>
     <string name="net_error">Ошибка сети</string>
+    <string name="menu">Меню</string>
+    <string name="orders">Заказы</string>
 
 </resources>

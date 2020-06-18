@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Global color attributes -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryVariant">@color/color_primary_variant</item>
@@ -24,7 +24,6 @@
         <item name="snackbarTextViewStyle">@style/SnackbarTextView</item>
         <item name="materialCardViewStyle">@style/AppCard</item>
         <item name="tabStyle">@style/AppTabLayout</item>
-
     </style>
 
     <style name="AppTextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">

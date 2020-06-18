@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_nav_graph"
-    app:startDestination="@id/menuFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/menu_fragment">
 
     <fragment
-        android:id="@+id/menuFragment"
+        android:id="@+id/menu_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.MenuFragment"
-        android:label="MenuFragment" />
+        android:label="@string/menu" />
+    <fragment
+        android:id="@+id/orders_fragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.OrdersFragment"
+        android:label="@string/orders" />
+    <fragment
+        android:id="@+id/cart_fragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.CartFragment"
+        android:label="@string/cart" />
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.ProfileFragment"
+        android:label="@string/profile" />
 </navigation>

@@ -60,7 +60,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:maxImageSize="22dp"
-            app:srcCompat="@drawable/ic_cart" />
+            app:srcCompat="@drawable/ic_cart_add" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/product_price"
