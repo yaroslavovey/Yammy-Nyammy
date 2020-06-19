@@ -9,7 +9,8 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:elevation="8dp"
+        android:elevation="@dimen/app_bar_elevation"
+        android:background="@color/color_primary"
         app:tabMode="scrollable" />
 
     <androidx.viewpager2.widget.ViewPager2
