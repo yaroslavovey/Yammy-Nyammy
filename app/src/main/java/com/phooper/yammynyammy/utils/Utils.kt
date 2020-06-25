@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -31,3 +32,6 @@ fun Context.hideKeyboard(view: View) {
 fun Fragment.hideKeyboard() {
     view?.let { activity?.hideKeyboard(it) }
 }
+
+fun Activity.showMessage(msgRes: Int) =
+    Snackbar.make(findViewById(android.R.id.content), msgRes, Snackbar.LENGTH_SHORT).show()

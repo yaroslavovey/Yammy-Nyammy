@@ -17,7 +17,4 @@ abstract class BaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(layoutRes, container, false)
 
-    fun showMessage(msgRes: Int, contextView: View) {
-        Snackbar.make(contextView, msgRes, Snackbar.LENGTH_SHORT).show()
-    }
 }

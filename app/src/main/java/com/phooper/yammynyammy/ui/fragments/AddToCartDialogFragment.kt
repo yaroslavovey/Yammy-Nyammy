@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.snackbar.Snackbar
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.utils.Constants.Companion.PRODUCT_ID
+import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.viewmodels.AddToCartDialogViewModel
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -59,8 +59,7 @@ class AddToCartDialogFragment : BottomSheetDialogFragment() {
 
         add_to_cart_btn.setOnClickListener {
             viewModel.addProductsToCart()
-            Snackbar.make(dlg_constraint_layout, R.string.added_to_cart, Snackbar.LENGTH_SHORT)
-                .show()
+            requireActivity().showMessage(R.string.added_to_cart)
             dismiss()
         }
 

@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.phooper.yammynyammy.R
+import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -40,8 +40,7 @@ class LoginActivity : AppCompatActivity() {
                         navController.navigate(R.id.action_registerFragment_to_namePhoneVerificationFragment)
                     }
                     LoginViewModel.ViewEvent.AUTH_ERROR -> {
-                        Snackbar.make(frame_layout, R.string.auth_error, Snackbar.LENGTH_SHORT)
-                            .show()
+                        showMessage(R.string.auth_error)
                     }
                 }
             }

@@ -10,14 +10,14 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.ui.adapters.ProductListAdapter
 import com.phooper.yammynyammy.utils.Constants
 import com.phooper.yammynyammy.utils.Constants.Companion.ARG_OBJECT
+import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.viewmodels.ProductListViewModel
 import kotlinx.android.synthetic.main.fragment_product_list.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import timber.log.Timber
 
-class ProductListFragment : BaseFragment(){
+class ProductListFragment : BaseFragment() {
     override val layoutRes = R.layout.fragment_product_list
     private lateinit var navController: NavController
 
@@ -57,7 +57,7 @@ class ProductListFragment : BaseFragment(){
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     ProductListViewModel.ViewEvent.ERROR -> {
-                        showMessage(R.string.net_error, recycler_view)
+                        requireActivity().showMessage(R.string.net_error)
                     }
                 }
             }
