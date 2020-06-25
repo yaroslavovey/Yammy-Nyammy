@@ -9,6 +9,7 @@ import com.phooper.yammynyammy.data.repositories.UserRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProductViewModel(
     userRepository: UserRepository,
@@ -40,13 +41,15 @@ class ProductViewModel(
     private val productPrice: LiveData<String> get() = _productPrice
 
     init {
-        loadProduct()
+        viewModelScope.launch {
+            loadProduct()
+        }
     }
 
-    private fun loadProduct() {
-        viewModelScope.launch(IO) {
+    private suspend fun loadProduct() {
+        withContext(IO) {
             try {
-                productsRepository.getProductById(productId.toString()).let { product ->
+                productsRepository.getProductById(productId).let { product ->
                     _imgLink.postValue(product.imageURL)
                     _description.postValue(product.desc)
                     _productPrice.postValue(product.price)

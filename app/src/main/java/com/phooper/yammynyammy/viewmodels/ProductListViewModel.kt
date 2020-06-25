@@ -10,6 +10,7 @@ import com.phooper.yammynyammy.utils.Event
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProductListViewModel(
     private val category: Int?,
@@ -26,11 +27,13 @@ class ProductListViewModel(
     val state: LiveData<ViewState> get() = _state
 
     init {
-        loadProducts()
+        viewModelScope.launch {
+            loadProducts()
+        }
     }
 
-    private fun loadProducts() {
-        viewModelScope.launch(IO) {
+    private suspend fun loadProducts() {
+        withContext(IO) {
             try {
                 _products.postValue(productsRepository.getProductListByCategory(category.toString()))
                 _state.postValue(ViewState.DEFAULT)
