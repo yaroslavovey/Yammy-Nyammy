@@ -29,23 +29,26 @@
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.textview.MaterialTextView
-            app:layout_constraintEnd_toStartOf="@id/add_to_cart_btn"
             android:id="@+id/product_title"
             style="@style/AppTheme.TextLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Мороженное Лакшери"
+            app:layout_constraintEnd_toStartOf="@id/add_to_cart_btn"
             app:layout_constraintStart_toEndOf="@id/product_image_card"
             app:layout_constraintTop_toTopOf="@id/product_image_card" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/product_description"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginEnd="16dp"
+            android:maxLines="4"
+            android:ellipsize="end"
             android:text="Эти печеньки хранятся у нас уже с 1841г.. Предлагаем вам попробовать вкус новой старости!"
             android:textColor="#8A8A8A"
+            app:layout_constraintBottom_toBottomOf="@+id/product_image_card"
             app:layout_constraintEnd_toStartOf="@id/add_to_cart_btn"
             app:layout_constraintStart_toStartOf="@id/product_title"
             app:layout_constraintTop_toBottomOf="@id/product_title" />
@@ -53,9 +56,9 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_to_cart_btn"
             android:layout_width="wrap_content"
-            app:elevation="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/color_primary"
+            app:elevation="0dp"
             app:fabCustomSize="44dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,8 +72,7 @@
             android:text="1223 ₽"
             app:layout_constraintEnd_toEndOf="@id/add_to_cart_btn"
             app:layout_constraintStart_toStartOf="@id/add_to_cart_btn"
-            app:layout_constraintTop_toTopOf="@id/product_image_card"
-            />
+            app:layout_constraintTop_toTopOf="@id/product_image_card" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
