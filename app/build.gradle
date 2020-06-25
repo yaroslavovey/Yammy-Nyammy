@@ -46,7 +46,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // LiveData ktx
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha04'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha05'
 
     //Tests
     testImplementation 'junit:junit:4.13'
@@ -100,4 +100,8 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    //Delegate Adapters
+    implementation 'com.github.Liverm0r:delegateadapters:2.11'
+
 }
