@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/menu_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.MenuFragment"
-        android:label="@string/menu" />
+        android:label="@string/menu">
+        <action
+            android:id="@+id/action_menu_fragment_to_product_fragment"
+            app:destination="@id/product_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/orders_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.OrdersFragment"
@@ -20,4 +24,12 @@
         android:id="@+id/profile_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.ProfileFragment"
         android:label="@string/profile" />
+    <fragment
+        android:id="@+id/product_fragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.ProductFragment"
+        android:label=" ">
+        <argument
+            android:name="productId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

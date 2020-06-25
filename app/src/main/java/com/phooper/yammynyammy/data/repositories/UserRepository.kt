@@ -7,6 +7,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.phooper.yammynyammy.data.db.dao.CartProductsDao
+import com.phooper.yammynyammy.data.models.ProductInCart
 import com.phooper.yammynyammy.data.models.User
 import com.phooper.yammynyammy.utils.Constants.Companion.USERS
 import kotlinx.coroutines.Dispatchers.IO
@@ -15,7 +17,8 @@ import kotlinx.coroutines.withContext
 
 class UserRepository(
     private val firebaseAuth: FirebaseAuth,
-    private val firebaseFirestone: FirebaseFirestore
+    private val firebaseFirestone: FirebaseFirestore,
+    private val cartProductsDao: CartProductsDao
 ) {
 
     suspend fun getCurrentUser(): FirebaseUser? = withContext(IO) { firebaseAuth.currentUser }
@@ -64,5 +67,24 @@ class UserRepository(
             null
         }
     }
+
+    suspend fun addProductToCart(productId: Int, count: Int) {
+        if (cartProductsDao.getProductById(productId) == null) {
+            cartProductsDao.addToCart(ProductInCart(productId, count))
+        } else {
+            cartProductsDao.increaseProductCount(productId, count)
+        }
+    }
+
+    suspend fun removeProductFromCart(productInTheCart: ProductInCart) {
+        if (cartProductsDao.getProductById(productInTheCart.productId)?.count == 1) {
+            cartProductsDao.deleteProductById(productInTheCart.productId)
+        } else {
+            cartProductsDao.decreaseProductCount(productInTheCart.productId, productInTheCart.count)
+        }
+    }
+
+    fun getAllCartProducts() = cartProductsDao.getAll()
+
 }
 

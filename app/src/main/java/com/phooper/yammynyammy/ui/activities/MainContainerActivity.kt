@@ -13,15 +13,11 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import kotlinx.android.synthetic.main.activity_main_container.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private val viewModel by viewModel<MainContainerViewModel>()
     private lateinit var appBarConfiguration: AppBarConfiguration
-
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +26,7 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         setContentView(R.layout.activity_main_container)
         setSupportActionBar(toolbar)
         setupNavigation()
+        initViews()
     }
 
     private fun setupNavigation() {
@@ -53,6 +50,13 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         findViewById<NavigationView>(R.id.nav_view).setNavigationItemSelectedListener(this@MainContainerActivity)
     }
 
+    private fun initViews() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            toolbar.menu.findItem(R.id.cart_fragment)?.isVisible =
+                destination.id != R.id.cart_fragment
+        }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         drawer_layout.closeDrawer(GravityCompat.START)
         if (navController.currentDestination?.id != item.itemId)
@@ -69,8 +73,8 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_app_bar_menu, menu);
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_app_bar_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 

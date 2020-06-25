@@ -28,5 +28,8 @@
     <string name="net_error">Ошибка сети</string>
     <string name="menu">Меню</string>
     <string name="orders">Заказы</string>
+    <string name="add_to_cart">Добавить в корзину</string>
+    <string name="select_count">Выберите количество</string>
+    <string name="added_to_cart">Добавлено в корзину!</string>
 
 </resources>

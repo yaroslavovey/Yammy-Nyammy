@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <color name="color_primary">#BDB3D5</color>
     <color name="color_primary_variant">#A995DC</color>
     <color name="color_on_primary">#FFFFFF</color>
@@ -16,4 +16,5 @@
     <color name="color_progress_bar_cover">#3E000000</color>
     <color name="transparent">#00BDB3D5</color>
     <color name="color_unactive_icon">#8A8A8A</color>
+    <color name="badge">#EEC1B0</color>
 </resources>

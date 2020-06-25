@@ -15,11 +15,15 @@ class ProductListAdapter(private val picasso: Picasso) :
     RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder>() {
     var dataList = mutableListOf<Product>()
     var onItemClick: ((Int) -> Unit)? = null
+    var onAddToCartBtnClick: ((Int) -> Unit)? = null
 
     inner class ProductListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(dataList[adapterPosition].id)
+            }
+            itemView.add_to_cart_btn.setOnClickListener {
+                onAddToCartBtnClick?.invoke(dataList[adapterPosition].id)
             }
         }
 

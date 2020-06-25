@@ -24,7 +24,9 @@
         <item name="snackbarTextViewStyle">@style/SnackbarTextView</item>
         <item name="materialCardViewStyle">@style/AppCard</item>
         <item name="tabStyle">@style/AppTabLayout</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
+
 
     <style name="AppTextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textAllCaps">false</item>
@@ -126,6 +128,12 @@
     <style name="SnackbarTextView">
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_surface</item>
+    </style>
+
+    <style name="AppTheme.TextXLarge">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="AppTheme.TextLarge">
@@ -143,4 +151,12 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_dialog</item>
+        <item name="android:backgroundTint">@color/color_primary</item>
+    </style>
 </resources>

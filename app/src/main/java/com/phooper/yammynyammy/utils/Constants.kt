@@ -3,6 +3,7 @@ package com.phooper.yammynyammy.utils
 class Constants {
 
     companion object {
+        const val DIALOG_TAG: String = "DLG"
         const val G_AUTH_REQUEST_CODE = 4216
         const val USERS = "users"
         const val BASE_URL = "https://my-json-server.typicode.com/"
@@ -11,7 +12,8 @@ class Constants {
         const val CUPCAKES_CATEGORY = 2
         const val COOKIES_CATEGORY = 3
         const val CHOCOLATE_CATEGORY = 4
-
+        const val PRODUCT_ID = "PRODUCT_ID"
+        const val DATABASE_NAME = "DATABASE"
     }
 
 }

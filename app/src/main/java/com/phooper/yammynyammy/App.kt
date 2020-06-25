@@ -18,7 +18,8 @@ class App : Application() {
                     repositoryModule,
                     apiModule,
                     netModule,
-                    adapterModule
+                    adapterModule,
+                    roomModule
                 )
             )
         }
