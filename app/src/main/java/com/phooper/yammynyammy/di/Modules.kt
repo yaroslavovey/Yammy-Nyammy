@@ -11,13 +11,11 @@ import com.phooper.yammynyammy.data.api.ShopApi
 import com.phooper.yammynyammy.data.db.AppDb
 import com.phooper.yammynyammy.data.repositories.ProductsRepository
 import com.phooper.yammynyammy.data.repositories.UserRepository
+import com.phooper.yammynyammy.ui.adapters.ProductInCartDelegateAdapter
 import com.phooper.yammynyammy.ui.adapters.ProductListAdapter
 import com.phooper.yammynyammy.utils.Constants.Companion.BASE_URL
 import com.phooper.yammynyammy.utils.Constants.Companion.DATABASE_NAME
-import com.phooper.yammynyammy.viewmodels.AddToCartDialogViewModel
-import com.phooper.yammynyammy.viewmodels.LoginViewModel
-import com.phooper.yammynyammy.viewmodels.ProductListViewModel
-import com.phooper.yammynyammy.viewmodels.ProductViewModel
+import com.phooper.yammynyammy.viewmodels.*
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -68,6 +66,7 @@ val viewModelModule = module {
     viewModel { (category: Int?) -> ProductListViewModel(category, productsRepository = get()) }
     viewModel { (productId: Int) -> AddToCartDialogViewModel(get(), productId) }
     viewModel { (productId: Int) -> ProductViewModel(get(), get(), productId) }
+    viewModel { CartViewModel(get(), get()) }
 }
 
 val roomModule = module {
@@ -80,6 +79,7 @@ val roomModule = module {
 
 val adapterModule = module {
     factory { ProductListAdapter(get()) }
+    factory { ProductInCartDelegateAdapter() }
 }
 
 

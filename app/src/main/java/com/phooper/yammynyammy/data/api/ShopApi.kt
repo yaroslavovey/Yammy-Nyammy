@@ -11,6 +11,9 @@ interface ShopApi {
     suspend fun getProductListByCategory(@Query("category") category: String): List<Product>
 
     @GET("ph00per/Fake-json-server-for-Yammy-Nyammy/goods/{id}")
-    suspend fun getProductById(@Path("id") id: String): Product
+    suspend fun getProductById(@Path("id") id: Int): Product
+
+    @GET("ph00per/Fake-json-server-for-Yammy-Nyammy/goods/")
+    suspend fun getProductListByIds(@Query("id") ids: List<Int>): List<Product>
 
 }

@@ -1,13 +1,7 @@
 package com.phooper.yammynyammy.data.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.livermor.delegateadapter.delegate.diff.KDiffUtilItem
 
-@Entity(tableName = "products")
-data class ProductInCart(
-    @PrimaryKey
-    @ColumnInfo(name = "product_id")
-    val productId: Int,
-    val count: Int
-)
+data class ProductInCart(val product: Product, val count: Int) : KDiffUtilItem {
+    override val id = product.id
+}

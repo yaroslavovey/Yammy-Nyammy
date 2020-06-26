@@ -1,7 +1,3 @@
 /build
-.gradle
-gradlew
-gradlew.bat
-gradle.properties
 .idea
 *.iml

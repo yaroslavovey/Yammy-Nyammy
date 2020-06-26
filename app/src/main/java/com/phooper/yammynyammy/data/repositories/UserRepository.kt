@@ -8,7 +8,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.phooper.yammynyammy.data.db.dao.CartProductsDao
-import com.phooper.yammynyammy.data.models.ProductInCart
+import com.phooper.yammynyammy.data.models.ProductIdAndCount
 import com.phooper.yammynyammy.data.models.User
 import com.phooper.yammynyammy.utils.Constants.Companion.USERS
 import kotlinx.coroutines.Dispatchers.IO
@@ -70,13 +70,13 @@ class UserRepository(
 
     suspend fun addProductToCart(productId: Int, count: Int) {
         if (cartProductsDao.getProductById(productId) == null) {
-            cartProductsDao.addToCart(ProductInCart(productId, count))
+            cartProductsDao.addToCart(ProductIdAndCount(productId, count))
         } else {
             cartProductsDao.increaseProductCount(productId, count)
         }
     }
 
-    suspend fun removeProductFromCart(productInTheCart: ProductInCart) {
+    suspend fun removeProductFromCart(productInTheCart: ProductIdAndCount) {
         if (cartProductsDao.getProductById(productInTheCart.productId)?.count == 1) {
             cartProductsDao.deleteProductById(productInTheCart.productId)
         } else {

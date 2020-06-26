@@ -31,5 +31,6 @@
     <string name="add_to_cart">Добавить в корзину</string>
     <string name="select_count">Выберите количество</string>
     <string name="added_to_cart">Добавлено в корзину!</string>
+    <string name="make_order">Оформить заказ</string>
 
 </resources>

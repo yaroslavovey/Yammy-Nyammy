@@ -5,16 +5,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.phooper.yammynyammy.data.models.ProductInCart
+import com.phooper.yammynyammy.data.models.ProductIdAndCount
 
 @Dao
 interface CartProductsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addToCart(cartProduct: ProductInCart)
+    suspend fun addToCart(cartProduct: ProductIdAndCount)
 
     @Query("SELECT * FROM products WHERE product_id = :id")
-    suspend fun getProductById(id: Int): ProductInCart?
+    suspend fun getProductById(id: Int): ProductIdAndCount?
 
     @Query("DELETE FROM products WHERE product_id = :id")
     suspend fun deleteProductById(id: Int)
@@ -26,6 +26,6 @@ interface CartProductsDao {
     suspend fun decreaseProductCount(productId: Int, count: Int)
 
     @Query("SELECT * FROM products")
-    fun getAll(): LiveData<List<ProductInCart>>
+    fun getAll(): LiveData<List<ProductIdAndCount>>
 
 }
