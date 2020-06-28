@@ -108,7 +108,7 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
             userRepository.getCurrentUser()?.let { currentUser ->
                 userRepository.addUserData(
                     currentUser.uid,
-                    User(email = currentUser.email!!, name = name, phoneNum = phoneNum.toInt())
+                    User(email = currentUser.email!!, name = name, phoneNum = phoneNum)
                 )?.let {
                     _event.postValue(Event(ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY))
                     return@launch
