@@ -30,7 +30,7 @@ class CartViewModel(
                     _state.postValue(ViewState.NO_PRODUCTS_IN_CART)
                     return@liveData
                 }
-                withContext(Main) { _state.value = ViewState.LOADING }
+                _state.postValue(ViewState.LOADING)
                 val productsInCartList = getCartProductsListByIdsAndCount(prodAndCountList)
                 emit(mutableListOf<KDiffUtilItem>().apply {
                     addAll(productsInCartList)
