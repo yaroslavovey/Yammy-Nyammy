@@ -19,6 +19,12 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
+    private val fragmentListWhereCartIconIsVisible = listOf(
+        R.id.menu_fragment,
+        R.id.product_fragment,
+        R.id.orders_fragment,
+        R.id.profile_fragment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -30,13 +36,7 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     }
 
     private fun setupNavigation() {
-        navController = findNavController(R.id.main_nav_host_fragment).apply {
-            addOnDestinationChangedListener { _, destination, _ ->
-                nav_view.setCheckedItem(destination.id)
-                toolbar_layout?.elevation =
-                    if (destination.id == R.id.menu_fragment) 0f else resources.getDimension(R.dimen.app_bar_elevation)
-            }
-        }
+        navController = findNavController(R.id.main_nav_host_fragment)
         appBarConfiguration =
             AppBarConfiguration(
                 setOf(
@@ -52,8 +52,10 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 
     private fun initViews() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            toolbar.menu.findItem(R.id.cart_fragment)?.isVisible =
-                destination.id != R.id.cart_fragment
+            toggleCartIconVisibility(destination.id)
+            nav_view.setCheckedItem(destination.id)
+            toolbar_layout?.elevation =
+                if (destination.id == R.id.menu_fragment) 0f else resources.getDimension(R.dimen.app_bar_elevation)
         }
     }
 
@@ -75,6 +77,7 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_app_bar_menu, menu)
+        toggleCartIconVisibility(navController.currentDestination?.id)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -84,5 +87,10 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun toggleCartIconVisibility(destId: Int?) {
+        toolbar.menu.findItem(R.id.cart_fragment)?.isVisible =
+            fragmentListWhereCartIconIsVisible.contains(destId)
     }
 }
