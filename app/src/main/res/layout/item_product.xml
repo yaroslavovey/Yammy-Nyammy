@@ -47,7 +47,7 @@
             android:maxLines="4"
             android:ellipsize="end"
             android:text="Эти печеньки хранятся у нас уже с 1841г.. Предлагаем вам попробовать вкус новой старости!"
-            android:textColor="#8A8A8A"
+            android:textColor="@color/grey_text"
             app:layout_constraintBottom_toBottomOf="@+id/product_image_card"
             app:layout_constraintEnd_toStartOf="@id/add_to_cart_btn"
             app:layout_constraintStart_toStartOf="@id/product_title"

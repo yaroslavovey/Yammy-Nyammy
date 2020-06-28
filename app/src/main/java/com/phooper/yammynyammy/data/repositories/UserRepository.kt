@@ -76,11 +76,11 @@ class UserRepository(
         }
     }
 
-    suspend fun removeProductFromCart(productInTheCart: ProductIdAndCount) {
-        if (cartProductsDao.getProductById(productInTheCart.productId)?.count == 1) {
-            cartProductsDao.deleteProductById(productInTheCart.productId)
+    suspend fun removeProductFromCart(productId: Int, count: Int) {
+        if (cartProductsDao.getProductById(productId)?.count == 1) {
+            cartProductsDao.deleteProductById(productId)
         } else {
-            cartProductsDao.decreaseProductCount(productInTheCart.productId, productInTheCart.count)
+            cartProductsDao.decreaseProductCount(productId, count)
         }
     }
 

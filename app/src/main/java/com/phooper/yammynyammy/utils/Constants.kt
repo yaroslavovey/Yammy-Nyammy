@@ -14,6 +14,7 @@ class Constants {
         const val CHOCOLATE_CATEGORY = 4
         const val PRODUCT_ID = "PRODUCT_ID"
         const val DATABASE_NAME = "DATABASE"
+        const val DELIVERY_PRICE = 300
     }
 
 }

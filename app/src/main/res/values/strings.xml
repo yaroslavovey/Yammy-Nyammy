@@ -32,5 +32,10 @@
     <string name="select_count">Выберите количество</string>
     <string name="added_to_cart">Добавлено в корзину!</string>
     <string name="make_order">Оформить заказ</string>
+    <string name="no_products">Нет товаров</string>
+    <string name="no_products_in_cart">Не добавлено ни одного товара</string>
+    <string name="go_back_to_menu">Вернуться в меню</string>
+    <string name="delivery">Доставка:</string>
+    <string name="total">Итого:</string>
 
 </resources>

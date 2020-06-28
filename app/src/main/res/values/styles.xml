@@ -46,7 +46,7 @@
 
 
     <style name="AppButton" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="iconTint">@color/button_text_color</item>
         <item name="rippleColor">@color/button_light_ripple_color</item>

@@ -52,7 +52,7 @@ class ProductViewModel(
                 productsRepository.getProductById(productId).let { product ->
                     _imgLink.postValue(product.imageURL)
                     _description.postValue(product.desc)
-                    _productPrice.postValue(product.price)
+                    _productPrice.postValue(product.price.toString())
                     _productTitle.postValue(product.title)
                 }
                 _state.postValue(ViewState.DEFAULT)
