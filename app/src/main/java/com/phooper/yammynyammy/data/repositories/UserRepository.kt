@@ -60,9 +60,9 @@ class UserRepository(
         }
     }
 
-    suspend fun getUserData(uid: String): DocumentSnapshot? {
+    suspend fun getCurrentUserData(): DocumentSnapshot? {
         return try {
-            firebaseFirestone.collection(USERS).document(uid).get().await()
+            firebaseFirestone.collection(USERS).document(getCurrentUser()!!.uid).get().await()
         } catch (e: Exception) {
             null
         }

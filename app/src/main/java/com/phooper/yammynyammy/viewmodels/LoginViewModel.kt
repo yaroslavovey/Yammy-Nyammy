@@ -33,9 +33,9 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     private fun checkCurrentUser() {
         viewModelScope.launch(IO) {
             //Check if user signed in
-            userRepository.getCurrentUser()?.let { currentUser ->
+            userRepository.getCurrentUser()?.let {
                 //If signed in and has no phone & name
-                if (userRepository.getUserData(currentUser.uid)?.toObject<User>() == null) {
+                if (userRepository.getCurrentUserData()?.toObject<User>() == null) {
                     _event.postValue(Event(ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN))
                     _state.postValue(ViewState.DEFAULT)
                     return@launch
