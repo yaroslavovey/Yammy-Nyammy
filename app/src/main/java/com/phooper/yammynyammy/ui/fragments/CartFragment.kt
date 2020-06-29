@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.livermor.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.data.models.TotalAndDeliveryPrice
 import com.phooper.yammynyammy.ui.adapters.ProductInCartDelegateAdapter
 import com.phooper.yammynyammy.ui.adapters.TotalPriceDelegateAdapter
 import com.phooper.yammynyammy.viewmodels.CartViewModel
@@ -37,6 +36,7 @@ class CartFragment : BaseFragment() {
     }
 
     private fun initViews() {
+        make_order_btn.setOnClickListener { navController.navigate(R.id.action_cart_fragment_to_makeOrderFragment) }
         recycler_view.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = delegateAdapter

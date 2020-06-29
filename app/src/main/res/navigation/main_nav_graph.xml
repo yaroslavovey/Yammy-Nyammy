@@ -19,7 +19,11 @@
     <fragment
         android:id="@+id/cart_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.CartFragment"
-        android:label="@string/cart" />
+        android:label="@string/cart">
+        <action
+            android:id="@+id/action_cart_fragment_to_makeOrderFragment"
+            app:destination="@id/make_order_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/profile_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.ProfileFragment"
@@ -32,4 +36,32 @@
             android:name="productId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/make_order_fragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.MakeOrderFragment"
+        android:label="@string/making_order">
+        <action
+            android:id="@+id/action_make_order_fragment_to_myAddressesFragment"
+            app:destination="@id/my_addresses_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/my_addresses_fragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.MyAddressesFragment"
+        android:label="@string/my_addresses">
+        <action
+            android:id="@+id/action_my_addresses_fragment_to_addUpdateAddress"
+            app:destination="@id/add_update_address" />
+    </fragment>
+    <fragment
+        android:id="@+id/add_update_address"
+        android:name="com.phooper.yammynyammy.ui.fragments.AddUpdateAddressFragment"
+        android:label=" " >
+        <argument
+            android:name="address_uid"
+            app:argType="string"
+            android:defaultValue="null"
+            app:nullable="true"
+            />
+    </fragment>
+
 </navigation>

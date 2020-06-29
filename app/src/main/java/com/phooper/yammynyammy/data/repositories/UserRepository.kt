@@ -5,15 +5,19 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.phooper.yammynyammy.data.db.dao.CartProductsDao
+import com.phooper.yammynyammy.data.models.Address
 import com.phooper.yammynyammy.data.models.ProductIdAndCount
 import com.phooper.yammynyammy.data.models.User
+import com.phooper.yammynyammy.utils.Constants.Companion.ADDRESSES
 import com.phooper.yammynyammy.utils.Constants.Companion.USERS
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class UserRepository(
     private val firebaseAuth: FirebaseAuth,
@@ -63,6 +67,58 @@ class UserRepository(
     suspend fun getCurrentUserData(): DocumentSnapshot? {
         return try {
             firebaseFirestone.collection(USERS).document(getCurrentUser()!!.uid).get().await()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun getAddressByUid(uid: String): DocumentSnapshot? {
+        return try {
+            firebaseFirestone.collection(USERS).document(getCurrentUser()!!.uid)
+                .collection(ADDRESSES).document(uid).get().await()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun updateAddress(address: Address): Boolean? {
+        return try {
+            firebaseFirestone.collection(USERS).document(getCurrentUser()!!.uid).collection(
+                ADDRESSES
+            ).document(address.uid).set(address)
+            true
+        } catch (e: Exception) {
+            Timber.d(e.toString())
+            null
+        }
+    }
+
+    suspend fun deleteAddressByUid(uid: String): Boolean? {
+        return try {
+            firebaseFirestone.collection(USERS).document(getCurrentUser()!!.uid)
+                .collection(ADDRESSES).document(uid).delete().await()
+            true
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun addUserAddress(address: Address): Boolean? {
+        return try {
+            firebaseFirestone.collection(USERS).document(getCurrentUser()!!.uid).collection(
+                ADDRESSES
+            ).add(address).await()
+            true
+        } catch (e: Exception) {
+            Timber.d(e.toString())
+            null
+        }
+    }
+
+    suspend fun getUserAddressesCollection(): CollectionReference? {
+        return try {
+            firebaseFirestone.collection(USERS).document(getCurrentUser()!!.uid)
+                .collection(ADDRESSES)
         } catch (e: Exception) {
             null
         }

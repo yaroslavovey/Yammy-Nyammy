@@ -20,7 +20,7 @@ class CartViewModel(
     private val _state = MutableLiveData<ViewState>()
     val state: LiveData<ViewState> get() = _state
 
-
+    //TODO refactor :(
     val productsInCart: LiveData<List<KDiffUtilItem>> =
         userRepository.getAllCartProducts().switchMap { prodAndCountList ->
             liveData(context = viewModelScope.coroutineContext + Default) {

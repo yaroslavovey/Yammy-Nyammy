@@ -25,7 +25,7 @@
     <string name="cupcakes">Кексы</string>
     <string name="cookies">Печенье</string>
     <string name="chocolate">Шоколад</string>
-    <string name="net_error">Ошибка сети</string>
+    <string name="net_error">Произошла ошибка</string>
     <string name="menu">Меню</string>
     <string name="orders">Заказы</string>
     <string name="add_to_cart">Добавить в корзину</string>
@@ -37,5 +37,28 @@
     <string name="go_back_to_menu">Вернуться в меню</string>
     <string name="delivery">Доставка:</string>
     <string name="total">Итого:</string>
+    <string name="accept_order">Подтвердить заказ</string>
+    <string name="delivery_address">Адрес доставки</string>
+    <string name="making_order">Оформление заказа</string>
+    <string name="no_addresses">Нет адресов</string>
+    <string name="no_added_addresses">Вы не добавили ни одного адреса</string>
+    <string name="new_address">Новый адрес</string>
+    <string name="my_addresses">Мои адреса</string>
+    <string name="street">Улица</string>
+    <string name="house_num">Дом</string>
+    <string name="apartment">Квартира</string>
+    <string name="add">Добавить</string>
+    <string name="update">Обновить</string>
+    <string name="edit_address">Редактировать адрес</string>
+    <string name="fill_street">Введите название улицы</string>
+    <string name="fill_house_num">Введите номер дома</string>
+    <string name="fill_apart_num">Введите номер квартиры</string>
+    <string name="delete_address">Удалить адрес</string>
+    <string name="are_you_sure_want_to_delete_address">Вы действительно хотите удалить этот адрес?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="address_deleted">Адрес удален</string>
+    <string name="address_added">Адрес добавлен</string>
+    <string name="address_updated">Данные об адресе обновлены</string>
 
 </resources>

@@ -11,7 +11,6 @@ import com.phooper.yammynyammy.data.api.ShopApi
 import com.phooper.yammynyammy.data.db.AppDb
 import com.phooper.yammynyammy.data.repositories.ProductsRepository
 import com.phooper.yammynyammy.data.repositories.UserRepository
-import com.phooper.yammynyammy.ui.adapters.ProductInCartDelegateAdapter
 import com.phooper.yammynyammy.ui.adapters.ProductListAdapter
 import com.phooper.yammynyammy.utils.Constants.Companion.BASE_URL
 import com.phooper.yammynyammy.utils.Constants.Companion.DATABASE_NAME
@@ -79,6 +78,10 @@ val viewModelModule = module {
     viewModel { (productId: Int) -> AddToCartDialogViewModel(get(), productId) }
     viewModel { (productId: Int) -> ProductViewModel(get(), get(), productId) }
     viewModel { CartViewModel(get(), get()) }
+    viewModel { MakeOrderViewModel(get()) }
+    viewModel { MyAddressesViewModel(get()) }
+    viewModel { (addressUid: String?) -> AddUpdateAddressViewModel(get(), addressUid) }
+    viewModel { MainContainerViewModel() }
 }
 
 val roomModule = module {

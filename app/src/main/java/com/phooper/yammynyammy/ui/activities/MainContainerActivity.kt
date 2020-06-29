@@ -13,12 +13,18 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.phooper.yammynyammy.R
+import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import kotlinx.android.synthetic.main.activity_main_container.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private val viewModel by viewModel<MainContainerViewModel>()
+
     private lateinit var appBarConfiguration: AppBarConfiguration
+
     private lateinit var navController: NavController
+
     private val fragmentListWhereCartIconIsVisible = listOf(
         R.id.menu_fragment,
         R.id.product_fragment,
