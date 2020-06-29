@@ -16,7 +16,7 @@ data class AddressDelegateAdapter(
     @SuppressLint("SetTextI18n")
     override fun KViewHolder.onBind(item: Address) {
         with(item) {
-            "$street $houseNum $apartNum".let { formattedAddress ->
+            "ул. $street, д. $houseNum кв. $apartNum".let { formattedAddress ->
                 address.text = formattedAddress
                 item_layout.setOnClickListener { onItemClickListener.invoke(formattedAddress) }
             }
