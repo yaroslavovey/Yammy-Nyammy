@@ -51,9 +51,9 @@ class UserRepository(
         }
     }
 
-    suspend fun addUserData(uid: String, data: User): Boolean? {
+    suspend fun addCurrentUserData(data: User): Boolean? {
         return try {
-            firebaseFirestone.collection(USERS).document(uid).set(data).await()
+            firebaseFirestone.collection(USERS).document(getCurrentUser()!!.uid).set(data).await()
             true
         } catch (e: Exception) {
             null

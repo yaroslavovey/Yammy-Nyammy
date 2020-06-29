@@ -105,17 +105,14 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     fun handleAddUserData(name: String, phoneNum: String) {
         _state.value = ViewState.LOADING
         viewModelScope.launch(IO) {
-            userRepository.getCurrentUser()?.let { currentUser ->
-                userRepository.addUserData(
-                    currentUser.uid,
-                    User(email = currentUser.email!!, name = name, phoneNum = phoneNum)
+                userRepository.addCurrentUserData(
+                    User(name = name, phoneNum = phoneNum)
                 )?.let {
                     _event.postValue(Event(ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY))
                     return@launch
                 }
                 _event.postValue(Event(ViewEvent.AUTH_ERROR))
                 _state.postValue(ViewState.DEFAULT)
-            }
         }
     }
 
