@@ -33,7 +33,10 @@ class MakeOrderFragment : BaseFragment() {
             address_input.setText(it)
         })
 
-        address_input.setOnClickListener { navController.navigate(R.id.action_make_order_fragment_to_myAddressesFragment) }
+        address_input.setOnClickListener {
+            sharedViewModel.resetAddress()
+            navController.navigate(R.id.action_make_order_fragment_to_myAddressesFragment)
+        }
 
         viewModel.phoneNum.observe(viewLifecycleOwner, Observer {
             phone_number_input.setText(it)

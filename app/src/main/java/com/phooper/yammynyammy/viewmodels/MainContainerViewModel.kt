@@ -12,4 +12,8 @@ class MainContainerViewModel : ViewModel() {
     fun selectAddress(str: String) {
         _selectedAddress.value = str
     }
+
+    fun resetAddress(){
+        _selectedAddress.value = ""
+    }
 }
