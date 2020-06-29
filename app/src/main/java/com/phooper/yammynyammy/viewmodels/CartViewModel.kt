@@ -10,9 +10,7 @@ import com.phooper.yammynyammy.data.repositories.UserRepository
 import com.phooper.yammynyammy.utils.Constants.Companion.DELIVERY_PRICE
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CartViewModel(
     private val userRepository: UserRepository,
@@ -23,7 +21,7 @@ class CartViewModel(
     val state: LiveData<ViewState> get() = _state
 
 
-    val productsInCart: LiveData<MutableList<KDiffUtilItem>> =
+    val productsInCart: LiveData<List<KDiffUtilItem>> =
         userRepository.getAllCartProducts().switchMap { prodAndCountList ->
             liveData(context = viewModelScope.coroutineContext + Default) {
                 if (prodAndCountList.isNullOrEmpty()) {
@@ -31,23 +29,18 @@ class CartViewModel(
                     return@liveData
                 }
                 _state.postValue(ViewState.LOADING)
-                val productsInCartList = getCartProductsListByIdsAndCount(prodAndCountList)
-                emit(mutableListOf<KDiffUtilItem>().apply {
-                    addAll(productsInCartList)
-                    add(
-                        TotalAndDeliveryPrice(
-                            DELIVERY_PRICE,
-                            productsInCartList.sumBy { it.totalPrice } + DELIVERY_PRICE)
-                    )
-                })
+                getCartProductsListByIdsAndCount(prodAndCountList)?.let { productsInCartList ->
+                    emit(productsInCartList.plus(TotalAndDeliveryPrice(DELIVERY_PRICE,
+                        productsInCartList.sumBy { it.totalPrice } + DELIVERY_PRICE)))
+                }
                 _state.postValue(ViewState.DEFAULT)
             }
         }
 
-    private suspend fun getCartProductsListByIdsAndCount(prodAndCountList: List<ProductIdAndCount>) =
-        productsRepository.getProductListByIds(ids = prodAndCountList
-            .map { productIdAndCount -> productIdAndCount.productId })
-            .mapIndexed { index, product ->
+    private suspend fun getCartProductsListByIdsAndCount(prodAndCountList: List<ProductIdAndCount>): List<ProductInCart>? =
+        productsRepository.getProductListByIds(ids = prodAndCountList.map { productIdAndCount -> productIdAndCount.productId })
+            //Mapping to List<ProductInCart>
+            ?.mapIndexed { index, product ->
                 ProductInCart(
                     product,
                     prodAndCountList[index].count,

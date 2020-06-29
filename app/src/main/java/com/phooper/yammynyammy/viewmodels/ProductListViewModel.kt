@@ -34,14 +34,14 @@ class ProductListViewModel(
 
     private suspend fun loadProducts() {
         withContext(IO) {
-            try {
-                _products.postValue(productsRepository.getProductListByCategory(category.toString()))
+            productsRepository.getProductListByCategory(category.toString())?.let {
+                _products.postValue(it)
                 _state.postValue(ViewState.DEFAULT)
-            } catch (e: Exception) {
-                _event.postValue(Event(ViewEvent.ERROR))
-                delay(5000)
-                loadProducts()
+                return@withContext
             }
+            _event.postValue(Event(ViewEvent.ERROR))
+            delay(5000)
+            loadProducts()
         }
     }
 

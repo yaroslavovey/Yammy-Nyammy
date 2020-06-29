@@ -48,18 +48,16 @@ class ProductViewModel(
 
     private suspend fun loadProduct() {
         withContext(IO) {
-            try {
-                productsRepository.getProductById(productId).let { product ->
-                    _imgLink.postValue(product.imageURL)
-                    _description.postValue(product.desc)
-                    _productPrice.postValue(product.price.toString())
-                    _productTitle.postValue(product.title)
-                }
+            productsRepository.getProductById(productId)?.let { product ->
+                _imgLink.postValue(product.imageURL)
+                _description.postValue(product.desc)
+                _productPrice.postValue(product.price.toString())
+                _productTitle.postValue(product.title)
                 _state.postValue(ViewState.DEFAULT)
-            } catch (e: Exception) {
-                delay(3000)
-                loadProduct()
+                return@withContext
             }
+            delay(3000)
+            loadProduct()
         }
     }
 
