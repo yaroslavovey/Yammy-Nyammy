@@ -4,17 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.ktx.toObject
 import com.phooper.yammynyammy.data.models.Address
-import com.phooper.yammynyammy.data.repositories.UserRepository
+import com.phooper.yammynyammy.domain.usecases.AddAddressUseCase
+import com.phooper.yammynyammy.domain.usecases.DeleteAddressByUidUseCase
+import com.phooper.yammynyammy.domain.usecases.GetAddressByUidUseCase
+import com.phooper.yammynyammy.domain.usecases.UpdateAddressByUidUseCase
 import com.phooper.yammynyammy.utils.Event
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class AddUpdateAddressViewModel(
-    private val userRepository: UserRepository,
-    private val addressUid: String?
+    private val addressUid: String?,
+    private val getAddressByUidUseCase: GetAddressByUidUseCase,
+    private val addAddressUseCase: AddAddressUseCase,
+    private val deleteAddressByUidUseCase: DeleteAddressByUidUseCase,
+    private val updateAddressByUidUseCase: UpdateAddressByUidUseCase
 ) : ViewModel() {
 
     private val _event = MutableLiveData<Event<ViewEvent>>()
@@ -33,23 +36,21 @@ class AddUpdateAddressViewModel(
     }
 
     private suspend fun checkBundle() {
-        withContext(IO) {
-            _state.postValue(ViewState.LOADING)
-            addressUid?.let { uid ->
-                userRepository.getAddressByUid(uid)?.toObject<Address>()?.let {
-                    _state.postValue(ViewState.DEFAULT_UPDATE_ADDRESS)
-                    _addressLiveData.postValue(it)
-                    return@withContext
-                }
+        _state.postValue(ViewState.LOADING)
+        addressUid?.let { uid ->
+            getAddressByUidUseCase.execute(uid)?.let {
+                _state.postValue(ViewState.DEFAULT_UPDATE_ADDRESS)
+                _addressLiveData.postValue(it)
+                return
             }
-            _state.postValue(ViewState.DEFAULT_NEW_ADDRESS)
         }
+        _state.postValue(ViewState.DEFAULT_NEW_ADDRESS)
     }
 
     fun addAddress(street: String, houseNum: String, apartNum: String) {
-        viewModelScope.launch(IO) {
+        viewModelScope.launch {
             _state.postValue(ViewState.LOADING)
-            userRepository.addUserAddress(
+            addAddressUseCase.execute(
                 Address(
                     street = street,
                     houseNum = houseNum,
@@ -64,10 +65,10 @@ class AddUpdateAddressViewModel(
     }
 
     fun deleteAddress() {
-        viewModelScope.launch(IO) {
+        viewModelScope.launch {
             _state.postValue(ViewState.LOADING)
             addressUid?.let { uid ->
-                userRepository.deleteAddressByUid(uid)?.let {
+                deleteAddressByUidUseCase.execute(uid)?.let {
                     _event.postValue(Event(ViewEvent.DELETE_SUCCESS))
                     return@launch
                 }
@@ -77,17 +78,16 @@ class AddUpdateAddressViewModel(
     }
 
     fun updateAddress(street: String, houseNum: String, apartNum: String) {
-        viewModelScope.launch(IO) {
+        viewModelScope.launch {
             _state.postValue(ViewState.LOADING)
-            addressUid?.let {uid ->
-                userRepository.updateAddress(
+            addressUid?.let { uid ->
+                updateAddressByUidUseCase.execute(
+                    uid,
                     Address(
-                        uid = uid,
                         street = street,
                         houseNum = houseNum,
                         apartNum = apartNum
                     )
-
                 )
             }?.let {
                 _event.postValue(Event(ViewEvent.UPDATE_SUCCESS))

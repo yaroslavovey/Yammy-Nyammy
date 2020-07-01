@@ -1,6 +1,5 @@
 package com.phooper.yammynyammy.data.models
 
-import android.os.Parcelable
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
@@ -14,7 +13,7 @@ data class Address(
 
     @Exclude
     override fun id(): Any {
-        return street + houseNum + apartNum
+        return uid
     }
 
     @Exclude

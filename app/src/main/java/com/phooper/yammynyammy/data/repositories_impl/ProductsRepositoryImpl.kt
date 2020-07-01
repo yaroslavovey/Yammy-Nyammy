@@ -1,11 +1,12 @@
-package com.phooper.yammynyammy.data.repositories
+package com.phooper.yammynyammy.data.repositories_impl
 
 import com.phooper.yammynyammy.data.api.ShopApi
 import com.phooper.yammynyammy.data.models.Product
+import com.phooper.yammynyammy.domain.repositories.ProductsRepository
 
-class ProductsRepository(private val shopApi: ShopApi) {
+class ProductsRepositoryImpl(private val shopApi: ShopApi) : ProductsRepository {
 
-    suspend fun getProductListByCategory(category: String): List<Product>? {
+    override suspend fun getProductListByCategory(category: String): List<Product>? {
         return try {
             shopApi.getProductListByCategory(category)
         } catch (e: Exception) {
@@ -13,7 +14,7 @@ class ProductsRepository(private val shopApi: ShopApi) {
         }
     }
 
-    suspend fun getProductById(id: Int): Product? {
+    override suspend fun getProductById(id: Int): Product? {
         return try {
             shopApi.getProductById(id)
         } catch (e: Exception) {
@@ -21,7 +22,7 @@ class ProductsRepository(private val shopApi: ShopApi) {
         }
     }
 
-    suspend fun getProductListByIds(ids: List<Int>): List<Product>? {
+    override suspend fun getProductListByIds(ids: List<Int>): List<Product>? {
         return try {
             shopApi.getProductListByIds(ids)
         } catch (e: Exception) {

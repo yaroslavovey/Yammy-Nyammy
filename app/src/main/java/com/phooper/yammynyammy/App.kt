@@ -13,13 +13,14 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 listOf(
-                    viewModelModule,
                     firebaseModule,
+                    viewModelModule,
+                    useCaseModule,
                     repositoryModule,
                     apiModule,
                     netModule,
-                    adapterModule,
-                    roomModule
+                    roomModule,
+                    adapterModule
                 )
             )
         }

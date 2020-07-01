@@ -1,7 +1,15 @@
 package com.phooper.yammynyammy.data.models
 
-import com.livermor.delegateadapter.delegate.diff.KDiffUtilItem
+import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
 
-data class ProductInCart(val product: Product, val count: Int, val totalPrice : Int) : KDiffUtilItem {
-    override val id = product.id
+data class ProductInCart(
+    val product: Product = Product(),
+    val count: Int = 0,
+    //Not sure about that...
+    val totalPrice: Int = product.price * count
+) :
+    DiffUtilItem {
+    override fun id() = product.id
+
+    override fun content() = this
 }

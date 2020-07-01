@@ -4,24 +4,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
-import com.phooper.yammynyammy.data.repositories.ProductsRepository
-import com.phooper.yammynyammy.data.repositories.UserRepository
-import kotlinx.coroutines.Dispatchers.IO
+import com.phooper.yammynyammy.domain.usecases.AddProductsToCartUseCase
+import com.phooper.yammynyammy.domain.usecases.GetProductByIdUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ProductViewModel(
-    userRepository: UserRepository,
-    private val productsRepository: ProductsRepository,
-    private val productId: Int
+    private val productId: Int,
+    private val getProductByIdUseCase: GetProductByIdUseCase,
+    addProductsToCartUseCase: AddProductsToCartUseCase
 ) :
-    AddToCartDialogViewModel(productId = productId, userRepository = userRepository) {
+    AddToCartDialogViewModel(
+        productId = productId,
+        addProductsToCartUseCase = addProductsToCartUseCase
+    ) {
 
     private val _state = MutableLiveData<ViewState>()
     val state: LiveData<ViewState> get() = _state
 
-    val totalPrice =
+    val totalPrice: LiveData<String> =
         Transformations.switchMap(itemCount) { count ->
             Transformations.map(productPrice) { price ->
                 return@map "${count * price.toInt()} ₽"
@@ -47,18 +48,16 @@ class ProductViewModel(
     }
 
     private suspend fun loadProduct() {
-        withContext(IO) {
-            productsRepository.getProductById(productId)?.let { product ->
-                _imgLink.postValue(product.imageURL)
-                _description.postValue(product.desc)
-                _productPrice.postValue(product.price.toString())
-                _productTitle.postValue(product.title)
-                _state.postValue(ViewState.DEFAULT)
-                return@withContext
-            }
-            delay(3000)
-            loadProduct()
+        getProductByIdUseCase.execute(productId)?.let { product ->
+            _imgLink.postValue(product.imageURL)
+            _description.postValue(product.desc)
+            _productPrice.postValue(product.price.toString())
+            _productTitle.postValue(product.title)
+            _state.postValue(ViewState.DEFAULT)
+            return
         }
+        delay(3000)
+        loadProduct()
     }
 
     enum class ViewState {

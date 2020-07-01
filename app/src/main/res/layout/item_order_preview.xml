@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/order_date_label"
+            style="@style/AppTheme.TextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/order_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/order_date"
+            style="@style/AppTheme.TextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fontFamily="@font/roboto"
+            app:layout_constraintStart_toEndOf="@id/order_date_label"
+            app:layout_constraintTop_toTopOf="@id/order_date_label" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/total_sum_label"
+            style="@style/AppTheme.TextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/total_sum"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/order_date_label" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/total_sum"
+            style="@style/AppTheme.TextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fontFamily="@font/roboto"
+            app:layout_constraintStart_toEndOf="@id/total_sum_label"
+            app:layout_constraintTop_toTopOf="@id/total_sum_label" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/status"
+            style="@style/AppTheme.TextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fontFamily="@font/roboto"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/status_label"
+            style="@style/AppTheme.TextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/status"
+            app:layout_constraintEnd_toStartOf="@id/status"
+            app:layout_constraintTop_toTopOf="@id/status" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="16dp"
+        android:background="#34000000" />
+</com.google.android.material.card.MaterialCardView>

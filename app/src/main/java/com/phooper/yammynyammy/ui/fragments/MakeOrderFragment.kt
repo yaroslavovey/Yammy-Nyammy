@@ -6,6 +6,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.phooper.yammynyammy.R
+import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
+import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.MakeOrderViewModel
 import kotlinx.android.synthetic.main.fragment_make_order.*
@@ -29,14 +31,30 @@ class MakeOrderFragment : BaseFragment() {
     }
 
     private fun initViews() {
-        sharedViewModel.selectedAddress.observe(viewLifecycleOwner, Observer {
-            address_input.setText(it)
-        })
+        name_input.setHideLayoutErrorOnTextChangedListener(name_input_layout)
+        phone_number_input.setHideLayoutErrorOnTextChangedListener(phone_number_input_layout)
+        address_input.setHideLayoutErrorOnTextChangedListener(address_input_layout)
+
+        accept_order_btn.setOnClickListener {
+            if (areSomeInputsEmpty()) {
+                showFillFieldsError()
+            } else {
+                viewModel.makeOrder(
+                    name_input.text.toString(),
+                    phone_number_input.text.toString(),
+                    address_input.text.toString()
+                )
+            }
+        }
 
         address_input.setOnClickListener {
             sharedViewModel.resetAddress()
             navController.navigate(R.id.action_make_order_fragment_to_myAddressesFragment)
         }
+
+        sharedViewModel.selectedAddress.observe(viewLifecycleOwner, Observer {
+            address_input.setText(it)
+        })
 
         viewModel.phoneNum.observe(viewLifecycleOwner, Observer {
             phone_number_input.setText(it)
@@ -58,5 +76,37 @@ class MakeOrderFragment : BaseFragment() {
                 }
             }
         })
+
+        viewModel.event.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let { event ->
+                when (event) {
+                    MakeOrderViewModel.ViewEvent.SUCCESS -> {
+                        requireActivity().showMessage(R.string.order_were_made_successfully)
+                        navController.navigate(R.id.orders_fragment)
+                    }
+                    MakeOrderViewModel.ViewEvent.FAILURE -> {
+                        requireActivity().showMessage(R.string.error)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun areSomeInputsEmpty() =
+        name_input.text.toString().isEmpty() ||
+                phone_number_input.text.toString().isEmpty() ||
+                address_input.text.toString().isEmpty()
+
+    private fun showFillFieldsError() {
+        if (name_input.text.toString().isEmpty())
+            name_input_layout.error =
+                getString(R.string.fill_name)
+
+        if (phone_number_input.text.toString().isEmpty())
+            phone_number_input_layout.error = getString(R.string.fill_phone)
+
+        if (address_input.text.toString().isEmpty())
+            address_input_layout.error = getString(R.string.fill_address)
+
     }
 }

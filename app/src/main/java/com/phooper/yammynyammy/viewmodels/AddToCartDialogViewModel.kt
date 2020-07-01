@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.phooper.yammynyammy.data.repositories.UserRepository
+import com.phooper.yammynyammy.domain.usecases.AddProductsToCartUseCase
 import kotlinx.coroutines.launch
 
 open class AddToCartDialogViewModel(
-    private val userRepository: UserRepository,
-    private val productId: Int
+    private val productId: Int,
+    private val addProductsToCartUseCase: AddProductsToCartUseCase
 ) : ViewModel() {
 
     private val _itemCount = MutableLiveData(1)
@@ -27,7 +27,7 @@ open class AddToCartDialogViewModel(
 
     fun addProductsToCart() {
         viewModelScope.launch {
-            userRepository.addProductToCart(productId, _itemCount.value!!)
+            addProductsToCartUseCase.execute(productId, _itemCount.value!!)
         }
     }
 

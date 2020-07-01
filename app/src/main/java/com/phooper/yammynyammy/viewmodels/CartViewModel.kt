@@ -1,62 +1,59 @@
 package com.phooper.yammynyammy.viewmodels
 
-import androidx.lifecycle.*
-import com.livermor.delegateadapter.delegate.diff.KDiffUtilItem
-import com.phooper.yammynyammy.data.models.ProductIdAndCount
-import com.phooper.yammynyammy.data.models.ProductInCart
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
 import com.phooper.yammynyammy.data.models.TotalAndDeliveryPrice
-import com.phooper.yammynyammy.data.repositories.ProductsRepository
-import com.phooper.yammynyammy.data.repositories.UserRepository
-import com.phooper.yammynyammy.utils.Constants.Companion.DELIVERY_PRICE
-import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.Dispatchers.IO
+import com.phooper.yammynyammy.domain.usecases.AddProductsToCartUseCase
+import com.phooper.yammynyammy.domain.usecases.GetAllCartProductsUseCase
+import com.phooper.yammynyammy.domain.usecases.RemoveProductsFromCartUseCase
+import com.phooper.yammynyammy.utils.Constants
 import kotlinx.coroutines.launch
 
 class CartViewModel(
-    private val userRepository: UserRepository,
-    private val productsRepository: ProductsRepository
+    private val getAllCartProductsUseCase: GetAllCartProductsUseCase,
+    private val addProductsToCartUseCase: AddProductsToCartUseCase,
+    private val removeProductsFromCartUseCase: RemoveProductsFromCartUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<ViewState>()
     val state: LiveData<ViewState> get() = _state
 
-    //TODO refactor :(
-    val productsInCart: LiveData<List<KDiffUtilItem>> =
-        userRepository.getAllCartProducts().switchMap { prodAndCountList ->
-            liveData(context = viewModelScope.coroutineContext + Default) {
-                if (prodAndCountList.isNullOrEmpty()) {
-                    _state.postValue(ViewState.NO_PRODUCTS_IN_CART)
-                    return@liveData
-                }
-                _state.postValue(ViewState.LOADING)
-                getCartProductsListByIdsAndCount(prodAndCountList)?.let { productsInCartList ->
-                    emit(productsInCartList.plus(TotalAndDeliveryPrice(DELIVERY_PRICE,
-                        productsInCartList.sumBy { it.totalPrice } + DELIVERY_PRICE)))
-                }
-                _state.postValue(ViewState.DEFAULT)
-            }
-        }
+    val productsInCart: LiveData<List<DiffUtilItem>> get() = _productsInCart
+    private val _productsInCart = MutableLiveData<List<DiffUtilItem>>()
 
-    private suspend fun getCartProductsListByIdsAndCount(prodAndCountList: List<ProductIdAndCount>): List<ProductInCart>? =
-        productsRepository.getProductListByIds(ids = prodAndCountList.map { productIdAndCount -> productIdAndCount.productId })
-            //Mapping to List<ProductInCart>
-            ?.mapIndexed { index, product ->
-                ProductInCart(
-                    product,
-                    prodAndCountList[index].count,
-                    product.price * prodAndCountList[index].count
-                )
-            }
+    init {
+        viewModelScope.launch {
+            updateCart()
+        }
+    }
+
+    private suspend fun updateCart() {
+        _state.postValue(ViewState.LOADING)
+        getAllCartProductsUseCase.execute()?.let { productsInCartList ->
+            _productsInCart.postValue(productsInCartList.plus(
+                TotalAndDeliveryPrice(
+                    Constants.DELIVERY_PRICE,
+                    productsInCartList.sumBy { it.totalPrice } + Constants.DELIVERY_PRICE)))
+            _state.postValue(ViewState.DEFAULT)
+            return
+        }
+        _state.postValue(ViewState.NO_PRODUCTS_IN_CART)
+    }
 
     fun addOneProductToCart(productId: Int) {
-        viewModelScope.launch(IO) {
-            userRepository.addProductToCart(productId, 1)
+        viewModelScope.launch {
+            addProductsToCartUseCase.execute(productId, 1)
+            updateCart()
         }
     }
 
     fun removeOneProductFromCart(productId: Int) {
-        viewModelScope.launch(IO) {
-            userRepository.removeProductFromCart(productId, 1)
+        viewModelScope.launch {
+            removeProductsFromCartUseCase.execute(productId, 1)
+            updateCart()
         }
     }
 

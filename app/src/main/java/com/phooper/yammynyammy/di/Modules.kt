@@ -9,9 +9,14 @@ import com.google.firebase.ktx.Firebase
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.data.api.ShopApi
 import com.phooper.yammynyammy.data.db.AppDb
-import com.phooper.yammynyammy.data.repositories.ProductsRepository
-import com.phooper.yammynyammy.data.repositories.UserRepository
-import com.phooper.yammynyammy.ui.adapters.ProductListAdapter
+import com.phooper.yammynyammy.data.repositories_impl.AuthRepositoryImpl
+import com.phooper.yammynyammy.data.repositories_impl.ProductsRepositoryImpl
+import com.phooper.yammynyammy.data.repositories_impl.UserRepositoryImpl
+import com.phooper.yammynyammy.domain.repositories.AuthRepository
+import com.phooper.yammynyammy.domain.repositories.ProductsRepository
+import com.phooper.yammynyammy.domain.repositories.UserRepository
+import com.phooper.yammynyammy.domain.usecases.*
+import com.phooper.yammynyammy.ui.adapters.ProductAdapter
 import com.phooper.yammynyammy.utils.Constants.Companion.BASE_URL
 import com.phooper.yammynyammy.utils.Constants.Companion.DATABASE_NAME
 import com.phooper.yammynyammy.viewmodels.*
@@ -64,36 +69,68 @@ val apiModule = module {
 }
 
 val repositoryModule = module {
-    single {
-        UserRepository(firebaseAuth = get(), firebaseFirestone = get(), cartProductsDao = get())
+    single<UserRepository> {
+        UserRepositoryImpl(firebaseFirestone = get(), cartProductsDao = get())
     }
-    single {
-        ProductsRepository(shopApi = get())
+    single<ProductsRepository> {
+        ProductsRepositoryImpl(shopApi = get())
+    }
+    single<AuthRepository> {
+        AuthRepositoryImpl(firebaseAuth = get())
     }
 }
 
+val useCaseModule = module {
+    single { AddAddressUseCase(get(), get()) }
+    single { AddOrderUseCase(get(), get()) }
+    single { AddProductsToCartUseCase(get()) }
+    single { DeleteAddressByUidUseCase(get(), get()) }
+    single { DropCartUseCase(get()) }
+    single { GetAddressByUidUseCase(get(), get()) }
+    single { GetAddressesLiveData(get(), get()) }
+    single { GetAllCartProductsUseCase(get(), get()) }
+    single { GetCurrentUserUseCase(get()) }
+    single { GetOrderListUseCase(get(), get()) }
+    single { GetOrderByUidUseCase(get(), get()) }
+    single { GetProductByIdUseCase(get()) }
+    single { GetProductListByCategoryUseCase(get()) }
+    single { GetProductListByIdsUseCase(get()) }
+    single { GetUserDataUseCase(get(), get()) }
+    single { RemoveProductsFromCartUseCase(get()) }
+    single { SetUserDataUseCase(get(), get()) }
+    single { SignInViaEmailAndPasswordUseCase(get()) }
+    single { SignInViaGoogleUseCase(get()) }
+    single { SignOutUseCase(get()) }
+    single { SignUpViaEmailAndPasswordUseCase(get()) }
+    single { UpdateAddressByUidUseCase(get(), get()) }
+}
+
 val viewModelModule = module {
-    viewModel { LoginViewModel(userRepository = get()) }
-    viewModel { (category: Int?) -> ProductListViewModel(category, productsRepository = get()) }
-    viewModel { (productId: Int) -> AddToCartDialogViewModel(get(), productId) }
-    viewModel { (productId: Int) -> ProductViewModel(get(), get(), productId) }
-    viewModel { CartViewModel(get(), get()) }
-    viewModel { MakeOrderViewModel(get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
+    viewModel { (category: Int?) -> ProductListViewModel(category, get()) }
+    viewModel { (productId: Int) -> AddToCartDialogViewModel(productId, get()) }
+    viewModel { (productId: Int) -> ProductViewModel(productId, get(), get()) }
+    viewModel { CartViewModel(get(), get(), get()) }
+    viewModel { MakeOrderViewModel(get(), get(), get(), get(), get()) }
     viewModel { MyAddressesViewModel(get()) }
-    viewModel { (addressUid: String?) -> AddUpdateAddressViewModel(get(), addressUid) }
+    viewModel { OrdersViewModel(get()) }
+    viewModel { (addressUid: String?) ->
+        AddUpdateAddressViewModel(addressUid, get(), get(), get(), get())
+    }
     viewModel { MainContainerViewModel() }
 }
 
 val roomModule = module {
     single {
         Room.databaseBuilder(androidContext(), AppDb::class.java, DATABASE_NAME)
-            .fallbackToDestructiveMigration().build()
+            .fallbackToDestructiveMigration()
+            .build()
     }
     single { get<AppDb>().getCartProductsDao() }
 }
 
 val adapterModule = module {
-    factory { ProductListAdapter(get()) }
+    factory { ProductAdapter(get()) }
 }
 
 

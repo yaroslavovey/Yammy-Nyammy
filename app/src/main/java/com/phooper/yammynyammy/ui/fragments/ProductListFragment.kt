@@ -7,7 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.ui.adapters.ProductListAdapter
+import com.phooper.yammynyammy.ui.adapters.ProductAdapter
 import com.phooper.yammynyammy.utils.Constants
 import com.phooper.yammynyammy.utils.Constants.Companion.ARG_OBJECT
 import com.phooper.yammynyammy.utils.showMessage
@@ -25,7 +25,7 @@ class ProductListFragment : BaseFragment() {
         parametersOf(arguments?.getInt(ARG_OBJECT))
     }
 
-    private val productListAdapter: ProductListAdapter by inject()
+    private val productAdapter: ProductAdapter by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +35,7 @@ class ProductListFragment : BaseFragment() {
 
     private fun initViews() {
         recycler_view.apply {
-            adapter = productListAdapter.apply {
+            adapter = productAdapter.apply {
                 onItemClick = {
                     navController.navigate(
                         MenuFragmentDirections.actionMenuFragmentToProductFragment(
@@ -50,7 +50,7 @@ class ProductListFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(this@ProductListFragment.context)
         }
         viewModel.products.observe(viewLifecycleOwner, Observer { productList ->
-            productListAdapter.setData(productList)
+            productAdapter.setData(productList)
         })
 
         viewModel.event.observe(viewLifecycleOwner, Observer {
@@ -64,12 +64,14 @@ class ProductListFragment : BaseFragment() {
         })
 
         viewModel.state.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                ProductListViewModel.ViewState.DEFAULT -> {
-                    progress_bar.visibility = View.GONE
-                }
-                ProductListViewModel.ViewState.LOADING -> {
-                    progress_bar.visibility = View.VISIBLE
+            it?.let { state ->
+                when (state) {
+                    ProductListViewModel.ViewState.DEFAULT -> {
+                        progress_bar.visibility = View.GONE
+                    }
+                    ProductListViewModel.ViewState.LOADING -> {
+                        progress_bar.visibility = View.VISIBLE
+                    }
                 }
             }
         })

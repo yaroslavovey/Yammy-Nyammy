@@ -60,5 +60,14 @@
     <string name="address_deleted">Адрес удален</string>
     <string name="address_added">Адрес добавлен</string>
     <string name="address_updated">Данные об адресе обновлены</string>
+    <string name="fill_address">Выберите адрес</string>
+    <string name="order_number">Заказ №</string>
+    <string name="total_sum">"Сумма: "</string>
+    <string name="date">"Дата: "</string>
+    <string name="status">"Статус: "</string>
+    <string name="order_were_made_successfully">Заказ успешно осуществлен!</string>
+    <string name="order_date">"Заказ от: "</string>
+    <string name="you_did_no_orders">Вы не сделали ни одного заказа</string>
+    <string name="no_orders">Нет заказов</string>
 
 </resources>

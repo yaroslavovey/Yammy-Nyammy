@@ -1,6 +1,5 @@
 package com.phooper.yammynyammy.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -26,6 +25,9 @@ interface CartProductsDao {
     suspend fun decreaseProductCount(productId: Int, count: Int)
 
     @Query("SELECT * FROM products")
-    fun getAll(): LiveData<List<ProductIdAndCount>>
+    suspend fun getAllCartProducts(): List<ProductIdAndCount>?
+
+    @Query("DELETE FROM products")
+    suspend fun deleteAllCartProducts()
 
 }

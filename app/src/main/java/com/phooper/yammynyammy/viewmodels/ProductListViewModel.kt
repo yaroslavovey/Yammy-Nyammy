@@ -5,16 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.phooper.yammynyammy.data.models.Product
-import com.phooper.yammynyammy.data.repositories.ProductsRepository
+import com.phooper.yammynyammy.domain.usecases.GetProductListByCategoryUseCase
 import com.phooper.yammynyammy.utils.Event
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ProductListViewModel(
     private val category: Int?,
-    private val productsRepository: ProductsRepository
+    private val getProductListByCategoryUseCase: GetProductListByCategoryUseCase
 ) : ViewModel() {
 
     private val _products = MutableLiveData<List<Product>>()
@@ -33,16 +31,14 @@ class ProductListViewModel(
     }
 
     private suspend fun loadProducts() {
-        withContext(IO) {
-            productsRepository.getProductListByCategory(category.toString())?.let {
-                _products.postValue(it)
-                _state.postValue(ViewState.DEFAULT)
-                return@withContext
-            }
-            _event.postValue(Event(ViewEvent.ERROR))
-            delay(5000)
-            loadProducts()
+        getProductListByCategoryUseCase.execute(category.toString())?.let {
+            _products.postValue(it)
+            _state.postValue(ViewState.DEFAULT)
+            return
         }
+        _event.postValue(Event(ViewEvent.ERROR))
+        delay(5000)
+        loadProducts()
     }
 
     enum class ViewEvent {

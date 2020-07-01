@@ -7,15 +7,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.firestore.ktx.toObject
 import com.phooper.yammynyammy.data.models.User
-import com.phooper.yammynyammy.data.repositories.UserRepository
+import com.phooper.yammynyammy.domain.usecases.*
 import com.phooper.yammynyammy.utils.Constants
 import com.phooper.yammynyammy.utils.Event
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
+class LoginViewModel(
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val getUserDataUseCase: GetUserDataUseCase,
+    private val setUserDataUseCase: SetUserDataUseCase,
+    private val signInViaEmailAndPasswordUseCase: SignInViaEmailAndPasswordUseCase,
+    private val signInViaGoogleUseCase: SignInViaGoogleUseCase
+) : ViewModel() {
 
     private val _state = MutableLiveData<ViewState>()
     val state: LiveData<ViewState> get() = _state
@@ -27,30 +31,32 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     val username: LiveData<String> get() = _username
 
     init {
-        checkCurrentUser()
-    }
-
-    private fun checkCurrentUser() {
-        viewModelScope.launch(IO) {
-            //Check if user signed in
-            userRepository.getCurrentUser()?.let {
-                //If signed in and has no phone & name
-                if (userRepository.getCurrentUserData()?.toObject<User>() == null) {
-                    _event.postValue(Event(ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN))
-                    _state.postValue(ViewState.DEFAULT)
-                    return@launch
-                }
-                _event.postValue(Event(ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY))
-                return@launch
-            }
-            _state.postValue(ViewState.DEFAULT)
+        viewModelScope.launch {
+            checkCurrentUser()
         }
     }
 
+    private suspend fun checkCurrentUser() {
+        //Check if user signed in
+        getCurrentUserUseCase.execute()?.let {
+            //If signed in and has no phone & name
+            if (getUserDataUseCase.execute() == null) {
+                _event.postValue(Event(ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN))
+                _state.postValue(ViewState.DEFAULT)
+                return
+            }
+            //If passed all checks -> User is signed in -> Nav To Main Activity
+            _event.postValue(Event(ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY))
+            return
+        }
+        _state.postValue(ViewState.DEFAULT)
+    }
+
+
     fun handleSignInViaEmail(email: String, password: String) {
         _state.value = ViewState.LOADING
-        viewModelScope.launch(IO) {
-            userRepository.signInViaEmailAndPassword(email, password)?.let {
+        viewModelScope.launch {
+            signInViaEmailAndPasswordUseCase.execute(email, password)?.let {
                 checkCurrentUser()
                 return@launch
             }
@@ -75,9 +81,9 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     private fun handleSignInViaGoogle(signInAccount: GoogleSignInAccount) {
         _state.value = ViewState.LOADING
-        viewModelScope.launch(IO) {
+        viewModelScope.launch {
             _username.postValue(signInAccount.displayName)
-            userRepository.signInViaGoogle(signInAccount)?.let {
+            signInViaGoogleUseCase.execute(signInAccount)?.let {
                 checkCurrentUser()
                 return@launch
             }
@@ -91,8 +97,8 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
         password: String
     ) {
         _state.value = ViewState.LOADING
-        viewModelScope.launch(IO) {
-            userRepository.signUpViaEmailAndPassword(email, password)?.let {
+        viewModelScope.launch {
+            signInViaEmailAndPasswordUseCase.execute(email, password)?.let {
                 _event.postValue(Event(ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER))
                 _state.postValue(ViewState.DEFAULT)
                 return@launch
@@ -104,15 +110,14 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     fun handleAddUserData(name: String, phoneNum: String) {
         _state.value = ViewState.LOADING
-        viewModelScope.launch(IO) {
-                userRepository.addCurrentUserData(
-                    User(name = name, phoneNum = phoneNum)
-                )?.let {
+        viewModelScope.launch {
+            setUserDataUseCase.execute(User(name = name, phoneNum = phoneNum))
+                ?.let {
                     _event.postValue(Event(ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY))
                     return@launch
                 }
-                _event.postValue(Event(ViewEvent.AUTH_ERROR))
-                _state.postValue(ViewState.DEFAULT)
+            _event.postValue(Event(ViewEvent.AUTH_ERROR))
+            _state.postValue(ViewState.DEFAULT)
         }
     }
 

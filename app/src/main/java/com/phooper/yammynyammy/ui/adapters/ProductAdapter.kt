@@ -11,13 +11,13 @@ import com.phooper.yammynyammy.data.models.Product
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_product.view.*
 
-class ProductListAdapter(private val picasso: Picasso) :
-    RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder>() {
+class ProductAdapter(private val picasso: Picasso) :
+    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
     var dataList = mutableListOf<Product>()
     var onItemClick: ((Int) -> Unit)? = null
     var onAddToCartBtnClick: ((Int) -> Unit)? = null
 
-    inner class ProductListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(dataList[adapterPosition].id)
@@ -34,7 +34,7 @@ class ProductListAdapter(private val picasso: Picasso) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ProductListViewHolder(
+        ProductViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_product,
                 parent,
@@ -44,7 +44,7 @@ class ProductListAdapter(private val picasso: Picasso) :
 
     override fun getItemCount() = dataList.size
 
-    override fun onBindViewHolder(holder: ProductListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         holder.apply {
             title.text = dataList[position].title
             description.text = dataList[position].desc
