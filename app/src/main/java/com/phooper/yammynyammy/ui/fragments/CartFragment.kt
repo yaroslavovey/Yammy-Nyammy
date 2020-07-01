@@ -60,6 +60,7 @@ class CartFragment : BaseFragment() {
                         no_products_in_cart_layout.visibility = View.GONE
                     }
                     CartViewModel.ViewState.NO_PRODUCTS_IN_CART -> {
+                        progress_bar.visibility = View.GONE
                         make_order_btn.visibility = View.GONE
                         recycler_view.visibility = View.GONE
                         no_products_in_cart_layout.visibility = View.VISIBLE
