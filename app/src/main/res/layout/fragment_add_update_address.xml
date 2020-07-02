@@ -66,14 +66,14 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/delete_address_btn"
                 style="@style/AppTheme.TextMedium"
-                android:visibility="gone"
-                app:fontFamily="@font/roboto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/delete_address"
                 android:textAllCaps="true"
-                android:textColor="@color/color_error" />
+                android:textColor="@color/color_error"
+                android:visibility="gone"
+                app:fontFamily="@font/roboto" />
 
         </LinearLayout>
 
@@ -81,13 +81,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_update_btn"
-        style="@style/RoundButton"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:backgroundTint="@color/color_primary"
-        android:textAllCaps="true"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        style="@style/LongButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/progress_bar"

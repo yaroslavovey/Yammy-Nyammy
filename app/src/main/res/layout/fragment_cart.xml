@@ -13,14 +13,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/make_order_btn"
-        style="@style/RoundButton"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:backgroundTint="@color/color_primary"
+        style="@style/LongButton"
+        app:layout_constraintStart_toStartOf="parent"
         android:text="@string/make_order"
-        android:textAllCaps="true"
         android:visibility="gone"
-        app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <LinearLayout

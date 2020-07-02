@@ -72,14 +72,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/accept_order_btn"
-        style="@style/RoundButton"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:backgroundTint="@color/color_primary"
+        style="@style/LongButton"
         android:text="@string/accept_order"
-        android:textAllCaps="true"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/progress_bar"
@@ -90,8 +86,7 @@
         android:focusable="true"
         android:gravity="center"
         android:translationZ="90dp"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="wrap_content"

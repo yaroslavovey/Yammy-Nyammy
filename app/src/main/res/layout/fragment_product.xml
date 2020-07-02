@@ -7,6 +7,7 @@
 
     <ImageView
         android:id="@+id/product_image"
+        android:contentDescription="@string/product_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -16,9 +17,9 @@
         android:id="@+id/product_description"
         style="@style/AppTheme.TextLarge"
         android:layout_width="match_parent"
-        app:fontFamily="@font/roboto"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        app:fontFamily="@font/roboto"
         app:layout_constraintTop_toBottomOf="@+id/product_image" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,29 +88,15 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_to_cart_btn"
-            style="@style/RoundButton"
+            style="@style/LongButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:backgroundTint="@color/color_primary"
             android:text="@string/add_to_cart"
-            android:textAllCaps="true"
-            app:cornerRadius="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/choose_count_layout"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#0D000000"
-            android:translationZ="90dp"
-            app:layout_constraintBottom_toBottomOf="@id/add_to_cart_btn"
-            app:layout_constraintEnd_toEndOf="@id/add_to_cart_btn"
-            app:layout_constraintStart_toStartOf="@id/add_to_cart_btn"
-            app:layout_constraintTop_toTopOf="@id/add_to_cart_btn" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout

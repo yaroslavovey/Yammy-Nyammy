@@ -69,5 +69,6 @@
     <string name="order_date">"Заказ от: "</string>
     <string name="you_did_no_orders">Вы не сделали ни одного заказа</string>
     <string name="no_orders">Нет заказов</string>
+    <string name="product_image">Фото товара</string>
 
 </resources>
