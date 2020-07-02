@@ -4,20 +4,19 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.android.material.navigation.NavigationView
+import androidx.navigation.ui.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import kotlinx.android.synthetic.main.activity_main_container.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainContainerActivity : AppCompatActivity(),
+    BottomNavigationView.OnNavigationItemSelectedListener {
 
     private val viewModel by viewModel<MainContainerViewModel>()
 
@@ -25,11 +24,11 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 
     private lateinit var navController: NavController
 
-    private val fragmentListWhereCartIconIsVisible = listOf(
+    private val topLevelDestinations = setOf(
         R.id.menu_fragment,
-        R.id.product_fragment,
         R.id.orders_fragment,
-        R.id.profile_fragment
+        R.id.profile_fragment,
+        R.id.cart_fragment
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,30 +42,39 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
 
     private fun setupNavigation() {
         navController = findNavController(R.id.main_nav_host_fragment)
+
         appBarConfiguration =
-            AppBarConfiguration(
-                setOf(
-                    R.id.menu_fragment,
-                    R.id.orders_fragment,
-                    R.id.profile_fragment,
-                    R.id.cart_fragment
-                ), findViewById(R.id.drawer_layout)
-            )
+            AppBarConfiguration(topLevelDestinations)
+
         setupActionBarWithNavController(navController, appBarConfiguration)
-        findViewById<NavigationView>(R.id.nav_view).setNavigationItemSelectedListener(this@MainContainerActivity)
+
+        findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+            .setupWithNavController(navController)
+
+        findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+            .setOnNavigationItemSelectedListener(this@MainContainerActivity)
     }
 
     private fun initViews() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             toggleCartIconVisibility(destination.id)
-            nav_view.setCheckedItem(destination.id)
+            toggleBottomNavVisibility(destination.id)
             toolbar_layout?.elevation =
                 if (destination.id == R.id.menu_fragment) 0f else resources.getDimension(R.dimen.app_bar_elevation)
         }
+        viewModel.cartItemCount.observe(this, Observer {
+            if (it == 0) {
+                bottom_nav_view.removeBadge(R.id.cart_fragment)
+            } else {
+                bottom_nav_view.getOrCreateBadge(R.id.cart_fragment).apply {
+                    maxCharacterCount = 3
+                    number = it
+                }
+            }
+        })
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        drawer_layout.closeDrawer(GravityCompat.START)
         if (navController.currentDestination?.id != item.itemId)
             return item.onNavDestinationSelected(navController)
         return false
@@ -87,16 +95,13 @@ class MainContainerActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     private fun toggleCartIconVisibility(destId: Int?) {
         toolbar.menu.findItem(R.id.cart_fragment)?.isVisible =
-            fragmentListWhereCartIconIsVisible.contains(destId)
+            (!topLevelDestinations.contains(destId))
+    }
+
+    private fun toggleBottomNavVisibility(destId: Int?) {
+        bottom_nav_view?.isVisible =
+            (topLevelDestinations.contains(destId))
     }
 }

@@ -95,6 +95,8 @@ val useCaseModule = module {
     single { GetProductByIdUseCase(get()) }
     single { GetProductListByCategoryUseCase(get()) }
     single { GetProductListByIdsUseCase(get()) }
+    single { GetAllCartProductsLiveDataUseCase(get()) }
+    single { GetAllCartProductsCountLiveDataUseCase(get()) }
     single { GetUserDataUseCase(get(), get()) }
     single { RemoveProductsFromCartUseCase(get()) }
     single { SetUserDataUseCase(get(), get()) }
@@ -117,7 +119,7 @@ val viewModelModule = module {
     viewModel { (addressUid: String?) ->
         AddUpdateAddressViewModel(addressUid, get(), get(), get(), get())
     }
-    viewModel { MainContainerViewModel() }
+    viewModel { MainContainerViewModel(get()) }
 }
 
 val roomModule = module {

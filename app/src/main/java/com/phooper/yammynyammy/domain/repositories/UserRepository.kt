@@ -26,7 +26,7 @@ interface UserRepository {
 
     suspend fun addOrder(order: Order, userUid: String): Boolean?
     suspend fun getOrdersList(userUid: String): List<DocumentSnapshot>?
-    suspend fun getOrderByUid(orderUid : String, userUid: String): DocumentSnapshot?
+    suspend fun getOrderByUid(orderUid: String, userUid: String): DocumentSnapshot?
 
     suspend fun decreaseCartProductCount(productId: Int, count: Int)
     suspend fun increaseCartProductCount(productId: Int, count: Int)
@@ -35,5 +35,6 @@ interface UserRepository {
     suspend fun addCartProduct(cartProduct: ProductIdAndCount)
     suspend fun getCartProductById(productId: Int): ProductIdAndCount?
     suspend fun getAllCartProducts(): List<ProductIdAndCount>?
+    fun getAllCartProductsLiveData(): LiveData<List<ProductIdAndCount>>
 
 }

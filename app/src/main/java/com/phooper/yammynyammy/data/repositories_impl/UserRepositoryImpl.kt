@@ -1,5 +1,6 @@
 package com.phooper.yammynyammy.data.repositories_impl
 
+import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -167,6 +168,9 @@ class UserRepositoryImpl(
 
     override suspend fun getAllCartProducts(): List<ProductIdAndCount>? =
         cartProductsDao.getAllCartProducts()
+
+    override fun getAllCartProductsLiveData(): LiveData<List<ProductIdAndCount>> =
+        cartProductsDao.getAllCartProductsLiveData()
 
     override suspend fun increaseCartProductCount(productId: Int, count: Int) =
         cartProductsDao.increaseProductCount(productId, count)
