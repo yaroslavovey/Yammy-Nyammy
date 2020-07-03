@@ -5,10 +5,10 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.phooper.yammynyammy.data.db.dao.CartProductsDao
-import com.phooper.yammynyammy.data.models.Address
-import com.phooper.yammynyammy.data.models.Order
-import com.phooper.yammynyammy.data.models.ProductIdAndCount
-import com.phooper.yammynyammy.data.models.User
+import com.phooper.yammynyammy.domain.models.Address
+import com.phooper.yammynyammy.domain.models.Order
+import com.phooper.yammynyammy.domain.models.ProductIdAndCount
+import com.phooper.yammynyammy.domain.models.User
 import com.phooper.yammynyammy.domain.repositories.UserRepository
 import com.phooper.yammynyammy.utils.Constants.Companion.ADDRESSES_COLLECTION
 import com.phooper.yammynyammy.utils.Constants.Companion.ORDERS_COLLECTION

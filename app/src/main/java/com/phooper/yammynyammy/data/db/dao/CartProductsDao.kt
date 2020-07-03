@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.phooper.yammynyammy.data.models.ProductIdAndCount
+import com.phooper.yammynyammy.domain.models.ProductIdAndCount
 
 @Dao
 interface CartProductsDao {

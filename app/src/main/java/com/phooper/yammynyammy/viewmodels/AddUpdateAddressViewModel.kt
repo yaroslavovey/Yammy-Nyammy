@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.phooper.yammynyammy.data.models.Address
+import com.phooper.yammynyammy.domain.models.Address
 import com.phooper.yammynyammy.domain.usecases.AddAddressUseCase
 import com.phooper.yammynyammy.domain.usecases.DeleteAddressByUidUseCase
 import com.phooper.yammynyammy.domain.usecases.GetAddressByUidUseCase

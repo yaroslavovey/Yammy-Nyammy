@@ -8,8 +8,8 @@ import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.toObjects
 import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
-import com.phooper.yammynyammy.data.models.AddAddressButton
-import com.phooper.yammynyammy.data.models.Address
+import com.phooper.yammynyammy.domain.models.AddAddressButton
+import com.phooper.yammynyammy.domain.models.Address
 import com.phooper.yammynyammy.domain.usecases.GetAddressesAsCollectionUseCase
 import kotlinx.coroutines.launch
 

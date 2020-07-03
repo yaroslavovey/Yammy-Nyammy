@@ -3,7 +3,7 @@ package com.phooper.yammynyammy.ui.adapters
 import android.annotation.SuppressLint
 import com.livermor.delegateadapter.delegate.KDelegateAdapter
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.data.models.ProductInCart
+import com.phooper.yammynyammy.domain.models.ProductInCart
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_cart_product.*
 import org.koin.core.KoinComponent

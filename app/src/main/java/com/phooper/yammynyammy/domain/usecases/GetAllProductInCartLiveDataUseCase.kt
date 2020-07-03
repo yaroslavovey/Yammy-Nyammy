@@ -3,7 +3,7 @@ package com.phooper.yammynyammy.domain.usecases
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
-import com.phooper.yammynyammy.data.models.ProductInCart
+import com.phooper.yammynyammy.domain.models.ProductInCart
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Default
 

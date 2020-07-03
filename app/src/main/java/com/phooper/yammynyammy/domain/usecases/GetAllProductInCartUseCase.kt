@@ -1,6 +1,6 @@
 package com.phooper.yammynyammy.domain.usecases
 
-import com.phooper.yammynyammy.data.models.ProductInCart
+import com.phooper.yammynyammy.domain.models.ProductInCart
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.withContext
 

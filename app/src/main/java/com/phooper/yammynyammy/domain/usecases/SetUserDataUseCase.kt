@@ -1,6 +1,6 @@
 package com.phooper.yammynyammy.domain.usecases
 
-import com.phooper.yammynyammy.data.models.User
+import com.phooper.yammynyammy.domain.models.User
 import com.phooper.yammynyammy.domain.repositories.UserRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext

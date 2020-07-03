@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.data.models.Product
+import com.phooper.yammynyammy.domain.models.Product
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_product.view.*
 

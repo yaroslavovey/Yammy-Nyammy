@@ -1,6 +1,6 @@
 package com.phooper.yammynyammy.domain.repositories
 
-import com.phooper.yammynyammy.data.models.Product
+import com.phooper.yammynyammy.domain.models.Product
 
 interface ProductsRepository {
     suspend fun getProductListByCategory(category: String): List<Product>?

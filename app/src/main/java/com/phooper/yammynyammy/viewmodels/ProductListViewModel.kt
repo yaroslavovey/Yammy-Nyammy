@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.phooper.yammynyammy.data.models.Product
+import com.phooper.yammynyammy.domain.models.Product
 import com.phooper.yammynyammy.domain.usecases.GetProductListByCategoryUseCase
 import com.phooper.yammynyammy.utils.Event
 import kotlinx.coroutines.delay

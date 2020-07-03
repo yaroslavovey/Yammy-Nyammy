@@ -2,7 +2,7 @@ package com.phooper.yammynyammy.ui.adapters
 
 import com.livermor.delegateadapter.delegate.KDelegateAdapter
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.data.models.AddAddressButton
+import com.phooper.yammynyammy.domain.models.AddAddressButton
 import kotlinx.android.synthetic.main.item_add_new_address_btn.*
 
 class AddAddressButtonDelegateAdapter(private val onBtnClickListener: () -> (Unit)) :

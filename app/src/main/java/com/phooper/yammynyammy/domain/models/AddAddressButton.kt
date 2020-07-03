@@ -1,4 +1,4 @@
-package com.phooper.yammynyammy.data.models
+package com.phooper.yammynyammy.domain.models
 
 import com.livermor.delegateadapter.delegate.diff.KDiffUtilItem
 import com.phooper.yammynyammy.utils.Constants.Companion.ADD_ADDRESS_BUTTON_ID

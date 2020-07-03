@@ -1,7 +1,7 @@
 package com.phooper.yammynyammy.data.repositories_impl
 
 import com.phooper.yammynyammy.data.api.ShopApi
-import com.phooper.yammynyammy.data.models.Product
+import com.phooper.yammynyammy.domain.models.Product
 import com.phooper.yammynyammy.domain.repositories.ProductsRepository
 
 class ProductsRepositoryImpl(private val shopApi: ShopApi) : ProductsRepository {

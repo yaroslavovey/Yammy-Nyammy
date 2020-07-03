@@ -3,7 +3,7 @@ package com.phooper.yammynyammy.ui.adapters
 import android.annotation.SuppressLint
 import com.livermor.delegateadapter.delegate.KDelegateAdapter
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.data.models.Address
+import com.phooper.yammynyammy.domain.models.Address
 import kotlinx.android.synthetic.main.item_address.*
 
 data class AddressDelegateAdapter(

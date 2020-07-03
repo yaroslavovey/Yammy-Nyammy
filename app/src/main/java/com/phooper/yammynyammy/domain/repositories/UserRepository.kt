@@ -3,10 +3,10 @@ package com.phooper.yammynyammy.domain.repositories
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
-import com.phooper.yammynyammy.data.models.Address
-import com.phooper.yammynyammy.data.models.Order
-import com.phooper.yammynyammy.data.models.ProductIdAndCount
-import com.phooper.yammynyammy.data.models.User
+import com.phooper.yammynyammy.domain.models.Address
+import com.phooper.yammynyammy.domain.models.Order
+import com.phooper.yammynyammy.domain.models.ProductIdAndCount
+import com.phooper.yammynyammy.domain.models.User
 
 interface UserRepository {
 

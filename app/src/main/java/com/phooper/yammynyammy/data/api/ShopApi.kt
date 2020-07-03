@@ -1,6 +1,6 @@
 package com.phooper.yammynyammy.data.api
 
-import com.phooper.yammynyammy.data.models.Product
+import com.phooper.yammynyammy.domain.models.Product
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

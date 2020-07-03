@@ -2,7 +2,7 @@ package com.phooper.yammynyammy.viewmodels
 
 import androidx.lifecycle.*
 import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
-import com.phooper.yammynyammy.data.models.TotalAndDeliveryPrice
+import com.phooper.yammynyammy.domain.models.TotalAndDeliveryPrice
 import com.phooper.yammynyammy.domain.usecases.AddProductsToCartUseCase
 import com.phooper.yammynyammy.domain.usecases.GetAllCartProductIdAndCountLiveDataUseCase
 import com.phooper.yammynyammy.domain.usecases.GetAllProductInCartLiveDataUseCase

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.data.models.Order
+import com.phooper.yammynyammy.domain.models.Order
 import kotlinx.android.synthetic.main.item_order_preview.view.*
 import java.text.DateFormat
 import java.util.*

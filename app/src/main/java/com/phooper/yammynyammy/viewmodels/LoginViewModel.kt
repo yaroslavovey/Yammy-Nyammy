@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.phooper.yammynyammy.data.models.User
+import com.phooper.yammynyammy.domain.models.User
 import com.phooper.yammynyammy.domain.usecases.*
 import com.phooper.yammynyammy.utils.Constants
 import com.phooper.yammynyammy.utils.Event
