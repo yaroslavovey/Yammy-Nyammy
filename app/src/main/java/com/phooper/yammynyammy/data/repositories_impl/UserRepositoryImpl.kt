@@ -141,6 +141,7 @@ class UserRepositoryImpl(
                 .collection(USERS_COLLECTION)
                 .document(userUid)
                 .collection(ORDERS_COLLECTION)
+                .orderBy("timestamp")
                 .get()
                 .await()
                 .documents
