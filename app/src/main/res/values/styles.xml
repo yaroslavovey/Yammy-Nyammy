@@ -20,8 +20,8 @@
         <item name="textInputStyle">@style/AppTextField</item>
         <item name="android:scrollViewStyle">@style/AppScrollView</item>
         <item name="android:textViewStyle">@style/AppTheme.TextNormal</item>
-        <item name="snackbarStyle">@style/Snackbar</item>
-        <item name="snackbarTextViewStyle">@style/SnackbarTextView</item>
+        <item name="snackbarStyle">@style/AppSnackbar</item>
+        <item name="snackbarTextViewStyle">@style/AppSnackbarTextView</item>
         <item name="materialCardViewStyle">@style/AppCard</item>
         <item name="tabStyle">@style/AppTabLayout</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
@@ -118,8 +118,8 @@
     </style>
 
     <style name="LongButton" parent="RoundButton">
+        <item name="android:layout_height">@dimen/bottom_navigation_view_height</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:backgroundTint">@color/color_primary_variant</item>
         <item name="cornerRadius">0dp</item>
         <item name="textAllCaps">true</item>
@@ -134,11 +134,9 @@
         <item name="android:letterSpacing">.01</item>
     </style>
 
-    <style name="Snackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth">
+    <style name="AppSnackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth" />
 
-    </style>
-
-    <style name="SnackbarTextView">
+    <style name="AppSnackbarTextView">
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/color_surface</item>
@@ -174,6 +172,7 @@
     </style>
 
     <style name="AppBottomNav" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
-        <item name="labelVisibilityMode">unlabeled</item>
+        <item name="labelVisibilityMode">labeled</item>
     </style>
+
 </resources>

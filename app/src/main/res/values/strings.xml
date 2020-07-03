@@ -70,5 +70,6 @@
     <string name="you_did_no_orders">Вы не сделали ни одного заказа</string>
     <string name="no_orders">Нет заказов</string>
     <string name="product_image">Фото товара</string>
+    <string name="go">Перейти</string>
 
 </resources>

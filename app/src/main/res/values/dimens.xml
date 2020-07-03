@@ -2,4 +2,5 @@
 <resources>
     <dimen name="navigation_drawer_width">300dp</dimen>
     <dimen name="app_bar_elevation">8dp</dimen>
+    <dimen name="bottom_navigation_view_height">64dp</dimen>
 </resources>
