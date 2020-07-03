@@ -2,7 +2,7 @@ package com.phooper.yammynyammy.domain.models
 
 import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
 
-data class ProductInCart(
+data class CartProduct(
     val product: Product = Product(),
     val count: Int = 0,
     //Not sure about that...

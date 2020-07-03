@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.phooper.yammynyammy.domain.models.Order
+import com.phooper.yammynyammy.domain.models.OrderAddressAndStatus
 import com.phooper.yammynyammy.domain.models.User
 import com.phooper.yammynyammy.domain.usecases.*
 import com.phooper.yammynyammy.utils.Event
@@ -55,7 +56,7 @@ class MakeOrderViewModel(
             getAllProductInCartUseCase.execute()?.let { productInCartList ->
                 addOrderUseCase.execute(
                     Order(
-                        address = address,
+                        addressAndStatus = OrderAddressAndStatus(address = address),
                         products = productInCartList
                     )
                 )?.let {

@@ -15,7 +15,11 @@
     <fragment
         android:id="@+id/orders_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.OrdersFragment"
-        android:label="@string/orders" />
+        android:label="@string/orders">
+        <action
+            android:id="@+id/action_orders_fragment_to_orderFragment"
+            app:destination="@id/order_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/cart_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.CartFragment"
@@ -43,6 +47,10 @@
         <action
             android:id="@+id/action_make_order_fragment_to_myAddressesFragment"
             app:destination="@id/my_addresses_fragment" />
+        <action
+            android:id="@+id/action_make_order_fragment_to_orders_fragment"
+            app:destination="@id/orders_fragment"
+            app:popUpTo="@+id/menu_fragment" />
     </fragment>
     <fragment
         android:id="@+id/my_addresses_fragment"
@@ -55,13 +63,20 @@
     <fragment
         android:id="@+id/add_update_address"
         android:name="com.phooper.yammynyammy.ui.fragments.AddUpdateAddressFragment"
-        android:label=" " >
+        android:label=" ">
         <argument
             android:name="address_uid"
-            app:argType="string"
             android:defaultValue="null"
-            app:nullable="true"
-            />
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/order_fragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.OrderFragment"
+        android:label=" ">
+        <argument
+            android:name="addressUid"
+            app:argType="string" />
     </fragment>
 
 </navigation>

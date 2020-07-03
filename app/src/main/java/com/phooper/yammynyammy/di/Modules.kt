@@ -135,6 +135,7 @@ val viewModelModule = module {
     viewModel { (addressUid: String?) ->
         AddUpdateAddressViewModel(addressUid, get(), get(), get(), get())
     }
+    viewModel { (orderUid: String?) -> OrderViewModel(get(), orderUid) }
     viewModel { MainContainerViewModel(get()) }
 }
 

@@ -3,24 +3,24 @@ package com.phooper.yammynyammy.ui.adapters
 import android.annotation.SuppressLint
 import com.livermor.delegateadapter.delegate.KDelegateAdapter
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.domain.models.ProductInCart
+import com.phooper.yammynyammy.domain.models.CartProduct
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_cart_product.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class ProductInCartDelegateAdapter(
+class CartProductDelegateAdapter(
     private val onPlusClickListener: (Int) -> (Unit),
     private val onMinusClickListener: (Int) -> (Unit)
 ) :
-    KDelegateAdapter<ProductInCart>(), KoinComponent {
+    KDelegateAdapter<CartProduct>(), KoinComponent {
 
     private val picasso by inject<Picasso>()
 
-    override fun isForViewType(item: Any): Boolean = item is ProductInCart
+    override fun isForViewType(item: Any): Boolean = item is CartProduct
 
     @SuppressLint("SetTextI18n")
-    override fun KViewHolder.onBind(item: ProductInCart) {
+    override fun KViewHolder.onBind(item: CartProduct) {
         picasso.load(item.product.imageURL).into(product_image)
         product_description.text = item.product.desc
         product_title.text = item.product.title

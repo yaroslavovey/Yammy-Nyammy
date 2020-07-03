@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.livermor.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.ui.adapters.ProductInCartDelegateAdapter
+import com.phooper.yammynyammy.ui.adapters.CartProductDelegateAdapter
 import com.phooper.yammynyammy.ui.adapters.TotalPriceDelegateAdapter
 import com.phooper.yammynyammy.viewmodels.CartViewModel
 import kotlinx.android.synthetic.main.fragment_cart.*
@@ -23,7 +23,7 @@ class CartFragment : BaseFragment() {
     private val delegateAdapter =
         DiffUtilCompositeAdapter.Builder()
             .add(
-                ProductInCartDelegateAdapter(
+                CartProductDelegateAdapter(
                     onPlusClickListener = { viewModel.addOneProductToCart(it) },
                     onMinusClickListener = { viewModel.removeOneProductFromCart(it) })
             ).add(TotalPriceDelegateAdapter())

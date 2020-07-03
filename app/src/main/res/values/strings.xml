@@ -71,5 +71,7 @@
     <string name="no_orders">Нет заказов</string>
     <string name="product_image">Фото товара</string>
     <string name="go">Перейти</string>
+    <string name="address">"Адрес: "</string>
+    <string name="order_from">"Заказ от "</string>
 
 </resources>

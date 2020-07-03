@@ -1,0 +1,87 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="104dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/product_image_card"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/product_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/test_product_image" />
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/product_title"
+            style="@style/AppTheme.TextMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="56dp"
+            android:text="Мороженное Лакшери"
+            app:layout_constraintEnd_toStartOf="@id/product_price"
+            app:layout_constraintStart_toEndOf="@id/product_image_card"
+            app:layout_constraintTop_toTopOf="@id/product_image_card" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/product_description"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Эти печеньки хранятся у нас уже с 1841г.. Предлагаем вам попробовать вкус новой старости!"
+            android:textColor="@color/grey_text"
+            app:layout_constraintBottom_toBottomOf="@+id/product_image_card"
+            app:layout_constraintEnd_toEndOf="@id/product_title"
+            app:layout_constraintStart_toStartOf="@id/product_title"
+            app:layout_constraintTop_toBottomOf="@id/product_title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/product_count"
+            style="@style/AppTheme.TextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="x2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/product_title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/product_price"
+            style="@style/AppTheme.TextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="1223 ₽"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="16dp"
+        android:background="#34000000" />
+
+</com.google.android.material.card.MaterialCardView>
+

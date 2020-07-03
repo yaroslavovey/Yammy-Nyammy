@@ -82,7 +82,7 @@ class MakeOrderFragment : BaseFragment() {
                 when (event) {
                     MakeOrderViewModel.ViewEvent.SUCCESS -> {
                         requireActivity().showMessage(R.string.order_were_made_successfully)
-                        navController.navigate(R.id.orders_fragment)
+                        navController.navigate(R.id.action_make_order_fragment_to_orders_fragment)
                     }
                     MakeOrderViewModel.ViewEvent.FAILURE -> {
                         requireActivity().showMessage(R.string.error)

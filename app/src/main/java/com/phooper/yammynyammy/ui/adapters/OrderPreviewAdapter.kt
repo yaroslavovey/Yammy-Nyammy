@@ -1,5 +1,6 @@
 package com.phooper.yammynyammy.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,11 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.domain.models.Order
+import com.phooper.yammynyammy.utils.formatToRussianString
 import kotlinx.android.synthetic.main.item_order_preview.view.*
-import java.text.DateFormat
-import java.util.*
 
-class OrderPreviewAdapter() :
+class OrderPreviewAdapter :
     RecyclerView.Adapter<OrderPreviewAdapter.OrderViewHolder>() {
     var dataList = mutableListOf<Order>()
     var onItemClick: ((String) -> Unit)? = null
@@ -39,14 +39,11 @@ class OrderPreviewAdapter() :
 
     override fun getItemCount() = dataList.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         holder.apply {
-            date.text = DateFormat.getDateTimeInstance(
-                DateFormat.MEDIUM,
-                DateFormat.SHORT,
-                Locale.getDefault()
-            ).format(dataList[position].timestamp)
-            status.text = dataList[position].status
+            date.text = dataList[position].timestamp?.formatToRussianString()
+            status.text = dataList[position].addressAndStatus.status
             totalSum.text = "${dataList[position].totalPrice} ₽"
         }
     }

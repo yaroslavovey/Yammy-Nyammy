@@ -11,6 +11,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.phooper.yammynyammy.R
+import java.text.DateFormat
+import java.util.*
 
 fun TextInputEditText.setHideLayoutErrorOnTextChangedListener(textInputLayout: TextInputLayout) {
     addTextChangedListener(object : TextWatcher {
@@ -36,3 +38,10 @@ fun Fragment.hideKeyboard() {
 
 fun Activity.showMessage(msgRes: Int) =
     Snackbar.make(findViewById(R.id.coordinator_layout), msgRes, Snackbar.LENGTH_SHORT).show()
+
+fun Date.formatToRussianString(): String =
+    DateFormat.getDateTimeInstance(
+        DateFormat.MEDIUM,
+        DateFormat.SHORT,
+        Locale("ru")
+    ).format(this)

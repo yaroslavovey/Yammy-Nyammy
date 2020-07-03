@@ -10,41 +10,22 @@
         android:padding="16dp">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/order_date_label"
+            android:id="@+id/order_address_label"
             style="@style/AppTheme.TextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/order_date"
+            android:text="@string/address"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/order_date"
+            android:id="@+id/order_address"
             style="@style/AppTheme.TextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fontFamily="@font/roboto"
-            app:layout_constraintStart_toEndOf="@id/order_date_label"
-            app:layout_constraintTop_toTopOf="@id/order_date_label" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/total_sum_label"
-            style="@style/AppTheme.TextMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/total_sum"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order_date_label" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/total_sum"
-            style="@style/AppTheme.TextMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fontFamily="@font/roboto"
-            app:layout_constraintStart_toEndOf="@id/total_sum_label"
-            app:layout_constraintTop_toTopOf="@id/total_sum_label" />
+            app:layout_constraintStart_toEndOf="@id/order_address_label"
+            app:layout_constraintTop_toTopOf="@id/order_address_label" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -53,17 +34,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fontFamily="@font/roboto"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/status_label"
+            app:layout_constraintTop_toTopOf="@id/status_label" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/status_label"
             style="@style/AppTheme.TextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/status"
-            app:layout_constraintEnd_toStartOf="@id/status"
-            app:layout_constraintTop_toTopOf="@id/status" />
+            app:layout_constraintStart_toStartOf="@id/order_address_label"
+            app:layout_constraintTop_toBottomOf="@id/order_address_label" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

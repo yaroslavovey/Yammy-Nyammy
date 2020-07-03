@@ -11,7 +11,6 @@ import com.phooper.yammynyammy.ui.adapters.OrderPreviewAdapter
 import com.phooper.yammynyammy.viewmodels.OrdersViewModel
 import kotlinx.android.synthetic.main.fragment_orders.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class OrdersFragment : BaseFragment() {
 
@@ -22,7 +21,8 @@ class OrdersFragment : BaseFragment() {
     private val viewModel by viewModel<OrdersViewModel>()
 
     private val orderAdapter = OrderPreviewAdapter().apply {
-        onItemClick = { Timber.d(it) }
+        onItemClick =
+            { navController.navigate(OrdersFragmentDirections.actionOrdersFragmentToOrderFragment(it)) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
