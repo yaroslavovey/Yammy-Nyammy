@@ -57,7 +57,8 @@
     </style>
 
     <style name="AppCard" parent="Widget.MaterialComponents.CardView">
-        <item name="cornerRadius">0dp</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="backgroundTint">@color/color_surface</item>
     </style>
 
     <style name="AppTheme.LoginTheme.Splash">
@@ -118,7 +119,7 @@
     </style>
 
     <style name="LongButton" parent="RoundButton">
-        <item name="android:layout_height">@dimen/bottom_navigation_view_height</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:backgroundTint">@color/color_primary_variant</item>
         <item name="cornerRadius">0dp</item>
