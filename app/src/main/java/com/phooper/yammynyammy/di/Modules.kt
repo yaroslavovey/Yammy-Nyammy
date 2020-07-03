@@ -81,30 +81,46 @@ val repositoryModule = module {
 }
 
 val useCaseModule = module {
+    //Addresses
     single { AddAddressUseCase(get(), get()) }
-    single { AddOrderUseCase(get(), get()) }
-    single { AddProductsToCartUseCase(get()) }
     single { DeleteAddressByUidUseCase(get(), get()) }
-    single { DropCartUseCase(get()) }
     single { GetAddressByUidUseCase(get(), get()) }
-    single { GetAddressesLiveData(get(), get()) }
-    single { GetAllCartProductsUseCase(get(), get()) }
-    single { GetCurrentUserUseCase(get()) }
+    single { GetAddressesAsCollectionUseCase(get(), get()) }
+    single { UpdateAddressByUidUseCase(get(), get()) }
+
+    //Orders
+    single { AddOrderUseCase(get(), get()) }
     single { GetOrderListUseCase(get(), get()) }
     single { GetOrderByUidUseCase(get(), get()) }
+
+    //Cart
+    single { AddProductsToCartUseCase(get()) }
+    single { RemoveProductsFromCartUseCase(get()) }
+    single { GetAllCartProductsCountLiveDataUseCase(get()) }
+    single { DropCartUseCase(get()) }
+
+    single { GetAllProductInCartUseCase(get(), get()) }
+    single { GetAllProductInCartLiveDataUseCase(get(), get()) }
+
+    single { GetAllCartProductIdAndCountUseCase(get()) }
+    single { GetAllCartProductIdAndCountLiveDataUseCase(get()) }
+
+
+    //Products
     single { GetProductByIdUseCase(get()) }
     single { GetProductListByCategoryUseCase(get()) }
     single { GetProductListByIdsUseCase(get()) }
-    single { GetAllCartProductsLiveDataUseCase(get()) }
-    single { GetAllCartProductsCountLiveDataUseCase(get()) }
+
+    //User's phone & name
     single { GetUserDataUseCase(get(), get()) }
-    single { RemoveProductsFromCartUseCase(get()) }
     single { SetUserDataUseCase(get(), get()) }
+
+    //Auth
+    single { GetCurrentUserUseCase(get()) }
     single { SignInViaEmailAndPasswordUseCase(get()) }
     single { SignInViaGoogleUseCase(get()) }
     single { SignOutUseCase(get()) }
     single { SignUpViaEmailAndPasswordUseCase(get()) }
-    single { UpdateAddressByUidUseCase(get(), get()) }
 }
 
 val viewModelModule = module {
@@ -112,7 +128,7 @@ val viewModelModule = module {
     viewModel { (category: Int?) -> ProductListViewModel(category, get()) }
     viewModel { (productId: Int) -> AddToCartDialogViewModel(productId, get()) }
     viewModel { (productId: Int) -> ProductViewModel(productId, get(), get()) }
-    viewModel { CartViewModel(get(), get(), get()) }
+    viewModel { CartViewModel(get(), get(), get(), get()) }
     viewModel { MakeOrderViewModel(get(), get(), get(), get(), get()) }
     viewModel { MyAddressesViewModel(get()) }
     viewModel { OrdersViewModel(get()) }

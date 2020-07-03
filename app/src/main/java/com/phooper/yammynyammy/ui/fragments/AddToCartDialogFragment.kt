@@ -5,17 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.phooper.yammynyammy.R
+import com.phooper.yammynyammy.ui.activities.MainContainerActivity
 import com.phooper.yammynyammy.utils.Constants.Companion.PRODUCT_ID
-import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.viewmodels.AddToCartDialogViewModel
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class AddToCartDialogFragment : BottomSheetDialogFragment() {
+
+    private lateinit var navController: NavController
 
     private val viewModel by viewModel<AddToCartDialogViewModel> {
         parametersOf(
@@ -45,6 +49,7 @@ class AddToCartDialogFragment : BottomSheetDialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        navController = findNavController()
         initViews()
     }
 
@@ -59,7 +64,8 @@ class AddToCartDialogFragment : BottomSheetDialogFragment() {
 
         add_to_cart_btn.setOnClickListener {
             viewModel.addProductsToCart()
-            requireActivity().showMessage(R.string.added_to_cart)
+            //TODO Come up with something better
+            (requireActivity() as MainContainerActivity).showAddedToCartSnackBar()
             dismiss()
         }
 

@@ -1,7 +1,6 @@
 package com.phooper.yammynyammy.ui.activities
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -10,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import kotlinx.android.synthetic.main.activity_main_container.*
@@ -43,8 +43,7 @@ class MainContainerActivity : AppCompatActivity(),
     private fun setupNavigation() {
         navController = findNavController(R.id.main_nav_host_fragment)
 
-        appBarConfiguration =
-            AppBarConfiguration(topLevelDestinations)
+        appBarConfiguration = AppBarConfiguration(topLevelDestinations)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
@@ -57,19 +56,18 @@ class MainContainerActivity : AppCompatActivity(),
 
     private fun initViews() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            toggleCartIconVisibility(destination.id)
             toggleBottomNavVisibility(destination.id)
             toolbar_layout?.elevation =
                 if (destination.id == R.id.menu_fragment) 0f else resources.getDimension(R.dimen.app_bar_elevation)
         }
+
+        bottom_nav_view.getOrCreateBadge(R.id.cart_fragment).maxCharacterCount = 3
+
         viewModel.cartItemCount.observe(this, Observer {
             if (it == 0) {
                 bottom_nav_view.removeBadge(R.id.cart_fragment)
             } else {
-                bottom_nav_view.getOrCreateBadge(R.id.cart_fragment).apply {
-                    maxCharacterCount = 3
-                    number = it
-                }
+                bottom_nav_view.getOrCreateBadge(R.id.cart_fragment).number = it
             }
         })
     }
@@ -85,23 +83,20 @@ class MainContainerActivity : AppCompatActivity(),
                 || super.onSupportNavigateUp()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_app_bar_menu, menu)
-        toggleCartIconVisibility(navController.currentDestination?.id)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    private fun toggleCartIconVisibility(destId: Int?) {
-        toolbar.menu.findItem(R.id.cart_fragment)?.isVisible =
-            (!topLevelDestinations.contains(destId))
-    }
-
     private fun toggleBottomNavVisibility(destId: Int?) {
         bottom_nav_view?.isVisible =
             (topLevelDestinations.contains(destId))
+    }
+
+    //TODO Come up with something better
+    fun showAddedToCartSnackBar() {
+        Snackbar.make(
+            findViewById(R.id.coordinator_layout),
+            R.string.added_to_cart,
+            Snackbar.LENGTH_SHORT
+        )
+            .setAction(R.string.go) { navController.navigate(R.id.cart_fragment) }
+            .show()
+
     }
 }

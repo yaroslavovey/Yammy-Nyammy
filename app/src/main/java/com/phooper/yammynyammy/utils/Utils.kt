@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.phooper.yammynyammy.R
 
 fun TextInputEditText.setHideLayoutErrorOnTextChangedListener(textInputLayout: TextInputLayout) {
     addTextChangedListener(object : TextWatcher {
@@ -34,4 +35,4 @@ fun Fragment.hideKeyboard() {
 }
 
 fun Activity.showMessage(msgRes: Int) =
-    Snackbar.make(findViewById(android.R.id.content), msgRes, Snackbar.LENGTH_SHORT).show()
+    Snackbar.make(findViewById(R.id.coordinator_layout), msgRes, Snackbar.LENGTH_SHORT).show()

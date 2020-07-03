@@ -1,19 +1,18 @@
 package com.phooper.yammynyammy.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
 import com.phooper.yammynyammy.data.models.TotalAndDeliveryPrice
 import com.phooper.yammynyammy.domain.usecases.AddProductsToCartUseCase
-import com.phooper.yammynyammy.domain.usecases.GetAllCartProductsUseCase
+import com.phooper.yammynyammy.domain.usecases.GetAllCartProductIdAndCountLiveDataUseCase
+import com.phooper.yammynyammy.domain.usecases.GetAllProductInCartLiveDataUseCase
 import com.phooper.yammynyammy.domain.usecases.RemoveProductsFromCartUseCase
 import com.phooper.yammynyammy.utils.Constants
 import kotlinx.coroutines.launch
 
 class CartViewModel(
-    private val getAllCartProductsUseCase: GetAllCartProductsUseCase,
+    private val getAllProductInCartLiveDataUseCase: GetAllProductInCartLiveDataUseCase,
+    private val getAllCartProductIdAndCountLiveDataUseCase: GetAllCartProductIdAndCountLiveDataUseCase,
     private val addProductsToCartUseCase: AddProductsToCartUseCase,
     private val removeProductsFromCartUseCase: RemoveProductsFromCartUseCase
 ) : ViewModel() {
@@ -21,39 +20,39 @@ class CartViewModel(
     private val _state = MutableLiveData<ViewState>()
     val state: LiveData<ViewState> get() = _state
 
-    val productsInCart: LiveData<List<DiffUtilItem>> get() = _productsInCart
-    private val _productsInCart = MutableLiveData<List<DiffUtilItem>>()
+    val productsInCart = MediatorLiveData<List<DiffUtilItem>>().apply {
+        addSource(getAllProductInCartLiveDataUseCase.execute(viewModelScope)) { productsInCartList ->
+            _state.postValue(
+                if (productsInCartList.isNullOrEmpty()) {
+                    ViewState.NO_PRODUCTS_IN_CART
+                } else {
+                    postValue(
+                        productsInCartList.plus(
+                            TotalAndDeliveryPrice(
+                                Constants.DELIVERY_PRICE,
+                                productsInCartList.sumBy { it.totalPrice } + Constants.DELIVERY_PRICE)
+                        )
+                    )
+                    ViewState.DEFAULT
+                }
+            )
 
-    init {
-        viewModelScope.launch {
-            updateCart()
         }
-    }
-
-    private suspend fun updateCart() {
-        _state.postValue(ViewState.LOADING)
-        getAllCartProductsUseCase.execute()?.let { productsInCartList ->
-            _productsInCart.postValue(productsInCartList.plus(
-                TotalAndDeliveryPrice(
-                    Constants.DELIVERY_PRICE,
-                    productsInCartList.sumBy { it.totalPrice } + Constants.DELIVERY_PRICE)))
-            _state.postValue(ViewState.DEFAULT)
-            return
+        addSource(getAllCartProductIdAndCountLiveDataUseCase.execute())
+        {
+            _state.postValue(ViewState.LOADING)
         }
-        _state.postValue(ViewState.NO_PRODUCTS_IN_CART)
     }
 
     fun addOneProductToCart(productId: Int) {
         viewModelScope.launch {
             addProductsToCartUseCase.execute(productId, 1)
-            updateCart()
         }
     }
 
     fun removeOneProductFromCart(productId: Int) {
         viewModelScope.launch {
             removeProductsFromCartUseCase.execute(productId, 1)
-            updateCart()
         }
     }
 

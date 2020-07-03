@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class MakeOrderViewModel(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val setUserDataUseCase: SetUserDataUseCase,
-    private val getAllCartProductsUseCase: GetAllCartProductsUseCase,
+    private val getAllProductInCartUseCase: GetAllProductInCartUseCase,
     private val dropCartUseCase: DropCartUseCase,
     private val addOrderUseCase: AddOrderUseCase
 ) : ViewModel() {
@@ -52,7 +52,7 @@ class MakeOrderViewModel(
             //Update current user data
             setUserDataUseCase.execute(User(name = name, phoneNum = phone))
             //Make order
-            getAllCartProductsUseCase.execute()?.let { productInCartList ->
+            getAllProductInCartUseCase.execute()?.let { productInCartList ->
                 addOrderUseCase.execute(
                     Order(
                         address = address,
