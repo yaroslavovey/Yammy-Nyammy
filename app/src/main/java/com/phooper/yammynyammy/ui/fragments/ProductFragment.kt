@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.utils.showMessage
+import com.phooper.yammynyammy.ui.activities.MainContainerActivity
 import com.phooper.yammynyammy.viewmodels.ProductViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.add_to_cart_btn
@@ -74,7 +74,8 @@ class ProductFragment : BaseFragment() {
 
         add_to_cart_btn.setOnClickListener {
             viewModel.addProductsToCart()
-            requireActivity().showMessage(R.string.added_to_cart)
+            //TODO Come up with something better
+            (requireActivity() as MainContainerActivity).showAddedToCartSnackBar()
             navController.popBackStack()
         }
 
