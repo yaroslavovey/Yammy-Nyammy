@@ -63,7 +63,10 @@
                     android:layout_height="match_parent"
                     android:clickable="false"
                     android:drawableEnd="@drawable/ic_arrow_forward"
-                    android:focusable="false" />
+                    android:drawableTint="@color/grey_text"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:longClickable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
