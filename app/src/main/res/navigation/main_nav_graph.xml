@@ -31,7 +31,17 @@
     <fragment
         android:id="@+id/profile_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.ProfileFragment"
-        android:label="@string/profile" />
+        android:label="@string/profile" >
+        <action
+            android:id="@+id/action_profile_fragment_to_my_addresses_fragment"
+            app:destination="@id/my_addresses_fragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_editProfileFragment"
+            app:destination="@id/edit_profile_fragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_update_password_fragment"
+            app:destination="@id/update_password_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/product_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.ProductFragment"
@@ -55,10 +65,13 @@
     <fragment
         android:id="@+id/my_addresses_fragment"
         android:name="com.phooper.yammynyammy.ui.fragments.MyAddressesFragment"
-        android:label="@string/my_addresses">
+        android:label=" ">
         <action
             android:id="@+id/action_my_addresses_fragment_to_addUpdateAddress"
             app:destination="@id/add_update_address" />
+        <argument
+            android:name="choosingAddressForDelivery"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/add_update_address"
@@ -78,5 +91,13 @@
             android:name="addressUid"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/edit_profile_fragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.EditProfileFragment"
+        android:label="@string/editing" />
+    <fragment
+        android:id="@+id/update_password_fragment"
+        android:name="com.phooper.yammynyammy.ui.fragments.UpdatePasswordFragment"
+        android:label="@string/update_password" />
 
 </navigation>

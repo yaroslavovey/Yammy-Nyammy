@@ -2,6 +2,7 @@ package com.phooper.yammynyammy.domain.repositories
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.phooper.yammynyammy.domain.models.Address
 import com.phooper.yammynyammy.domain.models.Order
@@ -12,6 +13,7 @@ interface UserRepository {
 
     suspend fun setUserPersonalData(data: User, userUid: String): Boolean?
     suspend fun getUserPersonalData(userUid: String): DocumentSnapshot?
+    suspend fun getUserPersonalDataAsDocument(userUid: String): DocumentReference?
 
     suspend fun getAddressByUid(uid: String, userUid: String): DocumentSnapshot?
     suspend fun updateAddress(

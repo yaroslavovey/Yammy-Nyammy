@@ -2,6 +2,7 @@ package com.phooper.yammynyammy.data.repositories_impl
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.phooper.yammynyammy.data.db.dao.CartProductsDao
@@ -41,6 +42,16 @@ class UserRepositoryImpl(
                 .document(userUid)
                 .get()
                 .await()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    override suspend fun getUserPersonalDataAsDocument(userUid: String): DocumentReference? {
+        return try {
+            firebaseFirestone
+                .collection(USERS_COLLECTION)
+                .document(userUid)
         } catch (e: Exception) {
             null
         }

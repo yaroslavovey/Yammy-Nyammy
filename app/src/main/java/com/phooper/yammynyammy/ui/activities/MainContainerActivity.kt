@@ -1,5 +1,6 @@
 package com.phooper.yammynyammy.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -68,6 +69,18 @@ class MainContainerActivity : AppCompatActivity(),
                 bottom_nav_view.removeBadge(R.id.cart_fragment)
             } else {
                 bottom_nav_view.getOrCreateBadge(R.id.cart_fragment).number = it
+            }
+        })
+
+        viewModel.event.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { event ->
+                when (event) {
+                    MainContainerViewModel.ViewEvent.NAVIGATE_TO_LOGIN_ACTIVITY -> {
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        finish()
+                    }
+                }
             }
         })
     }

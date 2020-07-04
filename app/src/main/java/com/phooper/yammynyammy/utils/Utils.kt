@@ -13,6 +13,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.phooper.yammynyammy.R
 import java.text.DateFormat
 import java.util.*
+import java.util.regex.Pattern
 
 fun TextInputEditText.setHideLayoutErrorOnTextChangedListener(textInputLayout: TextInputLayout) {
     addTextChangedListener(object : TextWatcher {
@@ -37,6 +38,9 @@ fun Fragment.hideKeyboard() {
 }
 
 fun Activity.showMessage(msgRes: Int) =
+    Snackbar.make(findViewById(android.R.id.content), msgRes, Snackbar.LENGTH_SHORT).show()
+
+fun Activity.showMessageAboveBottomNav(msgRes: Int) =
     Snackbar.make(findViewById(R.id.coordinator_layout), msgRes, Snackbar.LENGTH_SHORT).show()
 
 fun Date.formatToRussianString(): String =
@@ -45,3 +49,14 @@ fun Date.formatToRussianString(): String =
         DateFormat.SHORT,
         Locale("ru")
     ).format(this)
+
+fun String.isEmailValid() =
+    Pattern.compile(
+        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                "\\@" +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                "(" +
+                "\\." +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                ")+"
+    ).matcher(this).matches()

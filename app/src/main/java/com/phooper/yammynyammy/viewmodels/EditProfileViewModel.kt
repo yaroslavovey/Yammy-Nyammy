@@ -4,20 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.phooper.yammynyammy.domain.models.Order
-import com.phooper.yammynyammy.domain.models.OrderAddressAndStatus
 import com.phooper.yammynyammy.domain.models.User
-import com.phooper.yammynyammy.domain.usecases.*
+import com.phooper.yammynyammy.domain.usecases.GetUserDataUseCase
+import com.phooper.yammynyammy.domain.usecases.SetUserDataUseCase
 import com.phooper.yammynyammy.utils.Event
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MakeOrderViewModel(
+open class EditProfileViewModel(
     private val getUserDataUseCase: GetUserDataUseCase,
-    private val setUserDataUseCase: SetUserDataUseCase,
-    private val getAllProductInCartUseCase: GetAllProductInCartUseCase,
-    private val dropCartUseCase: DropCartUseCase,
-    private val addOrderUseCase: AddOrderUseCase
+    private val setUserDataUseCase: SetUserDataUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<ViewState>(ViewState.LOADING)
@@ -46,27 +42,15 @@ class MakeOrderViewModel(
         loadUser()
     }
 
-    fun makeOrder(name: String, phone: String, address: String) {
+    fun saveUser(name: String, phone: String) {
         _state.value = ViewState.LOADING
         viewModelScope.launch {
-            //Update current user data
             setUserDataUseCase.execute(User(name = name, phoneNum = phone))?.let {
-                //Make order
-                getAllProductInCartUseCase.execute()?.let { productInCartList ->
-                    addOrderUseCase.execute(
-                        Order(
-                            addressAndStatus = OrderAddressAndStatus(address = address),
-                            products = productInCartList
-                        )
-                    )?.let {
-                        dropCartUseCase.execute()
-                        _event.postValue(Event(ViewEvent.SUCCESS))
-                        return@launch
-                    }
-                }
+                _event.postValue(Event(ViewEvent.SUCCESS))
+                return@launch
             }
-            _state.postValue(ViewState.DEFAULT)
             _event.postValue(Event(ViewEvent.FAILURE))
+            _state.value = ViewState.DEFAULT
         }
     }
 

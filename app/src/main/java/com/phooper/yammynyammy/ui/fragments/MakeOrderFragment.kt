@@ -6,8 +6,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.phooper.yammynyammy.R
+import com.phooper.yammynyammy.utils.hideKeyboard
 import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.utils.showMessage
+import com.phooper.yammynyammy.utils.showMessageAboveBottomNav
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.MakeOrderViewModel
 import kotlinx.android.synthetic.main.fragment_make_order.*
@@ -49,19 +51,21 @@ class MakeOrderFragment : BaseFragment() {
 
         address_input.setOnClickListener {
             sharedViewModel.resetAddress()
-            navController.navigate(R.id.action_make_order_fragment_to_myAddressesFragment)
+
+            navController.navigate(
+                MakeOrderFragmentDirections.actionMakeOrderFragmentToMyAddressesFragment(
+                    choosingAddressForDelivery = true
+                )
+            )
         }
 
         sharedViewModel.selectedAddress.observe(viewLifecycleOwner, Observer {
             address_input.setText(it)
         })
 
-        viewModel.phoneNum.observe(viewLifecycleOwner, Observer {
-            phone_number_input.setText(it)
-        })
-
-        viewModel.username.observe(viewLifecycleOwner, Observer {
-            name_input.setText(it)
+        viewModel.userData.observe(viewLifecycleOwner, Observer {
+            phone_number_input.setText(it.phoneNum)
+            name_input.setText(it.name)
         })
 
         viewModel.state.observe(viewLifecycleOwner, Observer { viewState ->
@@ -81,7 +85,8 @@ class MakeOrderFragment : BaseFragment() {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     MakeOrderViewModel.ViewEvent.SUCCESS -> {
-                        requireActivity().showMessage(R.string.order_were_made_successfully)
+                        requireActivity().showMessageAboveBottomNav(R.string.order_were_made_successfully)
+                        hideKeyboard()
                         navController.navigate(R.id.action_make_order_fragment_to_orders_fragment)
                     }
                     MakeOrderViewModel.ViewEvent.FAILURE -> {

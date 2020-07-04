@@ -114,6 +114,7 @@ val useCaseModule = module {
     //User's phone & name
     single { GetUserDataUseCase(get(), get()) }
     single { SetUserDataUseCase(get(), get()) }
+    single { GetUserDataAsDocumentUseCase(get(), get()) }
 
     //Auth
     single { GetCurrentUserUseCase(get()) }
@@ -121,22 +122,33 @@ val useCaseModule = module {
     single { SignInViaGoogleUseCase(get()) }
     single { SignOutUseCase(get()) }
     single { SignUpViaEmailAndPasswordUseCase(get()) }
+    single { UpdateUserPasswordUseCase(get()) }
+    single { ReauthenticateUseCase(get(), get()) }
+
 }
 
 val viewModelModule = module {
-    viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { (category: Int?) -> ProductListViewModel(category, get()) }
     viewModel { (productId: Int) -> AddToCartDialogViewModel(productId, get()) }
     viewModel { (productId: Int) -> ProductViewModel(productId, get(), get()) }
     viewModel { CartViewModel(get(), get(), get(), get()) }
     viewModel { MakeOrderViewModel(get(), get(), get(), get(), get()) }
-    viewModel { MyAddressesViewModel(get()) }
+    viewModel { (choosingAddressForDelivery: Boolean) ->
+        MyAddressesViewModel(
+            get(),
+            choosingAddressForDelivery
+        )
+    }
     viewModel { OrdersViewModel(get()) }
     viewModel { (addressUid: String?) ->
         AddUpdateAddressViewModel(addressUid, get(), get(), get(), get())
     }
     viewModel { (orderUid: String?) -> OrderViewModel(get(), orderUid) }
-    viewModel { MainContainerViewModel(get()) }
+    viewModel { MainContainerViewModel(get(), get(), get()) }
+    viewModel { ProfileViewModel(get(), get()) }
+    viewModel { EditProfileViewModel(get(), get()) }
+    viewModel { UpdatePasswordViewModel(get(), get()) }
 }
 
 val roomModule = module {

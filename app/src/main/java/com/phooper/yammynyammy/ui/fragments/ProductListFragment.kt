@@ -11,6 +11,7 @@ import com.phooper.yammynyammy.ui.adapters.ProductAdapter
 import com.phooper.yammynyammy.utils.Constants
 import com.phooper.yammynyammy.utils.Constants.Companion.ARG_OBJECT
 import com.phooper.yammynyammy.utils.showMessage
+import com.phooper.yammynyammy.utils.showMessageAboveBottomNav
 import com.phooper.yammynyammy.viewmodels.ProductListViewModel
 import kotlinx.android.synthetic.main.fragment_product_list.*
 import org.koin.android.ext.android.inject
@@ -57,7 +58,7 @@ class ProductListFragment : BaseFragment() {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     ProductListViewModel.ViewEvent.ERROR -> {
-                        requireActivity().showMessage(R.string.net_error)
+                        requireActivity().showMessageAboveBottomNav(R.string.net_error)
                     }
                 }
             }

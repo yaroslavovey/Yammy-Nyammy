@@ -18,6 +18,7 @@ class LoginViewModel(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val setUserDataUseCase: SetUserDataUseCase,
     private val signInViaEmailAndPasswordUseCase: SignInViaEmailAndPasswordUseCase,
+    private val signUpViaEmailAndPasswordUseCase: SignUpViaEmailAndPasswordUseCase,
     private val signInViaGoogleUseCase: SignInViaGoogleUseCase
 ) : ViewModel() {
 
@@ -98,7 +99,7 @@ class LoginViewModel(
     ) {
         _state.value = ViewState.LOADING
         viewModelScope.launch {
-            signInViaEmailAndPasswordUseCase.execute(email, password)?.let {
+            signUpViaEmailAndPasswordUseCase.execute(email, password)?.let {
                 _event.postValue(Event(ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER))
                 _state.postValue(ViewState.DEFAULT)
                 return@launch

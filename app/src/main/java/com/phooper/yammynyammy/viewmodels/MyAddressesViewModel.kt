@@ -13,17 +13,28 @@ import com.phooper.yammynyammy.domain.models.Address
 import com.phooper.yammynyammy.domain.usecases.GetAddressesAsCollectionUseCase
 import kotlinx.coroutines.launch
 
-class MyAddressesViewModel(getAddressesAsCollectionUseCase: GetAddressesAsCollectionUseCase) :
+class MyAddressesViewModel(
+    private val getAddressesAsCollectionUseCase: GetAddressesAsCollectionUseCase,
+    private val choosingAddressForDelivery: Boolean
+) :
     ViewModel() {
 
     private val _state = MutableLiveData<ViewState>(ViewState.LOADING)
     val state: LiveData<ViewState> get() = _state
+
+    private val _mode = MutableLiveData<ViewMode>()
+    val mode: LiveData<ViewMode> get() = _mode
 
     val addressesList: LiveData<List<DiffUtilItem>> get() = _addressesList
     private val _addressesList = MutableLiveData<List<DiffUtilItem>>()
 
     init {
         viewModelScope.launch {
+            if (choosingAddressForDelivery) {
+                _mode.postValue(ViewMode.CHOOSING_DELIVERY_ADDRESS)
+            } else {
+                _mode.postValue(ViewMode.CHECKING_OUT_ADDRESSES)
+            }
             getAddressesAsCollectionUseCase
                 .execute()
                 ?.addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
@@ -41,6 +52,11 @@ class MyAddressesViewModel(getAddressesAsCollectionUseCase: GetAddressesAsCollec
                     }
                 })
         }
+    }
+
+    enum class ViewMode {
+        CHOOSING_DELIVERY_ADDRESS,
+        CHECKING_OUT_ADDRESSES
     }
 
     enum class ViewState {

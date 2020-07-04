@@ -12,8 +12,16 @@ class SetUserDataUseCase(
 
     suspend fun execute(data: User): Boolean? =
         withContext(IO) {
-            getCurrentUserUseCase.execute()?.uid?.let { userUid ->
-                userRepository.setUserPersonalData(data, userUid)
+            getCurrentUserUseCase.execute()?.let { user ->
+                user.email?.let { userEmail ->
+                    userRepository.setUserPersonalData(
+                        User(
+                            name = data.name,
+                            phoneNum = data.phoneNum,
+                            email = userEmail
+                        ), user.uid
+                    )
+                }
             }
         }
 

@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.utils.hideKeyboard
+import com.phooper.yammynyammy.utils.isEmailValid
 import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_register.*
@@ -46,11 +47,28 @@ class RegisterFragment : BaseFragment() {
     }
 
     private fun signUp() {
+        if(!email_input.text.toString().isEmailValid()){
+            email_input_layout.error = getString(R.string.invalid_email)
+            return
+        }
+
         if (areSomeInputsEmpty()) {
             showFillFieldsError()
             return
         }
+
+        if (!doesPasswordsMatch()) {
+            showPasswordsDoesNotMatchError()
+            return
+        }
+
+        if (arePasswordsTooShort()) {
+            showPasswordsTooShortError()
+            return
+        }
+
         hideKeyboard()
+
         viewModel.handleSignUpViaEmail(
             email = email_input.text.toString(),
             password = password_input.text.toString()
@@ -73,5 +91,22 @@ class RegisterFragment : BaseFragment() {
         if (password_repeat_input.text.toString().isEmpty())
             password_repeat_input_layout.error = getString(R.string.fill_password)
 
+    }
+
+    private fun doesPasswordsMatch() =
+        password_input.text.toString() ==
+                password_repeat_input.text.toString()
+
+    private fun showPasswordsDoesNotMatchError() {
+        password_input_layout.error = getString(R.string.passwords_does_not_match)
+        password_repeat_input_layout.error = getString(R.string.passwords_does_not_match)
+    }
+
+    private fun arePasswordsTooShort() =
+        password_input.text.toString().length < 7
+
+    private fun showPasswordsTooShortError() {
+        password_input_layout.error = getString(R.string.passwords_are_to_short)
+        password_repeat_input_layout.error = getString(R.string.passwords_are_to_short)
     }
 }

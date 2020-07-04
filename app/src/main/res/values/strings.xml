@@ -73,5 +73,18 @@
     <string name="go">Перейти</string>
     <string name="address">"Адрес: "</string>
     <string name="order_from">"Заказ от "</string>
+    <string name="change_password">Изменить пароль</string>
+    <string name="sign_out">Выйти</string>
+    <string name="save">Сохранить</string>
+    <string name="data_updated">Данные обновлены</string>
+    <string name="editing">Редактирование</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="new_password_repeat">Новый пароль (повторить)</string>
+    <string name="password_updated">Пароль успешно обновлен</string>
+    <string name="passwords_does_not_match">Пароли не совпадают</string>
+    <string name="passwords_are_to_short">Пароли слишком короткие</string>
+    <string name="update_password">Изменить пароль</string>
+    <string name="current_password">Текущий пароль</string>
+    <string name="invalid_email">Некорректный email</string>
 
 </resources>

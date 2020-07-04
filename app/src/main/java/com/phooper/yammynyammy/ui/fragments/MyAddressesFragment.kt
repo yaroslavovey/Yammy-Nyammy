@@ -2,6 +2,7 @@ package com.phooper.yammynyammy.ui.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_my_addresses.*
 import kotlinx.android.synthetic.main.item_add_new_address_btn.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class MyAddressesFragment : BaseFragment() {
 
@@ -23,20 +25,30 @@ class MyAddressesFragment : BaseFragment() {
         .add(AddAddressButtonDelegateAdapter {
             navController.navigate(MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress())
         })
-        .add(AddressDelegateAdapter({
-            sharedViewModel.selectAddress(it).also { navController.popBackStack() }
-        }, { address_uid ->
-            navController.navigate(
-                MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress(
-                    address_uid
-                )
-            )
-        }))
+        .add(
+            AddressDelegateAdapter(
+                onItemClickListener =
+                { addressUid ->
+                    onItemClicked(addressUid)
+                },
+                onEditBtnClickListener = { addressUid ->
+                    navController.navigate(
+                        MyAddressesFragmentDirections
+                            .actionMyAddressesFragmentToAddUpdateAddress(addressUid)
+                    )
+                })
+        )
         .build()
 
     private lateinit var navController: NavController
 
-    private val viewModel by viewModel<MyAddressesViewModel>()
+    private val viewModel by viewModel<MyAddressesViewModel> {
+        parametersOf(
+            MyAddressesFragmentArgs.fromBundle(
+                requireArguments()
+            ).choosingAddressForDelivery
+        )
+    }
 
     private val sharedViewModel by sharedViewModel<MainContainerViewModel>()
 
@@ -50,13 +62,28 @@ class MyAddressesFragment : BaseFragment() {
 
     private fun initViews() {
 
-        add_new_address_btn.setOnClickListener {
-            navController.navigate(MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress())
-        }
+        viewModel.mode.observe(viewLifecycleOwner, Observer {
+            it?.let { viewMode ->
+                when (viewMode) {
+                    MyAddressesViewModel.ViewMode.CHECKING_OUT_ADDRESSES -> {
+                        (requireActivity() as AppCompatActivity).supportActionBar?.title =
+                            getString(R.string.my_addresses)
+                    }
+                    MyAddressesViewModel.ViewMode.CHOOSING_DELIVERY_ADDRESS -> {
+                        (requireActivity() as AppCompatActivity).supportActionBar?.title =
+                            getString(R.string.delivery_address)
+                    }
+                }
+            }
+        })
 
         recycler_view.apply {
             adapter = delegateAdapter
             layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        add_new_address_btn.setOnClickListener {
+            navController.navigate(MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress())
         }
 
         viewModel.addressesList.observe(viewLifecycleOwner, Observer {
@@ -84,5 +111,20 @@ class MyAddressesFragment : BaseFragment() {
                 }
             }
         })
+    }
+
+    //TODO Come up with something better
+    private fun onItemClicked(addressUid: String) {
+        viewModel.mode.value?.let {
+            if (it == MyAddressesViewModel.ViewMode.CHOOSING_DELIVERY_ADDRESS) {
+                sharedViewModel.selectAddress(addressUid).also { navController.popBackStack() }
+            } else {
+                navController.navigate(
+                    MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress(
+                        addressUid
+                    )
+                )
+            }
+        }
     }
 }

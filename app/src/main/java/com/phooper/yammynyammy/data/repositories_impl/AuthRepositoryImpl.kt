@@ -1,10 +1,7 @@
 package com.phooper.yammynyammy.data.repositories_impl
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.*
 import com.phooper.yammynyammy.domain.repositories.AuthRepository
 import kotlinx.coroutines.tasks.await
 
@@ -43,6 +40,32 @@ class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepositor
                 .await()
         } catch (e: Exception) {
             return null
+        }
+    }
+
+    override suspend fun getFirebaseAuth(): FirebaseAuth = firebaseAuth
+
+    override suspend fun updatePassword(newPassword: String): Boolean? {
+        return try {
+            firebaseAuth
+                .currentUser
+                ?.updatePassword(newPassword)
+                ?.await()
+            true
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    override suspend fun reauthenticate(
+        user: FirebaseUser,
+        authCredential: AuthCredential
+    ): Boolean? {
+        return try {
+            user.reauthenticate(authCredential).await()
+            true
+        } catch (e: Exception) {
+            null
         }
     }
 }
