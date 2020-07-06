@@ -7,43 +7,42 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="@dimen/padding_margin_xlarge">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/order_address_label"
-            style="@style/AppTheme.TextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/address"
+            android:textSize="@dimen/text_medium"
+            app:fontFamily="@font/roboto_medium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/order_address"
-            style="@style/AppTheme.TextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fontFamily="@font/roboto"
+            android:textSize="@dimen/text_medium"
             app:layout_constraintStart_toEndOf="@id/order_address_label"
             app:layout_constraintTop_toTopOf="@id/order_address_label" />
 
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/status"
-            style="@style/AppTheme.TextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fontFamily="@font/roboto"
+            android:textSize="@dimen/text_medium"
             app:layout_constraintStart_toEndOf="@id/status_label"
             app:layout_constraintTop_toTopOf="@id/status_label" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/status_label"
-            style="@style/AppTheme.TextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/padding_margin_xlarge"
             android:text="@string/status"
+            android:textSize="@dimen/text_medium"
+            app:fontFamily="@font/roboto_medium"
             app:layout_constraintStart_toStartOf="@id/order_address_label"
             app:layout_constraintTop_toBottomOf="@id/order_address_label" />
 
@@ -52,8 +51,9 @@
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/divider_height"
         android:layout_gravity="bottom"
-        android:layout_marginHorizontal="16dp"
-        android:background="#34000000" />
+        android:layout_marginHorizontal="@dimen/padding_margin_xlarge"
+        android:background="@color/divider" />
+
 </com.google.android.material.card.MaterialCardView>

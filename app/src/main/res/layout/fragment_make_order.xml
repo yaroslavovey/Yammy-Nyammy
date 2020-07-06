@@ -16,7 +16,7 @@
             android:layout_gravity="top"
             android:clipToPadding="false"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="@dimen/padding_margin_xlarge"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +25,7 @@
                 android:id="@+id/name_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/name">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -39,7 +39,7 @@
                 android:id="@+id/phone_number_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/phone_number">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -54,7 +54,7 @@
                 android:id="@+id/address_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/delivery_address">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -94,6 +94,7 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

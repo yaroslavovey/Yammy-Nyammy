@@ -7,19 +7,18 @@
 
     <ImageView
         android:id="@+id/product_image"
-        android:contentDescription="@string/product_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/product_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/product_description"
-        style="@style/AppTheme.TextLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:fontFamily="@font/roboto"
+        android:layout_margin="@dimen/padding_margin_xlarge"
+        android:textSize="@dimen/text_xlarge"
         app:layout_constraintTop_toBottomOf="@+id/product_image" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,11 +29,12 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/product_price"
-            style="@style/AppTheme.TextXLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/padding_margin_xlarge"
             android:textColor="@color/color_surface"
+            android:textSize="@dimen/text_xlarge"
+            app:fontFamily="@font/roboto_medium"
             app:layout_constraintBottom_toTopOf="@id/choose_count_layout"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,21 +69,23 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/count_text"
-                style="@style/AppTheme.TextXLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/color_surface" />
+                android:layout_marginStart="@dimen/padding_margin_medium"
+                android:textColor="@color/color_surface"
+                android:textSize="@dimen/text_xlarge"
+                app:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/plus_btn"
                 style="@style/RoundButton"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/padding_margin_medium"
                 app:icon="@drawable/ic_plus"
                 app:iconGravity="end"
                 app:iconSize="32dp" />
+
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -113,6 +115,7 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

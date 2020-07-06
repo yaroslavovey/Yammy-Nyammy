@@ -24,7 +24,8 @@
         app:layout_constraintTop_toTopOf="@id/recycler_view">
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/AppTheme.TextXLarge"
+            app:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/text_xlarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_addresses"
@@ -33,7 +34,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/padding_margin_medium"
             android:text="@string/no_added_addresses"
             android:textColor="@color/grey_text" />
 

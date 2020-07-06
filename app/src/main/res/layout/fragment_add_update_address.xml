@@ -16,7 +16,7 @@
             android:layout_gravity="top"
             android:clipToPadding="false"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="@dimen/padding_margin_xlarge"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +25,7 @@
                 android:id="@+id/street_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/street">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -39,7 +39,7 @@
                 android:id="@+id/house_num_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/house_num">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -53,7 +53,7 @@
                 android:id="@+id/apartment_num_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/apartment">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -65,15 +65,14 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/delete_address_btn"
-                style="@style/AppTheme.TextMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/delete_address"
                 android:textAllCaps="true"
                 android:textColor="@color/color_error"
-                android:visibility="gone"
-                app:fontFamily="@font/roboto" />
+                android:textSize="@dimen/text_medium"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -99,5 +98,7 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

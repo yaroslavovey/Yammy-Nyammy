@@ -14,10 +14,10 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/make_order_btn"
         style="@style/LongButton"
-        app:layout_constraintStart_toStartOf="parent"
         android:text="@string/make_order"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/no_products_in_cart_layout"
@@ -32,16 +32,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/AppTheme.TextXLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_products"
-            android:textColor="@color/grey_text" />
+            android:textColor="@color/grey_text"
+            android:textSize="@dimen/text_xlarge"
+            app:fontFamily="@font/roboto_medium" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/padding_margin_medium"
             android:text="@string/no_products_in_cart"
             android:textColor="@color/grey_text" />
 
@@ -49,7 +50,7 @@
             android:id="@+id/go_back_to_menu_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/padding_margin_medium"
             android:text="@string/go_back_to_menu"
             android:textAllCaps="true" />
     </LinearLayout>
@@ -68,6 +69,7 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

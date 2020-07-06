@@ -24,16 +24,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textview.MaterialTextView
-            style="@style/AppTheme.TextXLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_orders"
-            android:textColor="@color/grey_text" />
+            android:textColor="@color/grey_text"
+            android:textSize="@dimen/text_xlarge"
+            app:fontFamily="@font/roboto_medium" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/padding_margin_medium"
             android:text="@string/you_did_no_orders"
             android:textColor="@color/grey_text" />
 
@@ -41,7 +42,7 @@
             android:id="@+id/go_back_to_menu_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/padding_margin_medium"
             android:text="@string/go_back_to_menu"
             android:textAllCaps="true" />
     </LinearLayout>
@@ -60,6 +61,7 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

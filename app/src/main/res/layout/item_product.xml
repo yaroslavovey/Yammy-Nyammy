@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="141dp">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:padding="16dp">
+        android:padding="@dimen/padding_margin_xlarge">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/product_image_card"
@@ -26,14 +25,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:srcCompat="@drawable/test_product_image" />
+
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/product_title"
-            style="@style/AppTheme.TextLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/padding_margin_medium"
+            android:textSize="@dimen/text_large"
+            app:fontFamily="@font/roboto_medium"
             app:layout_constraintEnd_toStartOf="@id/add_to_cart_btn"
             app:layout_constraintStart_toEndOf="@id/product_image_card"
             app:layout_constraintTop_toTopOf="@id/product_image_card" />
@@ -42,7 +43,7 @@
             android:id="@+id/product_description"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/padding_margin_xlarge"
             android:ellipsize="end"
             android:maxLines="4"
             android:textColor="@color/grey_text"
@@ -65,16 +66,16 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="@id/add_to_cart_btn"
             app:layout_constraintStart_toStartOf="@id/add_to_cart_btn"
-            app:layout_constraintTop_toTopOf="@id/product_title"
-            />
+            app:layout_constraintTop_toTopOf="@id/product_title" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/divider_height"
         android:layout_gravity="bottom"
-        android:layout_marginHorizontal="16dp"
-        android:background="#34000000" />
+        android:layout_marginHorizontal="@dimen/padding_margin_xlarge"
+        android:background="@color/divider" />
 
 </com.google.android.material.card.MaterialCardView>
 

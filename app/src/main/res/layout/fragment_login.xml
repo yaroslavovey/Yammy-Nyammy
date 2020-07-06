@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:clipToPadding="false"
-            android:padding="32dp">
+            android:paddingHorizontal="@dimen/padding_margin_xxxlarge">
 
             <ImageView
                 android:id="@+id/logo_text"
@@ -33,7 +33,7 @@
                 android:id="@+id/email_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/padding_margin_xlarge"
                 android:hint="@string/email"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/logo_text">
@@ -50,7 +50,7 @@
                 android:id="@+id/password_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/padding_margin_xlarge"
                 android:hint="@string/password"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/email_input_layout"
@@ -64,56 +64,67 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_btn"
-                android:layout_width="158dp"
-                android:layout_height="64dp"
-                android:layout_marginTop="24dp"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/auth_button_height"
+                android:layout_marginTop="@dimen/padding_margin_xlarge"
                 android:backgroundTint="@color/color_surface"
                 android:text="@string/login"
                 android:textColor="@color/color_on_surface"
+                app:layout_constraintEnd_toStartOf="@+id/register_btn"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/password_input_layout" />
 
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/register_btn"
-                android:layout_width="158dp"
-                android:layout_height="64dp"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/auth_button_height"
+                android:layout_marginStart="@dimen/padding_margin_xlarge"
                 android:text="@string/register"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/login_btn"
                 app:layout_constraintTop_toTopOf="@id/login_btn" />
 
-            <View
-                android:id="@+id/dotted_background_view"
-                android:layout_width="268dp"
-                android:layout_height="64dp"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/dotted_white_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/login_btn"
-
-                />
-
-            <com.google.android.material.button.MaterialButton
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/login_via_google"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginHorizontal="1dp"
-                android:layout_marginVertical="0dp"
-                android:backgroundTint="@color/color_primary"
-                android:drawableLeft="@drawable/ic_google"
-                android:outlineProvider="none"
-                android:text="@string/login_via_google"
-                app:cornerRadius="0dp"
-                app:layout_constraintBottom_toBottomOf="@id/dotted_background_view"
-                app:layout_constraintEnd_toEndOf="@id/dotted_background_view"
-                app:layout_constraintStart_toStartOf="@id/dotted_background_view"
-                app:layout_constraintTop_toTopOf="@id/dotted_background_view" />
+                android:layout_height="@dimen/auth_button_height"
+                android:layout_marginHorizontal="@dimen/padding_margin_xxlarge"
+                android:layout_marginTop="@dimen/padding_margin_xxlarge"
+                app:layout_constraintEnd_toEndOf="@id/register_btn"
+                app:layout_constraintStart_toStartOf="@id/login_btn"
+                app:layout_constraintTop_toBottomOf="@id/login_btn">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/dotted_background"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_google" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_via_google"
+                        android:layout_marginStart="@dimen/padding_margin_large"
+                        android:textSize="@dimen/text_medium"
+                        app:fontFamily="@font/roboto_medium" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

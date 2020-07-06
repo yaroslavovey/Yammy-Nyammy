@@ -1,7 +1,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="104dp">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -10,11 +10,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/product_image_card"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
+            style="@style/CartProductImageCardView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -24,16 +20,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:srcCompat="@drawable/test_product_image" />
+
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/product_title"
-            style="@style/AppTheme.TextMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="56dp"
+            android:layout_marginStart="@dimen/padding_margin_medium"
+            android:layout_marginEnd="@dimen/padding_margin_xxlarge"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="Мороженное Лакшери"
+            android:textSize="@dimen/text_medium"
+            app:fontFamily="@font/roboto_medium"
             app:layout_constraintEnd_toStartOf="@id/product_price"
             app:layout_constraintStart_toEndOf="@id/product_image_card"
             app:layout_constraintTop_toTopOf="@id/product_image_card" />
@@ -42,7 +42,7 @@
             android:id="@+id/product_description"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/padding_margin_xlarge"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="Эти печеньки хранятся у нас уже с 1841г.. Предлагаем вам попробовать вкус новой старости!"
@@ -54,34 +54,34 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/product_count"
-            style="@style/AppTheme.TextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/padding_margin_xlarge"
             android:text="x2"
+            android:textSize="@dimen/text_medium"
+            app:fontFamily="@font/roboto_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/product_title" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/product_price"
-            style="@style/AppTheme.TextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/padding_margin_xlarge"
             android:text="1223 ₽"
+            android:textSize="@dimen/text_medium"
+            app:fontFamily="@font/roboto_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/divider_height"
         android:layout_gravity="bottom"
-        android:layout_marginHorizontal="16dp"
-        android:background="#34000000" />
+        android:layout_marginHorizontal="@dimen/padding_margin_xlarge"
+        android:background="@color/divider" />
 
 </com.google.android.material.card.MaterialCardView>
 

@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/close_btn"
         style="@style/RoundButton"
         app:icon="@drawable/ic_cross"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -26,7 +24,7 @@
             android:layout_gravity="top"
             android:clipToPadding="false"
             android:orientation="vertical"
-            android:padding="32dp"
+            android:paddingHorizontal="@dimen/padding_margin_xxxlarge"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,7 +32,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:text="@string/we_need_your_phone_number_and_name_for_register"
                 android:textAlignment="center" />
 
@@ -42,7 +40,7 @@
                 android:id="@+id/name_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/name">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -57,7 +55,7 @@
                 android:id="@+id/phone_number_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/phone_number">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -72,7 +70,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/sign_in_btn"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="@dimen/auth_button_height"
                 android:text="@string/login" />
 
         </LinearLayout>

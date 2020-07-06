@@ -1,9 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/frame_layout"
     tools:context=".ui.activities.LoginActivity">
 
     <fragment
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/login_nav_graph"/>
+        app:navGraph="@navigation/login_nav_graph" />
 
     <LinearLayout
         android:id="@+id/progress_bar"
@@ -20,14 +20,15 @@
         android:layout_height="match_parent"
         android:background="@color/color_progress_bar_cover"
         android:clickable="true"
-        android:translationZ="90dp"
-        android:gravity="center"
         android:focusable="true"
-        android:visibility="visible"
-        >
+        android:gravity="center"
+        android:translationZ="90dp"
+        android:visibility="visible">
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
+
 </FrameLayout>

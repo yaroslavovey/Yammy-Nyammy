@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/close_btn"
         style="@style/RoundButton"
@@ -25,7 +24,7 @@
             android:layout_gravity="top"
             android:clipToPadding="false"
             android:orientation="vertical"
-            android:padding="32dp"
+            android:paddingHorizontal="@dimen/padding_margin_xxxlarge"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,8 +33,7 @@
                 android:id="@+id/email_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/email">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -43,13 +41,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textEmailAddress" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/password_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/password"
                 app:passwordToggleEnabled="true">
 
@@ -58,13 +57,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textPassword" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/password_repeat_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/padding_margin_xlarge"
                 android:hint="@string/repeat_password"
                 app:passwordToggleEnabled="true">
 
@@ -74,12 +74,13 @@
                     android:layout_height="match_parent"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/register_btn"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="@dimen/auth_button_height"
                 android:text="@string/register_verb" />
 
         </LinearLayout>
