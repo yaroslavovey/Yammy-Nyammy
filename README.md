@@ -11,9 +11,9 @@
     <td align="middle">Корзина</td>
   </tr>
   <tr>
-    <td><img src="https://sun1-94.userapi.com/xZyRnAxlRCl4eQQ9BE3iVBCobF-Q2KLEr0X9og/xbilWZBdsCU.jpg"></td>
-    <td><img src="https://sun1-98.userapi.com/q9Kqx-T4VCWnj2QHplkBDTapkiZRwwZLPbFpHg/AcpaO_O4jLI.jpg"></td>
-    <td><img src="https://sun1-94.userapi.com/X4_c4TM3yJ3j4bIBWBo0S_wkzoGnsDE1ZNG6rQ/YKf4EJkpeAc.jpg"></td>
+    <td><img src="https://sun1-14.userapi.com/wRDrBPpejpftoKwpRZszdp1BPl3STNh--VaN6A/482u_iVoToU.jpg"></td>
+    <td><img src="https://sun1-47.userapi.com/rIdxONmacK2sAVIviq4MrMcu5UcsNr7_OMmI_Q/zD8XuiY0BmQ.jpg"></td>
+    <td><img src="https://sun1-30.userapi.com/LBhpdMyx5JFrW-62ryXvwwyAZF3hH3u-5F3J0A/QgD1CjSgxMo.jpg"></td>
   </tr>
 </table>
 
@@ -21,12 +21,12 @@
   <tr>
     <td align="middle">Оформление заказа</td>
     <td align="middle">Адреса</td>
-    <td align="middle">Заказ</td>
+    <td align="middle">Детали заказа</td>
   </tr>
   <tr>
     <td><img src="https://sun1-21.userapi.com/vTj3nlWzU5oVA6tLXX1pmB__rVyrfC4LmTymQQ/zCSaRvMilOM.jpg"></td>
     <td><img src="https://sun1-30.userapi.com/yMR4d7HGm8PnDRrl80uN0B3aBgATvVxnmXGJKA/Zq7NnhGWpb8.jpg"></td>
-    <td><img src="https://sun1-26.userapi.com/4xmhyU4bhRm18BLTQ2q1h8Gho5IGde2WC3g0Ug/vbT1yarq8oo.jpg"></td>
+    <td><img src="https://sun1-20.userapi.com/N_vmFYc9qA-QD0pbXGVSrAFtMpRHViNJ92leCw/r8eTjd1DZDY.jpg"></td>
   </tr>
 </table>
 
@@ -39,7 +39,7 @@
   <tr>
     <td><img src="https://sun1-92.userapi.com/WGqgUC3UmvGLpvekrrHJg4zBuzYnTq4nw73W2Q/RYoqRuRt1U4.jpg"></td>
     <td><img src="https://sun1-20.userapi.com/Jruttke-d5_LlGitZz6t964_2FMdEmmTDurqYg/mtUM81LU4mA.jpg"></td>
-    <td><img src="https://sun1-96.userapi.com/8JDvS7DXFW-6s1OZGt1AEGJ82AGIg2rjaYhSEw/8xiwMcvB2sw.jpg"></td>
+    <td><img src="https://sun1-89.userapi.com/DTgLlXYkqcFbSeoT_PPAbKIC7098_RuxoRkvGQ/IcV0SFXeQFY.jpg"></td>
   </tr>
 </table>
 
