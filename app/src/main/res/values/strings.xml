@@ -54,7 +54,6 @@
     <string name="fill_house_num">Введите номер дома</string>
     <string name="fill_apart_num">Введите номер квартиры</string>
     <string name="delete_address">Удалить адрес</string>
-    <string name="are_you_sure_want_to_delete_address">Вы действительно хотите удалить этот адрес?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="address_deleted">Адрес удален</string>
@@ -86,5 +85,7 @@
     <string name="update_password">Изменить пароль</string>
     <string name="current_password">Текущий пароль</string>
     <string name="invalid_email">Некорректный email</string>
+    <string name="are_you_sure">Вы уверены?</string>
+    <string name="address_will_be_deleted">Адрес будет удален.</string>
 
 </resources>

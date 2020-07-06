@@ -124,7 +124,8 @@ class AddUpdateAddressFragment : BaseFragment() {
 
     private fun showDeleteDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.are_you_sure_want_to_delete_address)
+            .setTitle(R.string.are_you_sure)
+            .setMessage(R.string.address_will_be_deleted)
             .setNegativeButton(R.string.no) { _, _ -> }
             .setPositiveButton(R.string.yes) { _, _ ->
                 hideKeyboard()
