@@ -9,30 +9,30 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/close_btn"
         style="@style/RoundButton"
-        android:layout_marginEnd="@dimen/padding_margin_xlarge"
+        android:layout_marginEnd="@dimen/padding_margin_small"
         app:icon="@drawable/ic_cross"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/choose_count_layout"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/choose_count_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_xlarge"
+        android:layout_marginStart="@dimen/padding_margin_xlarge"
         android:text="@string/select_count"
         android:textColor="@color/color_surface"
         android:textSize="@dimen/text_xlarge"
         app:fontFamily="@font/roboto_medium"
         app:layout_constraintBottom_toBottomOf="@id/close_btn"
         app:layout_constraintEnd_toStartOf="@id/close_btn"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/choose_count_layout"
         app:layout_constraintTop_toTopOf="@id/close_btn" />
 
     <LinearLayout
         android:id="@+id/choose_count_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_margin_xlarge"
+        android:layout_margin="@dimen/padding_margin_xlarge"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/choose_count_text">
@@ -50,7 +50,7 @@
             android:id="@+id/count_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_medium"
+            android:layout_marginStart="@dimen/padding_margin_medium"
             android:textColor="@color/color_surface"
             android:textSize="@dimen/text_xlarge"
             app:fontFamily="@font/roboto_medium" />
