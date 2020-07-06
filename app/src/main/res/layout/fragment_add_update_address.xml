@@ -66,6 +66,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/delete_address_btn"
                 android:layout_width="wrap_content"
+                android:layout_margin="@dimen/padding_margin_xlarge"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/delete_address"
