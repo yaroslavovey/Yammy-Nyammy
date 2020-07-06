@@ -137,7 +137,9 @@
     <style name="AppSnackbar" parent="Widget.MaterialComponents.Snackbar.FullWidth" />
 
     <style name="AppSnackbarTextView">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="paddingStart">@dimen/padding_margin_xlarge</item>
+        <item name="paddingEnd">@dimen/padding_margin_xlarge</item>
         <item name="android:textColor">@color/color_surface</item>
     </style>
 
