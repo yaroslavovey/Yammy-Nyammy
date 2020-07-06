@@ -10,7 +10,7 @@
     <color name="color_on_error">#FFFFFF</color>
     <color name="color_surface">#FFFFFF</color>
     <color name="color_on_surface">#000000</color>
-    <color name="color_background">#FAFAFA</color>
+    <color name="color_background">#FFFFFF</color>
     <color name="color_on_background">#000000</color>
     <color name="color_status_bar">#A6D6C8</color>
     <color name="color_progress_bar_cover">#3E000000</color>
