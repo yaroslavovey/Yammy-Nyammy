@@ -21,8 +21,6 @@ import com.phooper.yammynyammy.utils.Constants.Companion.BASE_URL
 import com.phooper.yammynyammy.utils.Constants.Companion.DATABASE_NAME
 import com.phooper.yammynyammy.viewmodels.*
 import com.squareup.picasso.Picasso
-import okhttp3.Cache
-import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -46,19 +44,9 @@ val firebaseModule = module {
 
 val netModule = module {
     single {
-        OkHttpClient.Builder().cache(Cache(androidContext().cacheDir, 5242880))
-            .addInterceptor { chain ->
-                val request = chain.request()
-                request.newBuilder()
-                    .header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 10).build()
-                chain.proceed(request)
-            }.build()
-    }
-    single {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
-            .client(get())
             .build()
     }
     single { Picasso.Builder(androidContext()).build() }
