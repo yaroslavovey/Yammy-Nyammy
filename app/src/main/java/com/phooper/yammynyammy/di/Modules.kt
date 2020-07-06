@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.phooper.yammynyammy.R
@@ -39,7 +40,15 @@ val firebaseModule = module {
     single {
         GoogleSignIn.getClient(androidContext(), get())
     }
-    single { Firebase.firestore }
+    single {
+        Firebase.firestore.apply {
+            firestoreSettings =
+                FirebaseFirestoreSettings
+                    .Builder()
+                    .setPersistenceEnabled(false)
+                    .build()
+        }
+    }
 }
 
 val netModule = module {
