@@ -64,8 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/my_addresses_fragment"
-        android:name="com.phooper.yammynyammy.ui.fragments.MyAddressesFragment"
-        android:label=" ">
+        android:name="com.phooper.yammynyammy.ui.fragments.MyAddressesFragment">
         <action
             android:id="@+id/action_my_addresses_fragment_to_addUpdateAddress"
             app:destination="@id/add_update_address" />
@@ -75,8 +74,7 @@
     </fragment>
     <fragment
         android:id="@+id/add_update_address"
-        android:name="com.phooper.yammynyammy.ui.fragments.AddUpdateAddressFragment"
-        android:label=" ">
+        android:name="com.phooper.yammynyammy.ui.fragments.AddUpdateAddressFragment">
         <argument
             android:name="address_uid"
             android:defaultValue="null"
