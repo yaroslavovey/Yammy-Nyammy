@@ -2,7 +2,6 @@ package com.phooper.yammynyammy.ui.fragments
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -10,11 +9,15 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_name_phone_verification.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class NamePhoneVerificationFragment : BaseFragment() {
+
     override val layoutRes = R.layout.fragment_name_phone_verification
+
     private lateinit var navController: NavController
-    private val viewModel by activityViewModels<LoginViewModel>()
+
+    private val sharedViewModel by sharedViewModel<LoginViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -30,7 +33,7 @@ class NamePhoneVerificationFragment : BaseFragment() {
             navController.navigateUp()
         }
 
-        viewModel.username.observe(viewLifecycleOwner, Observer {
+        sharedViewModel.username.observe(viewLifecycleOwner, Observer {
             name_input.setText(it)
         })
 
@@ -52,7 +55,10 @@ class NamePhoneVerificationFragment : BaseFragment() {
             showFillFieldsError()
             return
         }
-        viewModel.handleAddUserData(name_input.text.toString(), phone_number_input.text.toString())
+        sharedViewModel.handleAddUserData(
+            name_input.text.toString(),
+            phone_number_input.text.toString()
+        )
     }
 
     private fun areSomeInputsEmpty() =

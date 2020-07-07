@@ -2,7 +2,6 @@ package com.phooper.yammynyammy.ui.fragments
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.phooper.yammynyammy.R
@@ -11,12 +10,15 @@ import com.phooper.yammynyammy.utils.isEmailValid
 import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_register.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class RegisterFragment : BaseFragment() {
 
     override val layoutRes = R.layout.fragment_register
+
     private lateinit var navController: NavController
-    private val viewModel by activityViewModels<LoginViewModel>()
+
+    private val sharedViewModel by sharedViewModel<LoginViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -47,7 +49,7 @@ class RegisterFragment : BaseFragment() {
     }
 
     private fun signUp() {
-        if(!email_input.text.toString().isEmailValid()){
+        if (!email_input.text.toString().isEmailValid()) {
             email_input_layout.error = getString(R.string.invalid_email)
             return
         }
@@ -69,7 +71,7 @@ class RegisterFragment : BaseFragment() {
 
         hideKeyboard()
 
-        viewModel.handleSignUpViaEmail(
+        sharedViewModel.handleSignUpViaEmail(
             email = email_input.text.toString(),
             password = password_input.text.toString()
         )
