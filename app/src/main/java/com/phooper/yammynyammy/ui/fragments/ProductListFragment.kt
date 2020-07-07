@@ -10,11 +10,9 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.ui.adapters.ProductAdapter
 import com.phooper.yammynyammy.utils.Constants
 import com.phooper.yammynyammy.utils.Constants.Companion.ARG_OBJECT
-import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.utils.showMessageAboveBottomNav
 import com.phooper.yammynyammy.viewmodels.ProductListViewModel
 import kotlinx.android.synthetic.main.fragment_product_list.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -26,7 +24,18 @@ class ProductListFragment : BaseFragment() {
         parametersOf(arguments?.getInt(ARG_OBJECT))
     }
 
-    private val productAdapter: ProductAdapter by inject()
+    private val productAdapter = ProductAdapter().apply {
+        onItemClick = {
+            navController.navigate(
+                MenuFragmentDirections.actionMenuFragmentToProductFragment(
+                    it
+                )
+            )
+        }
+        onAddToCartBtnClick = {
+            showAddToCartBottomSheet(it)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,18 +45,7 @@ class ProductListFragment : BaseFragment() {
 
     private fun initViews() {
         recycler_view.apply {
-            adapter = productAdapter.apply {
-                onItemClick = {
-                    navController.navigate(
-                        MenuFragmentDirections.actionMenuFragmentToProductFragment(
-                            it
-                        )
-                    )
-                }
-                onAddToCartBtnClick = {
-                    showAddToCartBottomSheet(it)
-                }
-            }
+            adapter = productAdapter
             layoutManager = LinearLayoutManager(this@ProductListFragment.context)
         }
         viewModel.products.observe(viewLifecycleOwner, Observer { productList ->

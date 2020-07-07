@@ -10,9 +10,12 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.domain.models.Product
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_product.view.*
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class ProductAdapter(private val picasso: Picasso) :
-    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+class ProductAdapter :
+    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(), KoinComponent {
+    private val picasso by inject<Picasso>()
     var dataList = mutableListOf<Product>()
     var onItemClick: ((Int) -> Unit)? = null
     var onAddToCartBtnClick: ((Int) -> Unit)? = null
