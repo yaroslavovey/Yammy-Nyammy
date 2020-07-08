@@ -12,6 +12,7 @@ import com.phooper.yammynyammy.entities.User
 import com.phooper.yammynyammy.utils.Event
 import com.phooper.yammynyammy.utils.toPresentation
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class ProfileViewModel(
     private val getUserDataAsDocumentUseCase: GetUserDataAsDocumentUseCase,
@@ -40,7 +41,7 @@ class ProfileViewModel(
                     _event.postValue(Event(ViewEvent.ERROR))
                     return@addSnapshotListener
                 }
-                documentSnapshot?.toObject<UserModel>()?.toPresentation().let { user ->
+                documentSnapshot?.toObject<UserModel>()?.toPresentation()?.let { user ->
                     _userData.postValue(user)
                     _state.postValue(ViewState.DEFAULT)
                 }
