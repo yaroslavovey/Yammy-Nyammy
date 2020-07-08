@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion "30.0.0"
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation rootProject.ext.roomRuntime
+    implementation rootProject.ext.roomKtx
+    kapt rootProject.ext.roomCompiler
+
+    implementation rootProject.ext.liveData
+
+    implementation rootProject.ext.firebaseAuth
+    implementation rootProject.ext.fireStore
+
+    implementation rootProject.ext.retrofit
+    implementation rootProject.ext.moshiConverter
+
+    implementation rootProject.ext.coroutinesPlayServices
+
+    testImplementation rootProject.ext.jUnit
+    testImplementation rootProject.ext.androidJUnit
+
+    implementation project(":domain")
+}

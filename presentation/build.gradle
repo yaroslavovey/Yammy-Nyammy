@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    compileSdkVersion = rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.phooper.yammynyammy"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    androidExtensions {
+        experimental = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation rootProject.ext.delegateAdapters
+
+    implementation rootProject.ext.koinAndroid
+    implementation rootProject.ext.koinViewmodel
+    implementation rootProject.ext.koinScope
+
+    implementation rootProject.ext.materialDesign
+
+    implementation rootProject.ext.constraintLayout
+
+    implementation rootProject.ext.viewPager
+
+    implementation rootProject.ext.picasso
+
+    implementation rootProject.ext.coroutinesCore
+    implementation rootProject.ext.coroutinesAndroid
+
+    implementation rootProject.ext.navigation
+    implementation rootProject.ext.navigationUi
+
+    implementation rootProject.ext.viewModel
+    implementation rootProject.ext.lifecycleExtensions
+
+    implementation rootProject.ext.activity
+    implementation rootProject.ext.activityKtx
+    implementation rootProject.ext.fragmentKtx
+
+    implementation rootProject.ext.kotlin
+    implementation rootProject.ext.appcompate
+    implementation rootProject.ext.androidCore
+    implementation rootProject.ext.legacySupport
+
+    implementation rootProject.ext.playServicesAuth
+    implementation rootProject.ext.firebaseAuth
+    implementation rootProject.ext.firebaseCore
+    implementation rootProject.ext.fireStore
+
+    implementation rootProject.ext.timber
+
+    implementation rootProject.ext.retrofit
+    implementation rootProject.ext.moshiConverter
+
+    implementation rootProject.ext.roomRuntime
+
+    testImplementation rootProject.ext.jUnit
+    testImplementation rootProject.ext.androidJUnit
+    testImplementation rootProject.ext.androidEspresso
+
+    implementation project(":domain")
+    implementation project(":data")
+}

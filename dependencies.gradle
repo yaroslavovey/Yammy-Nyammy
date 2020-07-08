@@ -1,0 +1,73 @@
+ext {
+
+    minSdkVersion = 23
+    targetSdkVersion = 30
+    compileSdkVersion = 30
+
+    // LiveData ktx
+    liveData = 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+
+    //Firebase
+    firebaseCore = 'com.google.firebase:firebase-core:17.4.3'
+    firebaseAuth = 'com.google.firebase:firebase-auth:19.3.1'
+    fireStore = 'com.google.firebase:firebase-firestore-ktx:21.4.3'
+    playServicesAuth = 'com.google.android.gms:play-services-auth:18.0.0'
+
+    //Android
+    kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    appcompate = 'androidx.appcompat:appcompat:1.1.0'
+    androidCore = 'androidx.core:core-ktx:1.3.0'
+    constraintLayout = 'androidx.constraintlayout:constraintlayout:1.1.3'
+    legacySupport = 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //Tests
+    jUnit = 'junit:junit:4.13'
+    androidJUnit = 'androidx.test.ext:junit:1.1.1'
+    androidEspresso = 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //Coroutines
+    coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.4"
+    coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4"
+    coroutinesPlayServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.3.4"
+
+    //Navigation
+    navigation = "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
+    navigationUi = "android.arch.navigation:navigation-ui-ktx:$navigation_version"
+
+    //Lifecycle Extensions and ViewModel
+    viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    activity = "androidx.activity:activity:1.1.0"
+    activityKtx = "androidx.activity:activity-ktx:1.1.0"
+    fragmentKtx = "androidx.fragment:fragment-ktx:1.2.5"
+
+    //Timber
+    timber = "com.jakewharton.timber:timber:4.7.1"
+
+    //Koin
+    koinAndroid = "org.koin:koin-android:2.0.1"
+    koinViewmodel = "org.koin:koin-androidx-viewmodel:2.0.1"
+    koinScope = "org.koin:koin-androidx-scope:2.0.1"
+
+    //Material Design
+    materialDesign = "com.google.android.material:material:1.3.0-alpha01"
+
+    //Viewpager2
+    viewPager = 'androidx.viewpager2:viewpager2:1.0.0'
+
+    //Picasso
+    picasso = 'com.squareup.picasso:picasso:2.71828'
+
+    //Room
+    roomRuntime = "androidx.room:room-runtime:2.2.5"
+    roomKtx = "androidx.room:room-ktx:2.2.5"
+    roomCompiler = "androidx.room:room-compiler:2.2.5"
+
+    //Delegate Adapters
+    delegateAdapters = 'com.github.Liverm0r:delegateadapters:2.11'
+
+    //Retrofit2 + Moshi
+    retrofit = 'com.squareup.retrofit2:retrofit:2.9.0'
+    moshiConverter = "com.squareup.retrofit2:converter-moshi:2.4.0"
+
+}
