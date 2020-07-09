@@ -23,12 +23,15 @@ class OrdersViewModel(private val getOrderListUseCase: GetOrderListUseCase) : Vi
 
     private suspend fun loadOrderList() {
         _state.postValue(ViewState.LOADING)
-        getOrderListUseCase.execute()?.let { list ->
-            _orderList.postValue(list.map { it.toPresentation() })
-            _state.postValue(ViewState.DEFAULT)
-            return
+        getOrderListUseCase.execute().let { list ->
+            if (list.isNullOrEmpty()) {
+                _state.postValue(ViewState.NO_ORDERS)
+            } else {
+                _orderList.postValue(list.map { it.toPresentation() })
+                _state.postValue(ViewState.DEFAULT)
+            }
         }
-        _state.postValue(ViewState.NO_ORDERS)
+
     }
 
     enum class ViewState {

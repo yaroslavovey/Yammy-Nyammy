@@ -85,7 +85,9 @@ class MakeOrderFragment : BaseFragment() {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     MakeOrderViewModel.ViewEvent.SUCCESS -> {
+                        //TODO Come up with something better
                         requireActivity().showMessageAboveBottomNav(R.string.order_were_made_successfully)
+                        //
                         hideKeyboard()
                         navController.navigate(R.id.action_make_order_fragment_to_orders_fragment)
                     }

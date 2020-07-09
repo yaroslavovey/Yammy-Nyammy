@@ -8,8 +8,8 @@ val useCaseModule = module {
     single { AddAddressUseCase(get(), get()) }
     single { DeleteAddressByUidUseCase(get(), get()) }
     single { GetAddressByUidUseCase(get(), get()) }
-    single { GetAddressesAsCollectionUseCase(get(), get()) }
     single { UpdateAddressByUidUseCase(get(), get()) }
+    single { GetAllAddressesAsFlowUseCase(get(), get()) }
 
     //Orders
     single { AddOrderUseCase(get(), get()) }
@@ -20,14 +20,14 @@ val useCaseModule = module {
     //Cart
     single { AddProductsToCartUseCase(get()) }
     single { RemoveProductsFromCartUseCase(get()) }
-    single { GetAllCartProductsCountLiveDataUseCase(get()) }
+    single { GetAllCartProductCountUseCase(get()) }
     single { DropCartUseCase(get()) }
 
     single { GetAllProductInCartUseCase(get(), get()) }
-    single { GetAllProductInCartLiveDataUseCase(get(), get()) }
+    single { GetAllProductInCartAsFlowUseCase(get(), get()) }
 
     single { GetAllCartProductIdAndCountUseCase(get()) }
-    single { GetAllCartProductIdAndCountLiveDataUseCase(get()) }
+    single { GetAllCartProductIdAndCountAsFLowUseCase(get()) }
 
 
     //Products
@@ -37,16 +37,19 @@ val useCaseModule = module {
 
     //User's phone & name
     single { GetUserDataUseCase(get(), get()) }
-    single { SetUserDataUseCase(get(), get()) }
-    single { GetUserDataAsDocumentUseCase(get(), get()) }
+    single { GetUserDataAsFlowUseCase(get(), get()) }
+    single { SetUserDataUseCase(get(), get(), get()) }
 
     //Auth
-    single { GetCurrentUserUseCase(get()) }
+    single { GetCurrentUserUidUseCase(get()) }
+    single { GetCurrentUserEmailUseCase(get()) }
     single { SignInViaEmailAndPasswordUseCase(get()) }
-    single { SignInViaGoogleUseCase(get()) }
     single { SignOutUseCase(get()) }
     single { SignUpViaEmailAndPasswordUseCase(get()) }
     single { UpdateUserPasswordUseCase(get()) }
     single { ReauthenticateUseCase(get(), get()) }
+//    single { SignInAnonymouslyUseCase(get()) }
+//    single { LinkCurrentUserWithCredentialUseCase(get(), get()) }
+//    single { CurrentUserIsAnonymousUseCase(get()) }
 
 }

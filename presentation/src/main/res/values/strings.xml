@@ -7,7 +7,7 @@
     <string name="password">Пароль</string>
     <string name="login">Войти</string>
     <string name="register">Регистрация</string>
-    <string name="login_via_google">Войти с помощью Google</string>
+    <string name="login_anonymously">Войти анонимно</string>
     <string name="name">Имя</string>
     <string name="phone_number">Номер телефона</string>
     <string name="repeat_password">Подтверждение пароля</string>
@@ -16,8 +16,6 @@
     <string name="we_need_your_phone_number_for_register">Нам понадобится ваш номер телефона для авторизации.</string>
     <string name="fill_password">Заполните Пароль</string>
     <string name="fill_email">Заполните Email</string>
-    <string name="error">Ошибка</string>
-    <string name="auth_error">Ошибка авторизации</string>
     <string name="fill_name">Заполните имя</string>
     <string name="we_need_your_phone_number_and_name_for_register">Нам понадобится ваше имя и номер телефона для авторизации.</string>
     <string name="fill_phone">Заполните номер телефона</string>
@@ -25,7 +23,7 @@
     <string name="cupcakes">Кексы</string>
     <string name="cookies">Печенье</string>
     <string name="chocolate">Шоколад</string>
-    <string name="net_error">Произошла ошибка</string>
+    <string name="error">Произошла ошибка</string>
     <string name="menu">Меню</string>
     <string name="orders">Заказы</string>
     <string name="add_to_cart">Добавить в корзину</string>

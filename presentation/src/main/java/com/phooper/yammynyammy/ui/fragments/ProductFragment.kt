@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.ui.activities.MainContainerActivity
+import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.ProductViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.add_to_cart_btn
@@ -16,11 +17,13 @@ import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.minus_btn
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.plus_btn
 import kotlinx.android.synthetic.main.fragment_product.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class ProductFragment : BaseFragment() {
     override val layoutRes = R.layout.fragment_product
+
     private val viewModel by viewModel<ProductViewModel> {
         parametersOf(
             ProductFragmentArgs.fromBundle(
@@ -28,6 +31,7 @@ class ProductFragment : BaseFragment() {
             ).productId
         )
     }
+
     private val picasso by inject<Picasso>()
 
     private lateinit var navController: NavController
@@ -76,6 +80,7 @@ class ProductFragment : BaseFragment() {
             viewModel.addProductsToCart()
             //TODO Come up with something better
             (requireActivity() as MainContainerActivity).showAddedToCartSnackBar()
+            //
             navController.popBackStack()
         }
 

@@ -1,25 +1,20 @@
 package com.phooper.yammynyammy.viewmodels
 
-import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.ph00.domain.models.UserModel
 import com.ph00.domain.usecases.*
-import com.phooper.yammynyammy.utils.Constants
 import com.phooper.yammynyammy.utils.Event
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase,
     private val getUserDataUseCase: GetUserDataUseCase,
     private val setUserDataUseCase: SetUserDataUseCase,
     private val signInViaEmailAndPasswordUseCase: SignInViaEmailAndPasswordUseCase,
-    private val signUpViaEmailAndPasswordUseCase: SignUpViaEmailAndPasswordUseCase,
-    private val signInViaGoogleUseCase: SignInViaGoogleUseCase
+    private val signUpViaEmailAndPasswordUseCase: SignUpViaEmailAndPasswordUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<ViewState>()
@@ -39,7 +34,7 @@ class LoginViewModel(
 
     private suspend fun checkCurrentUser() {
         //Check if user signed in
-        getCurrentUserUseCase.execute()?.let {
+        getCurrentUserUidUseCase.execute()?.let {
             //If signed in and has no phone & name
             if (getUserDataUseCase.execute() == null) {
                 _event.postValue(Event(ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN))
@@ -54,46 +49,19 @@ class LoginViewModel(
     }
 
 
-    fun handleSignInViaEmail(email: String, password: String) {
+    fun signInViaEmail(email: String, password: String) {
         _state.value = ViewState.LOADING
         viewModelScope.launch {
             signInViaEmailAndPasswordUseCase.execute(email, password)?.let {
                 checkCurrentUser()
                 return@launch
             }
-            _event.postValue(Event(ViewEvent.AUTH_ERROR))
+            _event.postValue(Event(ViewEvent.ERROR))
             _state.postValue(ViewState.DEFAULT)
         }
     }
 
-    fun handleOnActivityResult(requestCode: Int, data: Intent?) {
-        if (requestCode == Constants.G_AUTH_REQUEST_CODE) {
-            Auth.GoogleSignInApi.getSignInResultFromIntent(data)?.let { result ->
-                if (result.isSuccess) {
-                    result.signInAccount?.let {
-                        handleSignInViaGoogle(it)
-                    }
-                } else {
-                    _event.postValue(Event(ViewEvent.AUTH_ERROR))
-                }
-            }
-        }
-    }
-
-    private fun handleSignInViaGoogle(signInAccount: GoogleSignInAccount) {
-        _state.value = ViewState.LOADING
-        viewModelScope.launch {
-            _username.postValue(signInAccount.displayName)
-            signInViaGoogleUseCase.execute(signInAccount)?.let {
-                checkCurrentUser()
-                return@launch
-            }
-            _event.postValue(Event(ViewEvent.AUTH_ERROR))
-            _state.postValue(ViewState.DEFAULT)
-        }
-    }
-
-    fun handleSignUpViaEmail(
+    fun signUpViaEmail(
         email: String,
         password: String
     ) {
@@ -104,12 +72,25 @@ class LoginViewModel(
                 _state.postValue(ViewState.DEFAULT)
                 return@launch
             }
-            _event.postValue(Event(ViewEvent.AUTH_ERROR))
+            _event.postValue(Event(ViewEvent.ERROR))
             _state.postValue(ViewState.DEFAULT)
         }
     }
 
-    fun handleAddUserData(name: String, phoneNum: String) {
+    fun signInAnonymously() {
+//        _state.value = ViewState.LOADING
+//        viewModelScope.launch {
+//            signInAnonymouslyUseCase.execute()?.let {
+//                _event.postValue(Event(ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY))
+//                _state.postValue(ViewState.DEFAULT)
+//                return@launch
+//            }
+//            _event.postValue(Event(ViewEvent.ERROR))
+//            _state.postValue(ViewState.DEFAULT)
+//        }
+    }
+
+    fun addUserData(name: String, phoneNum: String) {
         _state.value = ViewState.LOADING
         viewModelScope.launch {
             setUserDataUseCase.execute(
@@ -122,7 +103,7 @@ class LoginViewModel(
                     _event.postValue(Event(ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY))
                     return@launch
                 }
-            _event.postValue(Event(ViewEvent.AUTH_ERROR))
+            _event.postValue(Event(ViewEvent.ERROR))
             _state.postValue(ViewState.DEFAULT)
         }
     }
@@ -136,7 +117,7 @@ class LoginViewModel(
         NAVIGATE_TO_MAIN_ACTIVITY,
         NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN,
         NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER,
-        AUTH_ERROR
+        ERROR
     }
 }
 

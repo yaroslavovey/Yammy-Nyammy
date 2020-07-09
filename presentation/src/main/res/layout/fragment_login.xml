@@ -90,7 +90,7 @@
                 app:layout_constraintTop_toTopOf="@id/login_btn" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/login_via_google"
+                android:id="@+id/login_anonymously"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/auth_button_height"
                 android:layout_marginHorizontal="@dimen/padding_margin_xxlarge"
@@ -109,13 +109,13 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_google" />
+                        android:src="@drawable/ic_anon" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/login_via_google"
-                        android:layout_marginStart="@dimen/padding_margin_large"
+                        android:layout_marginStart="@dimen/padding_margin_xlarge"
+                        android:text="@string/login_anonymously"
                         android:textSize="@dimen/text_medium"
                         app:fontFamily="@font/roboto_medium" />
 

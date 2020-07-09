@@ -11,10 +11,7 @@ class AddProductsToCartUseCase(private val userRepository: UserRepository) {
         withContext(IO) {
             if (userRepository.getCartProductById(productId) == null) {
                 userRepository.addCartProduct(
-                    ProductIdAndCountModel(
-                        productId,
-                        count
-                    )
+                    ProductIdAndCountModel(productId, count)
                 )
             } else {
                 userRepository.increaseCartProductCount(productId, count)

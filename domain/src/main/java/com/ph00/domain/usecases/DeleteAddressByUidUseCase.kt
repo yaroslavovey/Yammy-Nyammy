@@ -6,11 +6,11 @@ import kotlinx.coroutines.withContext
 
 class DeleteAddressByUidUseCase(
     private val userRepository: UserRepository,
-    private val getCurrentUserUseCase: GetCurrentUserUseCase
+    private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase
 ) {
     suspend fun execute(addressUid: String): Boolean? =
         withContext(IO) {
-            getCurrentUserUseCase.execute()?.uid?.let { userUid ->
+            getCurrentUserUidUseCase.execute()?.let { userUid ->
                 userRepository.deleteAddressByUid(addressUid, userUid)
             }
         }

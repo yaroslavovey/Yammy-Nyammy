@@ -5,11 +5,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { LoginViewModel(get(), get(), get(), get(), get(), get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
     viewModel { (category: Int?) -> ProductListViewModel(category, get()) }
     viewModel { (productId: Int) -> AddToCartDialogViewModel(productId, get()) }
     viewModel { (productId: Int) -> ProductViewModel(productId, get(), get()) }
-    viewModel { CartViewModel(get(), get(), get(), get(), get()) }
+    viewModel { CartViewModel(get(), get(), get(), get()) }
     viewModel { MakeOrderViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { (choosingAddressForDelivery: Boolean) ->
         MyAddressesViewModel(

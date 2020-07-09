@@ -1,31 +1,24 @@
 package com.ph00.data.repositories_impl
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.*
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.ph00.domain.repositories.AuthRepository
 import kotlinx.coroutines.tasks.await
 
 class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepository {
 
-    override suspend fun getCurrentUser(): FirebaseUser? = firebaseAuth.currentUser
+    override fun getCurrentUserUid(): String? = firebaseAuth.currentUser?.uid
 
-    override suspend fun signInViaEmailAndPassword(email: String, password: String): AuthResult? {
+    override fun getCurrentUserEmail(): String? = firebaseAuth.currentUser?.email
+
+//    override fun currentUserIsAnonymous(): Boolean? = firebaseAuth.currentUser?.isAnonymous
+
+    override suspend fun signInViaEmailAndPassword(email: String, password: String): Boolean? {
         return try {
             firebaseAuth
                 .signInWithEmailAndPassword(email, password)
                 .await()
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    override suspend fun signInViaGoogle(signInAccount: GoogleSignInAccount?): AuthResult? {
-        val credential =
-            GoogleAuthProvider.getCredential(signInAccount?.idToken, null)
-        return try {
-            firebaseAuth
-                .signInWithCredential(credential)
-                .await()
+            true
         } catch (e: Exception) {
             null
         }
@@ -33,11 +26,23 @@ class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepositor
 
     override suspend fun signOut() = firebaseAuth.signOut()
 
-    override suspend fun signUpViaEmailAndPassword(email: String, password: String): AuthResult? {
+    override suspend fun signInAnonymously(): Boolean? {
+        return try {
+            firebaseAuth
+                .signInAnonymously()
+                .await()
+            true
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    override suspend fun signUpViaEmailAndPassword(email: String, password: String): Boolean? {
         return try {
             firebaseAuth
                 .createUserWithEmailAndPassword(email, password)
                 .await()
+            true
         } catch (e: Exception) {
             return null
         }
@@ -55,15 +60,30 @@ class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepositor
         }
     }
 
-    override suspend fun reauthenticate(
-        user: FirebaseUser,
-        authCredential: AuthCredential
-    ): Boolean? {
+    override suspend fun reauthenticate(email: String, password: String): Boolean? {
         return try {
-            user.reauthenticate(authCredential).await()
+            val credential = EmailAuthProvider.getCredential(email, password)
+            firebaseAuth
+                .currentUser
+                ?.reauthenticate(credential)
+                ?.await()
             true
         } catch (e: Exception) {
             null
         }
     }
+//
+//    override suspend fun linkCurrentUserWithCredential(email: String, password: String): Boolean? {
+//        return try {
+//            val credential = EmailAuthProvider.getCredential(email, password)
+//            firebaseAuth
+//                .currentUser
+//                ?.linkWithCredential(credential)
+//                ?.await()
+//                ?.let { true }
+//        } catch (e: Exception) {
+//            null
+//        }
+//    }
+
 }

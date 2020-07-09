@@ -5,7 +5,7 @@ ext {
     compileSdkVersion = 30
 
     // LiveData ktx
-    liveData = 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    liveDataExtenstions = 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
     //Firebase
     firebaseCore = 'com.google.firebase:firebase-core:17.4.3'

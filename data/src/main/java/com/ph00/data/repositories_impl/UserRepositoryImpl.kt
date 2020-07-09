@@ -1,16 +1,14 @@
 package com.ph00.data.repositories_impl
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.ph00.data.Constants.Companion.ADDRESSES_COLLECTION
 import com.ph00.data.Constants.Companion.DELIVERY_PRICE
 import com.ph00.data.Constants.Companion.ORDERS_COLLECTION
 import com.ph00.data.Constants.Companion.USERS_COLLECTION
 import com.ph00.data.db.dao.CartProductsDao
+import com.ph00.data.entities.AddressEntity
+import com.ph00.data.entities.OrderEntity
 import com.ph00.data.toEntity
 import com.ph00.data.toModel
 import com.ph00.domain.models.AddressModel
@@ -18,6 +16,11 @@ import com.ph00.domain.models.OrderModel
 import com.ph00.domain.models.ProductIdAndCountModel
 import com.ph00.domain.models.UserModel
 import com.ph00.domain.repositories.UserRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 
 class UserRepositoryImpl(
@@ -38,29 +41,34 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun getUserPersonalData(userUid: String): DocumentSnapshot? {
+    override suspend fun getUserPersonalData(userUid: String): UserModel? {
         return try {
             firebaseFirestone
                 .collection(USERS_COLLECTION)
                 .document(userUid)
                 .get()
                 .await()
+                .toObject<UserModel>()
         } catch (e: Exception) {
             null
         }
     }
 
-    override suspend fun getUserPersonalDataAsDocument(userUid: String): DocumentReference? {
-        return try {
-            firebaseFirestone
+    @ExperimentalCoroutinesApi
+    override fun getUserPersonalDataAsFlow(userUid: String): Flow<UserModel?> =
+        callbackFlow {
+            val eventCollection = firebaseFirestone
                 .collection(USERS_COLLECTION)
                 .document(userUid)
-        } catch (e: Exception) {
-            null
-        }
-    }
 
-    override suspend fun getAddressByUid(uid: String, userUid: String): DocumentSnapshot? {
+            val subscription = eventCollection.addSnapshotListener { querySnapshot, _ ->
+                offer(querySnapshot?.toObject<UserModel>())
+            }
+
+            awaitClose { subscription.remove() }
+        }
+
+    override suspend fun getAddressByUid(uid: String, userUid: String): AddressModel? {
         return try {
             firebaseFirestone
                 .collection(USERS_COLLECTION)
@@ -69,6 +77,8 @@ class UserRepositoryImpl(
                 .document(uid)
                 .get()
                 .await()
+                .toObject<AddressEntity>()
+                ?.toModel()
         } catch (e: Exception) {
             null
         }
@@ -85,13 +95,31 @@ class UserRepositoryImpl(
                 .document(userUid)
                 .collection(ADDRESSES_COLLECTION)
                 .document(addressUid)
-                .set(address)
+                .set(address.toEntity())
                 .await()
             true
         } catch (e: Exception) {
             null
         }
     }
+
+    @ExperimentalCoroutinesApi
+    override fun getAllAddressesAsFlow(userUid: String): Flow<List<AddressModel>?> =
+        callbackFlow {
+            val eventCollection = firebaseFirestone
+                .collection(USERS_COLLECTION)
+                .document(userUid)
+                .collection(ADDRESSES_COLLECTION)
+
+            val subscription = eventCollection.addSnapshotListener { querySnapshot, _ ->
+                offer(querySnapshot?.documents?.mapNotNull {
+                    it.toObject<AddressEntity>()?.toModel()
+                })
+            }
+
+            awaitClose { subscription.remove() }
+        }
+
 
     override suspend fun deleteAddressByUid(uid: String, userUid: String): Boolean? {
         return try {
@@ -114,20 +142,9 @@ class UserRepositoryImpl(
                 .collection(USERS_COLLECTION)
                 .document(userUid)
                 .collection(ADDRESSES_COLLECTION)
-                .add(address)
+                .add(address.toEntity())
                 .await()
             true
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    override suspend fun getAddressesAsCollection(userUid: String): CollectionReference? {
-        return try {
-            firebaseFirestone
-                .collection(USERS_COLLECTION)
-                .document(userUid)
-                .collection(ADDRESSES_COLLECTION)
         } catch (e: Exception) {
             null
         }
@@ -139,7 +156,7 @@ class UserRepositoryImpl(
                 .collection(USERS_COLLECTION)
                 .document(userUid)
                 .collection(ORDERS_COLLECTION)
-                .add(order)
+                .add(order.toEntity())
                 .await()
             true
         } catch (e: Exception) {
@@ -147,7 +164,7 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun getOrdersList(userUid: String): List<DocumentSnapshot>? {
+    override suspend fun getOrdersList(userUid: String): List<OrderModel>? {
         return try {
             firebaseFirestone
                 .collection(USERS_COLLECTION)
@@ -157,12 +174,13 @@ class UserRepositoryImpl(
                 .get()
                 .await()
                 .documents
+                .mapNotNull { it.toObject<OrderEntity>()?.toModel() }
         } catch (e: Exception) {
             null
         }
     }
 
-    override suspend fun getOrderByUid(orderUid: String, userUid: String): DocumentSnapshot? {
+    override suspend fun getOrderByUid(orderUid: String, userUid: String): OrderModel? {
         return try {
             firebaseFirestone
                 .collection(USERS_COLLECTION)
@@ -171,6 +189,8 @@ class UserRepositoryImpl(
                 .document(orderUid)
                 .get()
                 .await()
+                .toObject<OrderEntity>()
+                ?.toModel()
         } catch (e: Exception) {
             null
         }
@@ -183,9 +203,6 @@ class UserRepositoryImpl(
 
     override suspend fun getAllCartProducts(): List<ProductIdAndCountModel>? =
         cartProductsDao.getAllCartProducts()?.map { it.toModel() }
-
-    override fun getAllCartProductsLiveData(): LiveData<List<ProductIdAndCountModel>> =
-        cartProductsDao.getAllCartProductsLiveData().map { list -> list.map { it.toModel() } }
 
     override suspend fun increaseCartProductCount(productId: Int, count: Int) =
         cartProductsDao.increaseProductCount(productId, count)
@@ -201,5 +218,9 @@ class UserRepositoryImpl(
 
     override suspend fun getCartProductById(productId: Int): ProductIdAndCountModel? =
         cartProductsDao.getProductById(productId)?.toModel()
+
+    override fun getAllCartProductsFlow(): Flow<List<ProductIdAndCountModel>> =
+        cartProductsDao.getAllCartProductsFlow().map { flow -> flow.map { it.toModel() } }
+
 }
 

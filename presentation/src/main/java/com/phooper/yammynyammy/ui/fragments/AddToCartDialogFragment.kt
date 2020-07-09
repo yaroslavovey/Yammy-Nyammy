@@ -13,7 +13,9 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.ui.activities.MainContainerActivity
 import com.phooper.yammynyammy.utils.Constants.Companion.PRODUCT_ID
 import com.phooper.yammynyammy.viewmodels.AddToCartDialogViewModel
+import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -66,6 +68,7 @@ class AddToCartDialogFragment : BottomSheetDialogFragment() {
             viewModel.addProductsToCart()
             //TODO Come up with something better
             (requireActivity() as MainContainerActivity).showAddedToCartSnackBar()
+            //
             dismiss()
         }
 

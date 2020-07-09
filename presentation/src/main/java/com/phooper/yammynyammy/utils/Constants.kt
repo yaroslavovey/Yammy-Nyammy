@@ -4,7 +4,6 @@ class Constants {
 
     companion object {
         const val DIALOG_TAG: String = "DLG"
-        const val G_AUTH_REQUEST_CODE = 4216
         const val BASE_URL = "https://my-json-server.typicode.com/"
         const val ARG_OBJECT = "obj"
         const val ICE_CREAM_CATEGORY = 1

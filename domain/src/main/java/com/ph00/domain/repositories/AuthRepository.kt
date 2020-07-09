@@ -1,16 +1,14 @@
 package com.ph00.domain.repositories
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseUser
-
 interface AuthRepository {
-    suspend fun getCurrentUser(): FirebaseUser?
-    suspend fun signInViaEmailAndPassword(email: String, password: String): AuthResult?
-    suspend fun signInViaGoogle(signInAccount: GoogleSignInAccount?): AuthResult?
+    fun getCurrentUserUid(): String?
+    fun getCurrentUserEmail(): String?
+//    fun currentUserIsAnonymous(): Boolean?
+    suspend fun signInViaEmailAndPassword(email: String, password: String): Boolean?
+    suspend fun signUpViaEmailAndPassword(email: String, password: String): Boolean?
+    suspend fun signInAnonymously(): Boolean?
     suspend fun signOut()
-    suspend fun signUpViaEmailAndPassword(email: String, password: String): AuthResult?
     suspend fun updatePassword(newPassword: String): Boolean?
-    suspend fun reauthenticate(user: FirebaseUser, authCredential: AuthCredential): Boolean?
+    suspend fun reauthenticate(email: String, password: String): Boolean?
+//    suspend fun linkCurrentUserWithCredential(email: String, password: String): Boolean?
 }

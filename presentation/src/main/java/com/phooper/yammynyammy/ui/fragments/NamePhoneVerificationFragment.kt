@@ -55,7 +55,7 @@ class NamePhoneVerificationFragment : BaseFragment() {
             showFillFieldsError()
             return
         }
-        sharedViewModel.handleAddUserData(
+        sharedViewModel.addUserData(
             name_input.text.toString(),
             phone_number_input.text.toString()
         )

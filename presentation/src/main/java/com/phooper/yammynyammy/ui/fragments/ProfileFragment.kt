@@ -44,8 +44,8 @@ class ProfileFragment : BaseFragment() {
                 }
             }
         })
-
-        viewModel.userData.observe(viewLifecycleOwner, Observer {
+            //TODO Fix null liveData
+        viewModel.userData?.observe(viewLifecycleOwner, Observer {
             email.text = it.email
             username.text = it.name
             phone_number.text = it.phoneNum

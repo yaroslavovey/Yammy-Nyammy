@@ -85,8 +85,8 @@ class MyAddressesFragment : BaseFragment() {
         add_new_address_btn.setOnClickListener {
             navController.navigate(MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress())
         }
-
-        viewModel.addressesList.observe(viewLifecycleOwner, Observer {
+        //TODO fix addresses list nullability
+        viewModel.addressesList?.observe(viewLifecycleOwner, Observer {
             delegateAdapter.swapData(it)
         })
 

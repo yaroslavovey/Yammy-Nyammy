@@ -71,7 +71,7 @@ class RegisterFragment : BaseFragment() {
 
         hideKeyboard()
 
-        sharedViewModel.handleSignUpViaEmail(
+        sharedViewModel.signUpViaEmail(
             email = email_input.text.toString(),
             password = password_input.text.toString()
         )

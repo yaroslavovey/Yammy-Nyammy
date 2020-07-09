@@ -1,11 +1,11 @@
 package com.ph00.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ph00.data.entities.ProductIdAndCountEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CartProductsDao {
@@ -29,7 +29,7 @@ interface CartProductsDao {
     suspend fun getAllCartProducts(): List<ProductIdAndCountEntity>?
 
     @Query("SELECT * FROM products")
-    fun getAllCartProductsLiveData(): LiveData<List<ProductIdAndCountEntity>>
+    fun getAllCartProductsFlow(): Flow<List<ProductIdAndCountEntity>>
 
     @Query("DELETE FROM products")
     suspend fun deleteAllCartProducts()

@@ -39,8 +39,8 @@ class LoginActivity : AppCompatActivity() {
                     LoginViewModel.ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER -> {
                         navController.navigate(R.id.action_registerFragment_to_namePhoneVerificationFragment)
                     }
-                    LoginViewModel.ViewEvent.AUTH_ERROR -> {
-                        showMessage(R.string.auth_error)
+                    LoginViewModel.ViewEvent.ERROR -> {
+                        showMessage(R.string.error)
                     }
                 }
             }

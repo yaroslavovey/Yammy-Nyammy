@@ -12,20 +12,30 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.ui.adapters.CartProductDelegateAdapter
 import com.phooper.yammynyammy.ui.adapters.TotalPriceDelegateAdapter
 import com.phooper.yammynyammy.viewmodels.CartViewModel
+import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import kotlinx.android.synthetic.main.fragment_cart.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class CartFragment : BaseFragment() {
 
     private val viewModel by viewModel<CartViewModel>()
+
     override val layoutRes = R.layout.fragment_cart
+
     private lateinit var navController: NavController
+
     private val delegateAdapter =
         DiffUtilCompositeAdapter.Builder()
             .add(
                 CartProductDelegateAdapter(
-                    onPlusClickListener = { viewModel.addOneProductToCart(it) },
-                    onMinusClickListener = { viewModel.removeOneProductFromCart(it) })
+                    onPlusClickListener = {
+                        viewModel.addOneProductToCart(it)
+                    },
+                    onMinusClickListener = {
+                        viewModel.removeOneProductFromCart(it)
+                    })
             ).add(TotalPriceDelegateAdapter())
             .build()
 
@@ -37,13 +47,16 @@ class CartFragment : BaseFragment() {
 
     private fun initViews() {
         make_order_btn.setOnClickListener { navController.navigate(R.id.action_cart_fragment_to_makeOrderFragment) }
+
         recycler_view.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = delegateAdapter
         }
+
         viewModel.productsInCart.observe(viewLifecycleOwner, Observer {
             delegateAdapter.swapData(it as List<DiffUtilItem>)
         })
+
         viewModel.state.observe(viewLifecycleOwner, Observer { viewState ->
             viewState?.let {
                 when (it) {
@@ -68,8 +81,10 @@ class CartFragment : BaseFragment() {
                 }
             }
         })
+
         go_back_to_menu_btn.setOnClickListener {
             navController.navigate(R.id.menu_fragment)
         }
+
     }
 }

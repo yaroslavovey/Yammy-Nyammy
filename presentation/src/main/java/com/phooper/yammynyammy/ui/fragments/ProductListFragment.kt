@@ -17,7 +17,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class ProductListFragment : BaseFragment() {
+
     override val layoutRes = R.layout.fragment_product_list
+
     private lateinit var navController: NavController
 
     private val viewModel: ProductListViewModel by viewModel {
@@ -56,7 +58,7 @@ class ProductListFragment : BaseFragment() {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     ProductListViewModel.ViewEvent.ERROR -> {
-                        requireActivity().showMessageAboveBottomNav(R.string.net_error)
+                        requireActivity().showMessageAboveBottomNav(R.string.error)
                     }
                 }
             }

@@ -1,21 +1,16 @@
 package com.phooper.yammynyammy.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.ktx.toObject
-import com.ph00.domain.models.UserModel
-import com.ph00.domain.usecases.GetUserDataAsDocumentUseCase
+import androidx.lifecycle.*
+import com.ph00.domain.usecases.GetUserDataAsFlowUseCase
 import com.ph00.domain.usecases.SignOutUseCase
 import com.phooper.yammynyammy.entities.User
 import com.phooper.yammynyammy.utils.Event
 import com.phooper.yammynyammy.utils.toPresentation
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class ProfileViewModel(
-    private val getUserDataAsDocumentUseCase: GetUserDataAsDocumentUseCase,
+    private val getUserDataAsFlowUseCase: GetUserDataAsFlowUseCase,
     private val signOutUseCase: SignOutUseCase
 ) : ViewModel() {
 
@@ -25,29 +20,13 @@ class ProfileViewModel(
     private val _event = MutableLiveData<Event<ViewEvent>>()
     val event: LiveData<Event<ViewEvent>> get() = _event
 
-    private val _userData = MutableLiveData<User>()
-    val userData: LiveData<User> get() = _userData
-
-    init {
-        viewModelScope.launch {
-            loadUser()
-        }
-    }
-
-    private suspend fun loadUser() {
-        getUserDataAsDocumentUseCase.execute()?.let {
-            it.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (firebaseFirestoreException != null) {
-                    _event.postValue(Event(ViewEvent.ERROR))
-                    return@addSnapshotListener
-                }
-                documentSnapshot?.toObject<UserModel>()?.toPresentation()?.let { user ->
-                    _userData.postValue(user)
-                    _state.postValue(ViewState.DEFAULT)
-                }
+    val userData: LiveData<User>?
+        get() = getUserDataAsFlowUseCase.execute()?.asLiveData(IO)?.switchMap { userData ->
+            liveData(viewModelScope.coroutineContext) {
+                if (userData != null) emit(userData.toPresentation())
+                _state.postValue(ViewState.DEFAULT)
             }
         }
-    }
 
     fun signOut() = viewModelScope.launch {
         signOutUseCase.execute()

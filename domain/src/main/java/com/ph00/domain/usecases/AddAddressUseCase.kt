@@ -7,11 +7,11 @@ import kotlinx.coroutines.withContext
 
 class AddAddressUseCase(
     private val userRepository: UserRepository,
-    private val getCurrentUserUseCase: GetCurrentUserUseCase
+    private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase
 ) {
     suspend fun execute(address: AddressModel): Boolean? =
         withContext(IO) {
-            getCurrentUserUseCase.execute()?.uid?.let { userUid ->
+            getCurrentUserUidUseCase.execute()?.let { userUid ->
                 userRepository.addAddress(address, userUid)
             }
         }

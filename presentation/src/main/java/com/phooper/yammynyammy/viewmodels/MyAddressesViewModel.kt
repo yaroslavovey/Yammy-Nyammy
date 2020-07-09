@@ -1,24 +1,16 @@
 package com.phooper.yammynyammy.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.toObjects
-import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
-import com.ph00.domain.models.AddressModel
-import com.ph00.domain.usecases.GetAddressesAsCollectionUseCase
+import androidx.lifecycle.*
+import com.livermor.delegateadapter.delegate.diff.KDiffUtilItem
+import com.ph00.domain.usecases.GetAllAddressesAsFlowUseCase
 import com.phooper.yammynyammy.entities.AddAddressButton
 import com.phooper.yammynyammy.utils.toPresentation
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers.IO
 
 class MyAddressesViewModel(
-    private val getAddressesAsCollectionUseCase: GetAddressesAsCollectionUseCase,
+    private val getAllUserAddressesAsFlowUseCase: GetAllAddressesAsFlowUseCase,
     private val choosingAddressForDelivery: Boolean
-) :
-    ViewModel() {
+) : ViewModel() {
 
     private val _state = MutableLiveData<ViewState>(ViewState.LOADING)
     val state: LiveData<ViewState> get() = _state
@@ -26,33 +18,32 @@ class MyAddressesViewModel(
     private val _mode = MutableLiveData<ViewMode>()
     val mode: LiveData<ViewMode> get() = _mode
 
-    val addressesList: LiveData<List<DiffUtilItem>> get() = _addressesList
-    private val _addressesList = MutableLiveData<List<DiffUtilItem>>()
+    val addressesList: LiveData<List<KDiffUtilItem>>? =
+        getAllUserAddressesAsFlowUseCase
+            .execute()
+            ?.asLiveData(IO)
+            ?.switchMap { listAddress ->
+                liveData(context = viewModelScope.coroutineContext + IO) {
+                    _state.postValue(
+                        if (listAddress.isNullOrEmpty()) {
+                            ViewState.NO_ADDRESSES
+                        } else {
+                            emit(listAddress.map { it.toPresentation() }.plus(AddAddressButton()))
+                            ViewState.DEFAULT
+                        }
+                    )
+                }
+            }
 
     init {
-        viewModelScope.launch {
-            if (choosingAddressForDelivery) {
-                _mode.postValue(ViewMode.CHOOSING_DELIVERY_ADDRESS)
-            } else {
-                _mode.postValue(ViewMode.CHECKING_OUT_ADDRESSES)
-            }
-            getAddressesAsCollectionUseCase
-                .execute()
-                ?.addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
-                    if (e != null) return@EventListener
-                    //Doesn't work
-                    _state.postValue(ViewState.LOADING)
-                    //
-                    value?.toObjects<AddressModel>().let { listAddress ->
-                        if (listAddress.isNullOrEmpty()) {
-                            _state.postValue(ViewState.NO_ADDRESSES)
-                        } else {
-                            _addressesList.postValue(listAddress.map { it.toPresentation() }
-                                .plus(AddAddressButton()))
-                            _state.postValue(ViewState.DEFAULT)
-                        }
-                    }
-                })
+        setViewMode()
+    }
+
+    private fun setViewMode() {
+        if (choosingAddressForDelivery) {
+            _mode.value = ViewMode.CHOOSING_DELIVERY_ADDRESS
+        } else {
+            _mode.value = ViewMode.CHECKING_OUT_ADDRESSES
         }
     }
 

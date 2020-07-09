@@ -35,12 +35,9 @@ dependencies {
     implementation rootProject.ext.roomKtx
     kapt rootProject.ext.roomCompiler
 
-    implementation rootProject.ext.liveData
-
     implementation rootProject.ext.firebaseAuth
     implementation rootProject.ext.fireStore
 
-    implementation rootProject.ext.retrofit
     implementation rootProject.ext.moshiConverter
 
     implementation rootProject.ext.coroutinesPlayServices

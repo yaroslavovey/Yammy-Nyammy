@@ -7,11 +7,11 @@ import kotlinx.coroutines.withContext
 
 class UpdateAddressByUidUseCase(
     private val userRepository: UserRepository,
-    private val getCurrentUserUseCase: GetCurrentUserUseCase
+    private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase
 ) {
     suspend fun execute(addressUid: String, newAddress: AddressModel): Boolean? =
         withContext(IO) {
-            getCurrentUserUseCase.execute()?.uid?.let { userUid ->
+            getCurrentUserUidUseCase.execute()?.let { userUid ->
                 userRepository.updateAddress(newAddress, addressUid, userUid)
             }
         }
