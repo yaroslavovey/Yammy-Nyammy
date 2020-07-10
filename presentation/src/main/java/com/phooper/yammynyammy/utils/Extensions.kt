@@ -89,3 +89,6 @@ fun OrderModel.toPresentation(): Order =
         deliveryPrice = deliveryPrice,
         totalPrice = totalPrice
     )
+
+fun formatAddress(houseNum: String, apartNum: String, street: String) =
+    "Apt. $apartNum $houseNum $street"

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.livermor.delegateadapter.delegate.KDelegateAdapter
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.Address
+import com.phooper.yammynyammy.utils.formatAddress
 import kotlinx.android.synthetic.main.item_address.*
 
 data class AddressDelegateAdapter(
@@ -15,7 +16,7 @@ data class AddressDelegateAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun KViewHolder.onBind(item: Address) {
-        address.text = "${itemView.resources.getString(R.string.apartment_short)} ${item.apartNum} ${item.houseNum} ${item.street}"
+        address.text = formatAddress(item.houseNum, item.apartNum, item.street)
         item_layout.setOnClickListener {
             onItemClickListener.invoke(item.id)
         }

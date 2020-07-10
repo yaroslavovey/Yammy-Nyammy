@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.ph00.domain.usecases.GetAddressByUidUseCase
 import com.ph00.domain.usecases.GetAllCartProductIdAndCountAsFLowUseCase
 import com.ph00.domain.usecases.GetIsUserSignedInFlow
-import com.phooper.yammynyammy.utils.Event
+import com.phooper.yammynyammy.utils.formatAddress
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
@@ -21,12 +21,18 @@ class MainContainerViewModel(
         getAllCartProductIdAndCountAsFLowUseCase.execute().asLiveData(IO)
             .map { list -> if (list.isNullOrEmpty()) 0 else list.sumBy { it.count } }
 
-    val userIsSignedIn : LiveData<Boolean> = getIsUserSignedInFlow.execute().asLiveData(IO)
+    val userIsSignedIn: LiveData<Boolean> = getIsUserSignedInFlow.execute().asLiveData(IO)
 
     fun selectAddress(uid: String) {
         viewModelScope.launch {
             getAddressByUidUseCase.execute(uid)?.let { address ->
-                _selectedAddress.postValue("ул. ${address.street}, д. ${address.houseNum} кв. ${address.apartNum}")
+                _selectedAddress.postValue(
+                    formatAddress(
+                        address.houseNum,
+                        address.apartNum,
+                        address.street
+                    )
+                )
             }
         }
     }
