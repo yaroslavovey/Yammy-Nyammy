@@ -20,7 +20,7 @@
     > ![](https://sun1-30.userapi.com/dKGoqY54DTzOFhWjXBZ53DiVMK0meVXmyR9p_A/uAQsHZ_1ZjQ.jpg)  
     - Enable email & password authentication in firebase console.  
     > ![](https://sun9-72.userapi.com/XpRJm5kJ3fkxoCssGEcQqWKjy191dAREkCGM7w/WOB29t6cVvM.jpg)  
-    - Create Cloud Firestore database.
+    - Create Cloud Firestore database in test mode.
     > ![](https://sun1-98.userapi.com/DISNMaTtvVJvqW69oJzuQ1ZKUtgnvCrz0zVgPw/vS9ygGkCMrs.jpg)  
   
  ---
