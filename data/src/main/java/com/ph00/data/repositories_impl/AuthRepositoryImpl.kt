@@ -11,8 +11,6 @@ class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepositor
 
     override fun getCurrentUserEmail(): String? = firebaseAuth.currentUser?.email
 
-//    override fun currentUserIsAnonymous(): Boolean? = firebaseAuth.currentUser?.isAnonymous
-
     override suspend fun signInViaEmailAndPassword(email: String, password: String): Boolean? {
         return try {
             firebaseAuth
@@ -72,18 +70,4 @@ class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepositor
             null
         }
     }
-//
-//    override suspend fun linkCurrentUserWithCredential(email: String, password: String): Boolean? {
-//        return try {
-//            val credential = EmailAuthProvider.getCredential(email, password)
-//            firebaseAuth
-//                .currentUser
-//                ?.linkWithCredential(credential)
-//                ?.await()
-//                ?.let { true }
-//        } catch (e: Exception) {
-//            null
-//        }
-//    }
-
 }

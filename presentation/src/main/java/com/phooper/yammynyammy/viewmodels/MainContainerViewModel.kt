@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.ph00.domain.usecases.GetAddressByUidUseCase
 import com.ph00.domain.usecases.GetAllCartProductIdAndCountAsFLowUseCase
 import com.ph00.domain.usecases.GetCurrentUserUidUseCase
+import com.ph00.domain.usecases.GetUserDataUseCase
 import com.phooper.yammynyammy.utils.Event
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -11,8 +12,8 @@ import kotlinx.coroutines.launch
 class MainContainerViewModel(
     private val getAllCartProductIdAndCountAsFLowUseCase: GetAllCartProductIdAndCountAsFLowUseCase,
     private val getAddressByUidUseCase: GetAddressByUidUseCase,
-//    private val currentUserIsAnonymousUseCase: CurrentUserIsAnonymousUseCase,
-    private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase
+    private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase,
+    private val getUserDataUseCase: GetUserDataUseCase
 ) : ViewModel() {
 
     private val _event = MutableLiveData<Event<ViewEvent>>()
@@ -31,7 +32,7 @@ class MainContainerViewModel(
 
     private fun checkUser() {
         viewModelScope.launch {
-            if (getCurrentUserUidUseCase.execute() == null)
+            if (getCurrentUserUidUseCase.execute() == null || getUserDataUseCase.execute() == null)
                 _event.postValue(Event(ViewEvent.NAVIGATE_TO_LOGIN_ACTIVITY))
         }
     }

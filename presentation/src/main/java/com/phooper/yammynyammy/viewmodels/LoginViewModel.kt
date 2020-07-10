@@ -77,19 +77,6 @@ class LoginViewModel(
         }
     }
 
-    fun signInAnonymously() {
-//        _state.value = ViewState.LOADING
-//        viewModelScope.launch {
-//            signInAnonymouslyUseCase.execute()?.let {
-//                _event.postValue(Event(ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY))
-//                _state.postValue(ViewState.DEFAULT)
-//                return@launch
-//            }
-//            _event.postValue(Event(ViewEvent.ERROR))
-//            _state.postValue(ViewState.DEFAULT)
-//        }
-    }
-
     fun addUserData(name: String, phoneNum: String) {
         _state.value = ViewState.LOADING
         viewModelScope.launch {

@@ -41,10 +41,6 @@ class LoginFragment : BaseFragment() {
             signInViaEmail()
         }
 
-        login_anonymously.setOnClickListener {
-            viewModel.signInAnonymously()
-        }
-
         register_btn.setOnClickListener {
             navController.navigate(R.id.action_loginFragment_to_registerFragment)
         }

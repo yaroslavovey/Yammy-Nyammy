@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
 class CartViewModel(
-    private val getAllProductInCartAsFlowUseCase: GetAllProductInCartAsFlowUseCase,
+    getAllProductInCartAsFlowUseCase: GetAllProductInCartAsFlowUseCase,
     private val addProductsToCartUseCase: AddProductsToCartUseCase,
     private val removeProductsFromCartUseCase: RemoveProductsFromCartUseCase,
     private val getDeliveryPriceUseCase: GetDeliveryPriceUseCase
