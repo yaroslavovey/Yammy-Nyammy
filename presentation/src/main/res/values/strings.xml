@@ -5,7 +5,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="register">SignUp</string>
+    <string name="register">Sign up</string>
     <string name="name">Name</string>
     <string name="phone_number">Phone number</string>
     <string name="repeat_password">Password repeat</string>
@@ -79,7 +79,7 @@
     <string name="current_password">Current password</string>
     <string name="invalid_email">Invalid email</string>
     <string name="are_you_sure">Are you sure?</string>
-    <string name="address_will_be_deleted">the Address will be deleted.</string>
+    <string name="address_will_be_deleted">The address will be deleted.</string>
     <string name="apartment_short">Apt.</string>
 
 </resources>
