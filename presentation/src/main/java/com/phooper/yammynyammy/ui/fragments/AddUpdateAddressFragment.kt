@@ -105,16 +105,16 @@ class AddUpdateAddressFragment : BaseFragment() {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     AddUpdateAddressViewModel.ViewEvent.ERROR -> {
-                        requireActivity().showMessage(R.string.error)
+                        showMessage(R.string.error)
                     }
                     AddUpdateAddressViewModel.ViewEvent.DELETE_SUCCESS -> {
-                        requireActivity().showMessage(R.string.address_deleted)
+                        showMessage(R.string.address_deleted)
                     }
                     AddUpdateAddressViewModel.ViewEvent.CREATE_SUCCESS -> {
-                        requireActivity().showMessage(R.string.address_added)
+                        showMessage(R.string.address_added)
                     }
                     AddUpdateAddressViewModel.ViewEvent.UPDATE_SUCCESS -> {
-                        requireActivity().showMessage(R.string.address_updated)
+                        showMessage(R.string.address_updated)
                     }
                 }
                 navController.popBackStack()

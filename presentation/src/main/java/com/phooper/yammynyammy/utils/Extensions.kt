@@ -29,10 +29,8 @@ fun TextInputEditText.setHideLayoutErrorOnTextChangedListener(textInputLayout: T
 }
 
 fun Context.hideKeyboard(view: View) {
-    (getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-        view.windowToken,
-        0
-    )
+    (getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+        .hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 fun Fragment.hideKeyboard() {
@@ -42,8 +40,15 @@ fun Fragment.hideKeyboard() {
 fun Activity.showMessage(msgRes: Int) =
     Snackbar.make(findViewById(android.R.id.content), msgRes, Snackbar.LENGTH_SHORT).show()
 
-fun Activity.showMessageAboveBottomNav(msgRes: Int) =
-    Snackbar.make(findViewById(R.id.coordinator_layout), msgRes, Snackbar.LENGTH_SHORT).show()
+fun Fragment.showMessage(msgRes: Int) =
+    requireActivity().showMessage(msgRes)
+
+fun Fragment.showMessageAboveBottomNav(msgRes: Int) =
+    Snackbar.make(
+        requireActivity().findViewById(R.id.coordinator_layout),
+        msgRes,
+        Snackbar.LENGTH_SHORT
+    ).show()
 
 fun Date.formatToRussianString(): String =
     DateFormat.getDateTimeInstance(

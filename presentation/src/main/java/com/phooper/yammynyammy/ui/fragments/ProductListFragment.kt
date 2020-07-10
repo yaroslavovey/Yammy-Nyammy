@@ -58,7 +58,7 @@ class ProductListFragment : BaseFragment() {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     ProductListViewModel.ViewEvent.ERROR -> {
-                        requireActivity().showMessageAboveBottomNav(R.string.error)
+                        showMessageAboveBottomNav(R.string.error)
                     }
                 }
             }

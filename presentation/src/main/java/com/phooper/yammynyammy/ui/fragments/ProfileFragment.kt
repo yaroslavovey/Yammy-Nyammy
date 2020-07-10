@@ -53,7 +53,7 @@ class ProfileFragment : BaseFragment() {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     ProfileViewModel.ViewEvent.ERROR -> {
-                        requireActivity().showMessageAboveBottomNav(R.string.error)
+                        showMessageAboveBottomNav(R.string.error)
                     }
                 }
             }

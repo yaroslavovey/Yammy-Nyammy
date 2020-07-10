@@ -58,11 +58,11 @@ class UpdatePasswordFragment : BaseFragment() {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     UpdatePasswordViewModel.ViewEvent.SUCCESS -> {
-                        requireActivity().showMessageAboveBottomNav(R.string.password_updated)
+                        showMessageAboveBottomNav(R.string.password_updated)
                         navController.popBackStack()
                     }
                     UpdatePasswordViewModel.ViewEvent.FAILURE -> {
-                        requireActivity().showMessage(R.string.error)
+                        showMessage(R.string.error)
                     }
                 }
             }
