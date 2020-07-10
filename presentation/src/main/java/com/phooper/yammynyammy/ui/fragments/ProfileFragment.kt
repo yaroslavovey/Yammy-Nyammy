@@ -23,8 +23,6 @@ class ProfileFragment : BaseFragment() {
 
     private val viewModel by viewModel<ProfileViewModel>()
 
-    private val sharedViewModel by sharedViewModel<MainContainerViewModel>()
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         navController = findNavController()
@@ -49,7 +47,6 @@ class ProfileFragment : BaseFragment() {
             email.text = it.email
             username.text = it.name
             phone_number.text = it.phoneNum
-
         })
 
         viewModel.event.observe(viewLifecycleOwner, Observer {
@@ -57,17 +54,6 @@ class ProfileFragment : BaseFragment() {
                 when (event) {
                     ProfileViewModel.ViewEvent.ERROR -> {
                         requireActivity().showMessageAboveBottomNav(R.string.error)
-                    }
-                    //TODO Find better way
-                    ProfileViewModel.ViewEvent.NAVIGATE_TO_LOGIN_ACTIVITY -> {
-                        with(requireActivity()) {
-                            startActivity(Intent(this, LoginActivity::class.java))
-                            overridePendingTransition(
-                                android.R.anim.fade_in,
-                                android.R.anim.fade_out
-                            )
-                            finish()
-                        }
                     }
                 }
             }

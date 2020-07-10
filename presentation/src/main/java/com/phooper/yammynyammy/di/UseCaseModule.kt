@@ -48,8 +48,6 @@ val useCaseModule = module {
     single { SignUpViaEmailAndPasswordUseCase(get()) }
     single { UpdateUserPasswordUseCase(get()) }
     single { ReauthenticateUseCase(get(), get()) }
-//    single { SignInAnonymouslyUseCase(get()) }
-//    single { LinkCurrentUserWithCredentialUseCase(get(), get()) }
-//    single { CurrentUserIsAnonymousUseCase(get()) }
+    single { GetIsUserSignedInFlow(get()) }
 
 }

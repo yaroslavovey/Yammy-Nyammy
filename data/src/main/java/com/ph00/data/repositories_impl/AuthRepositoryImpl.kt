@@ -3,6 +3,10 @@ package com.ph00.data.repositories_impl
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.ph00.domain.repositories.AuthRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
 class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepository {
@@ -10,6 +14,18 @@ class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepositor
     override fun getCurrentUserUid(): String? = firebaseAuth.currentUser?.uid
 
     override fun getCurrentUserEmail(): String? = firebaseAuth.currentUser?.email
+
+    @ExperimentalCoroutinesApi
+    override fun getIsUserSignedInFlow(): Flow<Boolean> =
+        callbackFlow {
+            val subscription = FirebaseAuth.AuthStateListener { auth ->
+                offer(auth.currentUser != null)
+            }
+
+            firebaseAuth.addAuthStateListener(subscription)
+
+            awaitClose { firebaseAuth.removeAuthStateListener(subscription) }
+        }
 
     override suspend fun signInViaEmailAndPassword(email: String, password: String): Boolean? {
         return try {

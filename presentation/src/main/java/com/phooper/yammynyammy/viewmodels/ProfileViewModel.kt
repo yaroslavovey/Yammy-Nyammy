@@ -30,7 +30,6 @@ class ProfileViewModel(
 
     fun signOut() = viewModelScope.launch {
         signOutUseCase.execute()
-        _event.postValue(Event(ViewEvent.NAVIGATE_TO_LOGIN_ACTIVITY))
     }
 
     enum class ViewState {
@@ -39,7 +38,6 @@ class ProfileViewModel(
     }
 
     enum class ViewEvent {
-        ERROR,
-        NAVIGATE_TO_LOGIN_ACTIVITY
+        ERROR
     }
 }

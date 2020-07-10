@@ -72,15 +72,11 @@ class MainContainerActivity : AppCompatActivity(),
             }
         })
 
-        viewModel.event.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { event ->
-                when (event) {
-                    MainContainerViewModel.ViewEvent.NAVIGATE_TO_LOGIN_ACTIVITY -> {
-                        startActivity(Intent(this, LoginActivity::class.java))
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                        finish()
-                    }
-                }
+        viewModel.userIsSignedIn.observe(this, Observer {
+            if (!it) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                finish()
             }
         })
     }
