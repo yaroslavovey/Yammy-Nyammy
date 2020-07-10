@@ -49,7 +49,7 @@ fun Date.formatToRussianString(): String =
     DateFormat.getDateTimeInstance(
         DateFormat.MEDIUM,
         DateFormat.SHORT,
-        Locale("ru")
+        Locale("en")
     ).format(this)
 
 fun String.isEmailValid() =

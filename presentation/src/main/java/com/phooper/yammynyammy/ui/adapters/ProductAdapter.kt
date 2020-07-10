@@ -53,7 +53,7 @@ class ProductAdapter :
         holder.apply {
             title.text = dataList[position].title
             description.text = dataList[position].desc
-            price.text = "${dataList[position].price} ₽"
+            price.text = "${dataList[position].price} $"
             picasso.load(dataList[position].imageURL).into(image)
         }
     }

@@ -46,7 +46,7 @@ class AddUpdateAddressFragment : BaseFragment() {
                 when (it) {
                     AddUpdateAddressViewModel.ViewState.DEFAULT_UPDATE_ADDRESS -> {
                         add_update_btn.apply {
-                            text = getString(R.string.update)
+                            text = getString(R.string.update_address)
                             setOnClickListener {
                                 if (areSomeInputsEmpty()) {
                                     showFillFieldsError()
@@ -67,7 +67,7 @@ class AddUpdateAddressFragment : BaseFragment() {
                     }
                     AddUpdateAddressViewModel.ViewState.DEFAULT_NEW_ADDRESS -> {
                         add_update_btn.apply {
-                            text = getString(R.string.add)
+                            text = getString(R.string.add_address)
                             setOnClickListener {
                                 if (areSomeInputsEmpty()) {
                                     showFillFieldsError()

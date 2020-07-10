@@ -22,7 +22,7 @@ class OrderProductDelegateAdapter() :
         product_description.text = item.product.desc
         product_title.text = item.product.title
         product_count.text = "x${item.count}"
-        product_price.text = "${item.totalPrice}  ₽"
+        product_price.text = "${item.totalPrice}  $"
     }
 
     override fun getLayoutId(): Int = R.layout.item_order_product

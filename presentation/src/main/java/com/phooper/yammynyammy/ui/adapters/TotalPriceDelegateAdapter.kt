@@ -14,7 +14,7 @@ class TotalPriceDelegateAdapter : KDelegateAdapter<TotalAndDeliveryPrice>() {
 
     @SuppressLint("SetTextI18n")
     override fun KViewHolder.onBind(item: TotalAndDeliveryPrice) {
-        delivery_price.text = "${item.deliveryPrice} ₽"
-        total_price.text = "${item.totalPrice} ₽"
+        delivery_price.text = "${item.deliveryPrice} $"
+        total_price.text = "${item.totalPrice} $"
     }
 }

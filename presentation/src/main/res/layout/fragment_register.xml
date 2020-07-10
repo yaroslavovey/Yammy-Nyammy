@@ -81,7 +81,7 @@
                 android:id="@+id/register_btn"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/auth_button_height"
-                android:text="@string/register_verb" />
+                android:text="@string/register" />
 
         </LinearLayout>
 

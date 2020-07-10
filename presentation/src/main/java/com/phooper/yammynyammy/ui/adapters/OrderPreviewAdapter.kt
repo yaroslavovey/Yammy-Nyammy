@@ -44,7 +44,7 @@ class OrderPreviewAdapter :
         holder.apply {
             date.text = dataList[position].timestamp?.formatToRussianString()
             status.text = dataList[position].addressAndStatus.status
-            totalSum.text = "${dataList[position].totalPrice} ₽"
+            totalSum.text = "${dataList[position].totalPrice} $"
         }
     }
 

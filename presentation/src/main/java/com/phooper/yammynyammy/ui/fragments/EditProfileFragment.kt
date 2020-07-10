@@ -63,7 +63,7 @@ class EditProfileFragment : BaseFragment() {
                         requireActivity().showMessage(R.string.error)
                     }
                     EditProfileViewModel.ViewEvent.SUCCESS -> {
-                        requireActivity().showMessage(R.string.data_updated)
+                        requireActivity().showMessage(R.string.your_data_has_been_updated)
                         navController.popBackStack()
                     }
                 }

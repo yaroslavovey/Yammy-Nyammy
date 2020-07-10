@@ -104,7 +104,7 @@ class MainContainerActivity : AppCompatActivity(),
             R.string.added_to_cart,
             Snackbar.LENGTH_SHORT
         )
-            .setAction(R.string.go) { navController.navigate(R.id.cart_fragment) }
+            .setAction(R.string.go_to_cart) { navController.navigate(R.id.cart_fragment) }
             .show()
 
     }

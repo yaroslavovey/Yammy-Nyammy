@@ -6,7 +6,7 @@ class Constants {
         const val USERS_COLLECTION = "users"
         const val ORDERS_COLLECTION = "orders"
         const val ADDRESSES_COLLECTION = "addresses"
-        const val DELIVERY_PRICE = 300
+        const val DELIVERY_PRICE = 10
     }
 
 }

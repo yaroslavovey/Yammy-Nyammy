@@ -24,12 +24,12 @@
         app:layout_constraintTop_toTopOf="@id/recycler_view">
 
         <com.google.android.material.textview.MaterialTextView
-            app:fontFamily="@font/roboto_medium"
-            android:textSize="@dimen/text_xlarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_addresses"
-            android:textColor="@color/grey_text" />
+            android:textColor="@color/grey_text"
+            android:textSize="@dimen/text_xlarge"
+            app:fontFamily="@font/roboto_medium" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -38,7 +38,10 @@
             android:text="@string/no_added_addresses"
             android:textColor="@color/grey_text" />
 
-        <include layout="@layout/item_add_new_address_btn" />
+        <include
+            layout="@layout/item_add_new_address_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <ProgressBar

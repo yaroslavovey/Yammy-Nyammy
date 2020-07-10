@@ -43,7 +43,7 @@ class OrderFragment : BaseFragment() {
 
         viewModel.appBarTitleDate.observe(viewLifecycleOwner, Observer {
             (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                getString(R.string.order_from) + it
+                getString(R.string.order_date) + it
         })
 
         viewModel.orderInfo.observe(viewLifecycleOwner, Observer {
