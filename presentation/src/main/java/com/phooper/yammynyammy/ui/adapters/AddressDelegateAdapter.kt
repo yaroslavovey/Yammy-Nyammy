@@ -15,7 +15,7 @@ data class AddressDelegateAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun KViewHolder.onBind(item: Address) {
-        address.text = "${R.string.apartment_short} ${item.apartNum} ${item.houseNum} ${item.street}"
+        address.text = "${itemView.resources.getString(R.string.apartment_short)} ${item.apartNum} ${item.houseNum} ${item.street}"
         item_layout.setOnClickListener {
             onItemClickListener.invoke(item.id)
         }
