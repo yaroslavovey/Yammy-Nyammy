@@ -18,7 +18,7 @@ open class EditProfileViewModel(
     private val setUserDataUseCase: SetUserDataUseCase
 ) : ViewModel() {
 
-    private val _state = MutableLiveData<ViewState>(ViewState.LOADING)
+    private val _state = MutableLiveData<ViewState>()
     val state: LiveData<ViewState> get() = _state
 
     private val _event = MutableLiveData<Event<ViewEvent>>()
@@ -36,10 +36,8 @@ open class EditProfileViewModel(
     private suspend fun loadUser() {
         getUserDataUseCase.execute()?.toPresentation()?.let {
             _userData.postValue(it)
-            _state.postValue(ViewState.DEFAULT)
             return
         }
-        _event.postValue(Event(ViewEvent.FAILURE))
         delay(5000)
         loadUser()
     }
@@ -54,8 +52,11 @@ open class EditProfileViewModel(
                 )
             )?.let {
                 _event.postValue(Event(ViewEvent.SUCCESS))
+                _state.value = ViewState.DEFAULT
                 return@launch
             }
+            //TODO Never reached :(
+            //Need to set firestore request timeout
             _event.postValue(Event(ViewEvent.FAILURE))
             _state.value = ViewState.DEFAULT
         }

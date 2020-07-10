@@ -22,7 +22,7 @@ val viewModelModule = module {
         AddUpdateAddressViewModel(addressUid, get(), get(), get(), get())
     }
     viewModel { (orderUid: String?) -> OrderViewModel(get(), orderUid) }
-    viewModel { MainContainerViewModel(get(), get(), get(), get()) }
+    viewModel { MainContainerViewModel(get(), get(), get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { EditProfileViewModel(get(), get()) }
     viewModel { UpdatePasswordViewModel(get(), get()) }

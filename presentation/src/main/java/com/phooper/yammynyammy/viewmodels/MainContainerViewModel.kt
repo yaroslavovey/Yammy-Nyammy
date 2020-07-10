@@ -10,10 +10,9 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
 class MainContainerViewModel(
-    private val getAllCartProductIdAndCountAsFLowUseCase: GetAllCartProductIdAndCountAsFLowUseCase,
+    getAllCartProductIdAndCountAsFLowUseCase: GetAllCartProductIdAndCountAsFLowUseCase,
     private val getAddressByUidUseCase: GetAddressByUidUseCase,
-    private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase,
-    private val getUserDataUseCase: GetUserDataUseCase
+    private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase
 ) : ViewModel() {
 
     private val _event = MutableLiveData<Event<ViewEvent>>()
@@ -32,7 +31,7 @@ class MainContainerViewModel(
 
     private fun checkUser() {
         viewModelScope.launch {
-            if (getCurrentUserUidUseCase.execute() == null || getUserDataUseCase.execute() == null)
+            if (getCurrentUserUidUseCase.execute() == null)
                 _event.postValue(Event(ViewEvent.NAVIGATE_TO_LOGIN_ACTIVITY))
         }
     }
