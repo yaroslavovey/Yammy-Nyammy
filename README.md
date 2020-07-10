@@ -1,45 +1,36 @@
-# Yammy-Nyammy (в процессе разработки)
+## Yammy Nyammy (on development stage)
 
-<p><b>Интернет-магазин по доставке сладкого с <a href="https://github.com/ph00per/Fake-json-server-for-Yammy-Nyammy">Fake Rest Api сервером</a>.</b></p>
-<p><b>Макет Figma: </b><a href="https://www.figma.com/file/zYyr1oB31QX1yDd2RIYqJV/YammyNyammy?node-id=0%3A1">ТУТ</a></p>
-<p><b>Стек: </b>MVVM, Koin, Retrofit2, Firebase (Firestore + Firebase Auth), Coroutines, Material Design.</p>
+#### **Online store for delivering sweets with a [Fake Rest Api server](https://github.com/ph00per/Fake-json-server-for-Yammy-Nyammy)**
 
-<table align="middle">
-  <tr>
-    <td align="middle">Авторизация</td>
-    <td align="middle">Меню</td>
-    <td align="middle">Корзина</td>
-  </tr>
-  <tr>
-    <td><img src="https://sun1-14.userapi.com/wRDrBPpejpftoKwpRZszdp1BPl3STNh--VaN6A/482u_iVoToU.jpg"></td>
-    <td><img src="https://sun1-47.userapi.com/rIdxONmacK2sAVIviq4MrMcu5UcsNr7_OMmI_Q/zD8XuiY0BmQ.jpg"></td>
-    <td><img src="https://sun1-30.userapi.com/LBhpdMyx5JFrW-62ryXvwwyAZF3hH3u-5F3J0A/QgD1CjSgxMo.jpg"></td>
-  </tr>
-</table>
-
-<table align="middle">
-  <tr>
-    <td align="middle">Оформление заказа</td>
-    <td align="middle">Адреса</td>
-    <td align="middle">Детали заказа</td>
-  </tr>
-  <tr>
-    <td><img src="https://sun1-21.userapi.com/vTj3nlWzU5oVA6tLXX1pmB__rVyrfC4LmTymQQ/zCSaRvMilOM.jpg"></td>
-    <td><img src="https://sun1-30.userapi.com/yMR4d7HGm8PnDRrl80uN0B3aBgATvVxnmXGJKA/Zq7NnhGWpb8.jpg"></td>
-    <td><img src="https://sun1-20.userapi.com/N_vmFYc9qA-QD0pbXGVSrAFtMpRHViNJ92leCw/r8eTjd1DZDY.jpg"></td>
-  </tr>
-</table>
-
-<table align="middle">
-  <tr>
-    <td align="middle">Профиль</td>
-    <td align="middle">Заказы</td>
-    <td align="middle">Добавление в корзину</td>
-  </tr>
-  <tr>
-    <td><img src="https://sun1-92.userapi.com/WGqgUC3UmvGLpvekrrHJg4zBuzYnTq4nw73W2Q/RYoqRuRt1U4.jpg"></td>
-    <td><img src="https://sun1-20.userapi.com/Jruttke-d5_LlGitZz6t964_2FMdEmmTDurqYg/mtUM81LU4mA.jpg"></td>
-    <td><img src="https://sun1-89.userapi.com/DTgLlXYkqcFbSeoT_PPAbKIC7098_RuxoRkvGQ/IcV0SFXeQFY.jpg"></td>
-  </tr>
-</table>
-
+#### **[Figma template (click)](https://www.figma.com/file/zYyr1oB31QX1yDd2RIYqJV/YammyNyammy?node-id=0%3A1)**  
+- **Stack**:
+    - MVVM
+    - Koin
+    - Firebase (Firestore + Firebase Auth)
+    - Kotlin Coroutines
+    - Material Design
+    - Navigation component
+    - LiveData
+    - Retrofit2 *(only for 3 GET calls)*
+    - Room *(only for cart cache)*
+    
+- **If you want to try this app follow these steps:**  
+    - Get google-services.json file following [this guide](https://firebase.google.com/docs/android/setup?hl=ru#console).  
+    - Drop it at root of presentation folder.  
+    > ![](https://sun1-30.userapi.com/dKGoqY54DTzOFhWjXBZ53DiVMK0meVXmyR9p_A/uAQsHZ_1ZjQ.jpg "there")  
+    - Also you have to enable email & password authentication in firebase console.  
+    > ![](https://sun9-72.userapi.com/XpRJm5kJ3fkxoCssGEcQqWKjy191dAREkCGM7w/WOB29t6cVvM.jpg "there")  
+ ---
+### Here some screens from app.
+ Auth | Menu | Cart 
+:--------: |:-----:| :-------:
+ ![](https://vk.com/doc63877244_558288802?hash=050ff48cd4765a2f46&dl=db555507e437cc5e3c&wnd=1)  | ![](https://vk.com/doc63877244_558288813?hash=e5e330d332fd0dd6c7&dl=852c6627bbf2354be6&wnd=1)  | ![](https://vk.com/doc63877244_558288819?hash=59df345f830394804f&dl=a52a64a1707e769fc7&wnd=1)  
+ 
+  My addresses | Checkout | Profile 
+:--------: |:-----:| :-------:
+ ![](https://vk.com/doc63877244_558288810?hash=70eeb9d8162b11f88b&dl=ca8ea0d2be4e22853b&wnd=1)  | ![](https://vk.com/doc63877244_558288790?hash=437f10a7bbe95796fd&dl=314bf336b43ec3230e&wnd=1)  | ![](https://vk.com/doc63877244_558288807?hash=7edac5de9eb5316116&dl=f7efef73a9e810098c&wnd=1)
+ 
+  Select count | Order details
+:--------: |:-----:
+ ![](https://vk.com/doc63877244_558288793?hash=ef233efd412f185b19&dl=ed1d2f400eab31bb2d&wnd=1)  | ![](https://vk.com/doc63877244_558288825?hash=8318d436ca038200f9&dl=83a42c1b433caf3ef5&wnd=1)  
+ 
