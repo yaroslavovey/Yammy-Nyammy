@@ -1,9 +1,6 @@
 package com.phooper.yammynyammy.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ph00.domain.usecases.AddProductsToCartUseCase
 import kotlinx.coroutines.launch
 
@@ -12,8 +9,9 @@ open class AddToCartDialogViewModel(
     private val addProductsToCartUseCase: AddProductsToCartUseCase
 ) : ViewModel() {
 
-    private val _itemCount = MutableLiveData(1)
-    val itemCount: LiveData<Int> get() = _itemCount
+    @Suppress("PropertyName")
+    protected val _itemCount = MutableLiveData(1)
+    val itemCount: LiveData<String> = Transformations.map(_itemCount) { it.toString() }
 
     fun increaseItemCountByOne() {
         if (_itemCount.value in 1..98)
@@ -27,9 +25,10 @@ open class AddToCartDialogViewModel(
 
     fun addProductsToCart() {
         viewModelScope.launch {
-            addProductsToCartUseCase.execute(productId, _itemCount.value!!)
+            _itemCount.value?.let { itemCount ->
+                addProductsToCartUseCase.execute(productId, itemCount)
+            }
         }
     }
-
 
 }

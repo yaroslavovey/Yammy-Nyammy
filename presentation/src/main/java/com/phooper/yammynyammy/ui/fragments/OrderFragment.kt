@@ -2,7 +2,6 @@ package com.phooper.yammynyammy.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.livermor.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
@@ -10,6 +9,7 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.ui.adapters.OrderAddressAndStateDelegateAdapter
 import com.phooper.yammynyammy.ui.adapters.OrderProductDelegateAdapter
 import com.phooper.yammynyammy.ui.adapters.TotalPriceDelegateAdapter
+import com.phooper.yammynyammy.utils.setAppBarTitle
 import com.phooper.yammynyammy.viewmodels.OrderViewModel
 import kotlinx.android.synthetic.main.fragment_order.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,9 +41,8 @@ class OrderFragment : BaseFragment() {
             adapter = diffAdapter
         }
 
-        viewModel.appBarTitleDate.observe(viewLifecycleOwner, Observer {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                getString(R.string.order_date) + it
+        viewModel.appBarTitleDate.observe(viewLifecycleOwner, Observer { date ->
+            setAppBarTitle(getString(R.string.order_date) + date)
         })
 
         viewModel.orderInfo.observe(viewLifecycleOwner, Observer {

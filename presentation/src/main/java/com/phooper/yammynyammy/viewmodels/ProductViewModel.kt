@@ -6,6 +6,8 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.ph00.domain.usecases.AddProductsToCartUseCase
 import com.ph00.domain.usecases.GetProductByIdUseCase
+import com.phooper.yammynyammy.entities.Product
+import com.phooper.yammynyammy.utils.toPresentation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -23,23 +25,14 @@ class ProductViewModel(
     val state: LiveData<ViewState> get() = _state
 
     val totalPrice: LiveData<String> =
-        Transformations.switchMap(itemCount) { count ->
-            Transformations.map(productPrice) { price ->
-                return@map "${count * price.toInt()} ₽"
+        Transformations.switchMap(_itemCount) { count ->
+            Transformations.map(_product) { product ->
+                return@map "${count * product.price} $"
             }
         }
 
-    private val _description = MutableLiveData<String>()
-    val description: LiveData<String> get() = _description
-
-    private val _imgLink = MutableLiveData<String>()
-    val imgLink: LiveData<String> get() = _imgLink
-
-    private val _productTitle = MutableLiveData<String>()
-    val productTitle: LiveData<String> get() = _productTitle
-
-    private val _productPrice = MutableLiveData<String>()
-    private val productPrice: LiveData<String> get() = _productPrice
+    private val _product = MutableLiveData<Product>()
+    val product: LiveData<Product> get() = _product
 
     init {
         viewModelScope.launch {
@@ -49,14 +42,11 @@ class ProductViewModel(
 
     private suspend fun loadProduct() {
         getProductByIdUseCase.execute(productId)?.let { product ->
-            _imgLink.postValue(product.imageURL)
-            _description.postValue(product.desc)
-            _productPrice.postValue(product.price.toString())
-            _productTitle.postValue(product.title)
+            _product.postValue(product.toPresentation())
             _state.postValue(ViewState.DEFAULT)
             return
         }
-        delay(3000)
+        delay(5000)
         loadProduct()
     }
 

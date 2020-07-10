@@ -79,6 +79,22 @@ class MainContainerActivity : AppCompatActivity(),
                 finish()
             }
         })
+
+        viewModel.event.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let { event ->
+                when (event) {
+                    MainContainerViewModel.ViewEvent.ADDED_TO_CART -> {
+                        Snackbar.make(
+                            findViewById(R.id.coordinator_layout),
+                            R.string.added_to_cart,
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .setAction(R.string.go_to_cart) { navController.navigate(R.id.cart_fragment) }
+                            .show()
+                    }
+                }
+            }
+        })
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -97,15 +113,4 @@ class MainContainerActivity : AppCompatActivity(),
             (topLevelDestinations.contains(destId))
     }
 
-    //TODO Come up with something better
-    fun showAddedToCartSnackBar() {
-        Snackbar.make(
-            findViewById(R.id.coordinator_layout),
-            R.string.added_to_cart,
-            Snackbar.LENGTH_SHORT
-        )
-            .setAction(R.string.go_to_cart) { navController.navigate(R.id.cart_fragment) }
-            .show()
-
-    }
 }

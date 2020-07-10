@@ -2,12 +2,11 @@ package com.phooper.yammynyammy.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.ui.activities.MainContainerActivity
+import com.phooper.yammynyammy.utils.setAppBarTitle
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.ProductViewModel
 import com.squareup.picasso.Picasso
@@ -22,13 +21,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class ProductFragment : BaseFragment() {
+
     override val layoutRes = R.layout.fragment_product
+
+    private val sharedViewModel by sharedViewModel<MainContainerViewModel>()
 
     private val viewModel by viewModel<ProductViewModel> {
         parametersOf(
-            ProductFragmentArgs.fromBundle(
-                requireArguments()
-            ).productId
+            ProductFragmentArgs.fromBundle(requireArguments()).productId
         )
     }
 
@@ -43,24 +43,19 @@ class ProductFragment : BaseFragment() {
     }
 
     private fun initViews() {
-        viewModel.itemCount.observe(viewLifecycleOwner, Observer {
-            count_text.text = it.toString()
-        })
-
-        viewModel.description.observe(viewLifecycleOwner, Observer {
-            product_description.text = it
-        })
 
         viewModel.totalPrice.observe(viewLifecycleOwner, Observer {
             product_price.text = it
         })
 
-        viewModel.productTitle.observe(viewLifecycleOwner, Observer {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title = it
+        viewModel.itemCount.observe(viewLifecycleOwner, Observer {
+            count_text.text = it
         })
 
-        viewModel.imgLink.observe(viewLifecycleOwner, Observer {
-            picasso.load(it).into(product_image)
+        viewModel.product.observe(viewLifecycleOwner, Observer { product ->
+            setAppBarTitle(product.title)
+            picasso.load(product.imageURL).into(product_image)
+            product_description.text = product.desc
         })
 
         viewModel.state.observe(viewLifecycleOwner, Observer { viewState ->
@@ -78,9 +73,7 @@ class ProductFragment : BaseFragment() {
 
         add_to_cart_btn.setOnClickListener {
             viewModel.addProductsToCart()
-            //TODO Come up with something better
-            (requireActivity() as MainContainerActivity).showAddedToCartSnackBar()
-            //
+            sharedViewModel.triggerAddedToCartEvent()
             navController.popBackStack()
         }
 

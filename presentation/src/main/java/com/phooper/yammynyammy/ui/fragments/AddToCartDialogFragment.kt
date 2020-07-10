@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.ui.activities.MainContainerActivity
 import com.phooper.yammynyammy.utils.Constants.Companion.PRODUCT_ID
 import com.phooper.yammynyammy.viewmodels.AddToCartDialogViewModel
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
@@ -22,6 +21,8 @@ import org.koin.core.parameter.parametersOf
 class AddToCartDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var navController: NavController
+
+    private val sharedViewModel by sharedViewModel<MainContainerViewModel>()
 
     private val viewModel by viewModel<AddToCartDialogViewModel> {
         parametersOf(
@@ -57,7 +58,7 @@ class AddToCartDialogFragment : BottomSheetDialogFragment() {
 
     private fun initViews() {
         viewModel.itemCount.observe(this, Observer {
-            count_text.text = it.toString()
+            count_text.text = it
         })
 
         close_btn.setOnClickListener {
@@ -66,9 +67,7 @@ class AddToCartDialogFragment : BottomSheetDialogFragment() {
 
         add_to_cart_btn.setOnClickListener {
             viewModel.addProductsToCart()
-            //TODO Come up with something better
-            (requireActivity() as MainContainerActivity).showAddedToCartSnackBar()
-            //
+            sharedViewModel.triggerAddedToCartEvent()
             dismiss()
         }
 

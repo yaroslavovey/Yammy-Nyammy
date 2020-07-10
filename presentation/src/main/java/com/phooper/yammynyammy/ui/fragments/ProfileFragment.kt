@@ -1,18 +1,14 @@
 package com.phooper.yammynyammy.ui.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.ui.activities.LoginActivity
 import com.phooper.yammynyammy.utils.showMessageAboveBottomNav
-import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : BaseFragment() {
@@ -42,7 +38,7 @@ class ProfileFragment : BaseFragment() {
                 }
             }
         })
-            //TODO Fix null liveData
+        //TODO Fix null liveData
         viewModel.userData?.observe(viewLifecycleOwner, Observer {
             email.text = it.email
             username.text = it.name

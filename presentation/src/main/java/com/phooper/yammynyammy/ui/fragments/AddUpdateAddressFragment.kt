@@ -2,13 +2,13 @@ package com.phooper.yammynyammy.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.utils.hideKeyboard
+import com.phooper.yammynyammy.utils.setAppBarTitle
 import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.viewmodels.AddUpdateAddressViewModel
@@ -41,10 +41,10 @@ class AddUpdateAddressFragment : BaseFragment() {
         house_num_input.setHideLayoutErrorOnTextChangedListener(house_num_input_layout)
         apartment_num_input.setHideLayoutErrorOnTextChangedListener(apartment_num_input_layout)
 
-        viewModel.state.observe(viewLifecycleOwner, Observer { viewState ->
-            viewState?.let {
-                when (it) {
-                    AddUpdateAddressViewModel.ViewState.DEFAULT_UPDATE_ADDRESS -> {
+        viewModel.mode.observe(viewLifecycleOwner, Observer {
+            it?.let { mode ->
+                when (mode) {
+                    AddUpdateAddressViewModel.ViewMode.UPDATE_ADDRESS -> {
                         add_update_btn.apply {
                             text = getString(R.string.update_address)
                             setOnClickListener {
@@ -60,12 +60,10 @@ class AddUpdateAddressFragment : BaseFragment() {
                                 }
                             }
                         }
-                        (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                            getString(R.string.edit_address)
+                        setAppBarTitle(getString(R.string.edit_address))
                         delete_address_btn.visibility = View.VISIBLE
-                        progress_bar.visibility = View.GONE
                     }
-                    AddUpdateAddressViewModel.ViewState.DEFAULT_NEW_ADDRESS -> {
+                    AddUpdateAddressViewModel.ViewMode.NEW_ADDRESS -> {
                         add_update_btn.apply {
                             text = getString(R.string.add_address)
                             setOnClickListener {
@@ -81,9 +79,17 @@ class AddUpdateAddressFragment : BaseFragment() {
                                 }
                             }
                         }
-                        (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                            getString(R.string.new_address)
+                        setAppBarTitle(getString(R.string.new_address))
                         delete_address_btn.visibility = View.GONE
+                    }
+                }
+            }
+        })
+
+        viewModel.state.observe(viewLifecycleOwner, Observer {
+            it?.let { state ->
+                when (state) {
+                    AddUpdateAddressViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
                     }
                     AddUpdateAddressViewModel.ViewState.LOADING -> {

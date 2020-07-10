@@ -11,6 +11,7 @@ import com.livermor.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.ui.adapters.AddAddressButtonDelegateAdapter
 import com.phooper.yammynyammy.ui.adapters.AddressDelegateAdapter
+import com.phooper.yammynyammy.utils.setAppBarTitle
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.MyAddressesViewModel
 import kotlinx.android.synthetic.main.fragment_my_addresses.*
@@ -66,12 +67,10 @@ class MyAddressesFragment : BaseFragment() {
             it?.let { viewMode ->
                 when (viewMode) {
                     MyAddressesViewModel.ViewMode.CHECKING_OUT_ADDRESSES -> {
-                        (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                            getString(R.string.my_addresses)
+                        setAppBarTitle(getString(R.string.my_addresses))
                     }
                     MyAddressesViewModel.ViewMode.CHOOSING_DELIVERY_ADDRESS -> {
-                        (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                            getString(R.string.delivery_address)
+                        setAppBarTitle(getString(R.string.delivery_address))
                     }
                 }
             }

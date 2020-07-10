@@ -28,6 +28,9 @@ class AddUpdateAddressViewModel(
     private val _state = MutableLiveData<ViewState>()
     val state: LiveData<ViewState> get() = _state
 
+    private val _mode = MutableLiveData<ViewMode>()
+    val mode: LiveData<ViewMode> get() = _mode
+
     private val _addressLiveData = MutableLiveData<Address>()
     val addressLiveData: LiveData<Address> get() = _addressLiveData
 
@@ -41,12 +44,14 @@ class AddUpdateAddressViewModel(
         _state.postValue(ViewState.LOADING)
         addressUid?.let { uid ->
             getAddressByUidUseCase.execute(uid)?.toPresentation()?.let {
-                _state.postValue(ViewState.DEFAULT_UPDATE_ADDRESS)
+                _state.postValue(ViewState.DEFAULT)
+                _mode.postValue(ViewMode.UPDATE_ADDRESS)
                 _addressLiveData.postValue(it)
                 return
             }
         }
-        _state.postValue(ViewState.DEFAULT_NEW_ADDRESS)
+        _state.postValue(ViewState.DEFAULT)
+        _mode.postValue(ViewMode.NEW_ADDRESS)
     }
 
     fun addAddress(street: String, houseNum: String, apartNum: String) {
@@ -101,8 +106,12 @@ class AddUpdateAddressViewModel(
 
     enum class ViewState {
         LOADING,
-        DEFAULT_NEW_ADDRESS,
-        DEFAULT_UPDATE_ADDRESS
+        DEFAULT
+    }
+
+    enum class ViewMode {
+        NEW_ADDRESS,
+        UPDATE_ADDRESS
     }
 
     enum class ViewEvent {
@@ -111,4 +120,5 @@ class AddUpdateAddressViewModel(
         UPDATE_SUCCESS,
         CREATE_SUCCESS
     }
+
 }

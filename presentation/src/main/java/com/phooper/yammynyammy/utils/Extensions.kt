@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -35,6 +36,10 @@ fun Context.hideKeyboard(view: View) {
 
 fun Fragment.hideKeyboard() {
     view?.let { activity?.hideKeyboard(it) }
+}
+
+fun Fragment.setAppBarTitle(title: String) {
+    (requireActivity() as AppCompatActivity).supportActionBar?.title = title
 }
 
 fun Activity.showMessage(msgRes: Int) =
