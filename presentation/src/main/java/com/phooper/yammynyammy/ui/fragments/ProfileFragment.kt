@@ -38,11 +38,9 @@ class ProfileFragment : BaseFragment() {
                 }
             }
         })
-        //TODO Fix null liveData
-        viewModel.userData?.observe(viewLifecycleOwner, Observer {
-            email.text = it.email
-            username.text = it.name
-            phone_number.text = it.phoneNum
+
+        viewModel.email.observe(viewLifecycleOwner, Observer {
+            email.text = it
         })
 
         viewModel.event.observe(viewLifecycleOwner, Observer {
@@ -71,7 +69,7 @@ class ProfileFragment : BaseFragment() {
             navController.navigate(ProfileFragmentDirections.actionProfileFragmentToUpdatePasswordFragment())
         }
 
-        edit_btn.setOnClickListener {
+        personal_data_layout.setOnClickListener {
             navController.navigate(ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment())
         }
     }

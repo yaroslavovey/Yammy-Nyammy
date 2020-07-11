@@ -37,8 +37,7 @@ val useCaseModule = module {
 
     //User's phone & name
     single { GetUserDataUseCase(get(), get()) }
-    single { GetUserDataAsFlowUseCase(get(), get()) }
-    single { SetUserDataUseCase(get(), get(), get()) }
+    single { SetUserDataUseCase(get(), get()) }
 
     //Auth
     single { GetCurrentUserUidUseCase(get()) }

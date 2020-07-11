@@ -54,20 +54,6 @@ class UserRepositoryImpl(
         }
     }
 
-    @ExperimentalCoroutinesApi
-    override fun getUserPersonalDataAsFlow(userUid: String): Flow<UserModel?> =
-        callbackFlow {
-            val eventDocument = firebaseFirestone
-                .collection(USERS_COLLECTION)
-                .document(userUid)
-
-            val subscription = eventDocument.addSnapshotListener { querySnapshot, _ ->
-                offer(querySnapshot?.toObject<UserModel>())
-            }
-
-            awaitClose { subscription.remove() }
-        }
-
     override suspend fun getAddressByUid(uid: String, userUid: String): AddressModel? {
         return try {
             firebaseFirestone

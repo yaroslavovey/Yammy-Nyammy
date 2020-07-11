@@ -81,5 +81,6 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="address_will_be_deleted">The address will be deleted.</string>
     <string name="apartment_short">Apt.</string>
+    <string name="personal_data">Personal data</string>
 
 </resources>

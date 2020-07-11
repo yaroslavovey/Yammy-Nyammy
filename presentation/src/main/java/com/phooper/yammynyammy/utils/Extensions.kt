@@ -82,7 +82,7 @@ fun ProductModel.toPresentation(): Product =
 fun CartProductModel.toPresentation(): CartProduct =
     CartProduct(totalPrice = totalPrice, count = count, product = product.toPresentation())
 
-fun UserModel.toPresentation(): User = User(phoneNum = phoneNum, name = name, email = email)
+fun UserModel.toPresentation(): User = User(phoneNum = phoneNum, name = name)
 
 fun OrderAddressAndStatusModel.toPresentation(): OrderAddressAndStatus =
     OrderAddressAndStatus(address = address, status = status)

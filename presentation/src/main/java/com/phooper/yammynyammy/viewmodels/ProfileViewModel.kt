@@ -1,16 +1,16 @@
 package com.phooper.yammynyammy.viewmodels
 
-import androidx.lifecycle.*
-import com.ph00.domain.usecases.GetUserDataAsFlowUseCase
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ph00.domain.usecases.GetCurrentUserEmailUseCase
 import com.ph00.domain.usecases.SignOutUseCase
-import com.phooper.yammynyammy.entities.User
 import com.phooper.yammynyammy.utils.Event
-import com.phooper.yammynyammy.utils.toPresentation
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
-    private val getUserDataAsFlowUseCase: GetUserDataAsFlowUseCase,
+    private val getCurrentUserEmailUseCase: GetCurrentUserEmailUseCase,
     private val signOutUseCase: SignOutUseCase
 ) : ViewModel() {
 
@@ -20,13 +20,19 @@ class ProfileViewModel(
     private val _event = MutableLiveData<Event<ViewEvent>>()
     val event: LiveData<Event<ViewEvent>> get() = _event
 
-    val userData: LiveData<User>?
-        get() = getUserDataAsFlowUseCase.execute()?.asLiveData(IO)?.switchMap { userData ->
-            liveData(viewModelScope.coroutineContext) {
-                if (userData != null) emit(userData.toPresentation())
-                _state.postValue(ViewState.DEFAULT)
-            }
+    private val _email = MutableLiveData<String>()
+    val email: LiveData<String> get() = _email
+
+    init {
+        loadUserEmail()
+    }
+
+    private fun loadUserEmail() {
+        getCurrentUserEmailUseCase.execute()?.let {
+            _email.value = it
         }
+        _state.postValue(ViewState.DEFAULT)
+    }
 
     fun signOut() = viewModelScope.launch {
         signOutUseCase.execute()

@@ -5,44 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/edit_btn"
-        style="@style/RoundButton"
-        android:layout_marginEnd="@dimen/padding_margin_xlarge"
-        android:backgroundTint="@color/color_surface"
-        app:icon="@drawable/ic_edit"
-        app:iconTint="@color/color_on_surface"
-        app:layout_constraintBottom_toBottomOf="@+id/email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/username"
-        app:rippleColor="@color/button_dark_ripple_color" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/username"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_margin_xlarge"
-        android:layout_marginTop="@dimen/padding_margin_xlarge"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textSize="@dimen/text_xlarge"
-        app:layout_constraintEnd_toStartOf="@id/edit_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/email"
-        style="@style/AppTheme.TextNormal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_margin_small"
+        android:layout_margin="@dimen/padding_margin_xlarge"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/grey_text"
+        android:textSize="@dimen/text_large"
         app:fontFamily="@font/roboto"
-        app:layout_constraintEnd_toStartOf="@id/edit_btn"
-        app:layout_constraintStart_toStartOf="@id/username"
-        app:layout_constraintTop_toBottomOf="@id/username" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/first_divider"
@@ -53,32 +27,48 @@
         android:background="@color/divider"
         app:layout_constraintTop_toBottomOf="@id/email" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/phone_number_label"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/personal_data_layout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_margin_xlarge"
-        android:text="@string/phone_number"
-        app:layout_constraintStart_toStartOf="@id/username"
-        app:layout_constraintTop_toBottomOf="@id/first_divider" />
-
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/phone_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_margin_xlarge"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/phone_number_label" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/first_divider">
 
-    <View
-        android:id="@+id/second_divider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
-        android:layout_marginHorizontal="@dimen/padding_margin_xlarge"
-        android:layout_marginTop="@dimen/padding_margin_xlarge"
-        android:background="@color/divider"
-        app:layout_constraintTop_toBottomOf="@id/phone_number_label" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/padding_margin_xlarge">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/personal_data_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/personal_data"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_forward"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/second_divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginTop="@dimen/padding_margin_xlarge"
+                android:background="@color/divider"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/personal_data_label" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/my_addresses_layout"
@@ -86,7 +76,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/second_divider">
+        app:layout_constraintTop_toBottomOf="@id/personal_data_layout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -174,8 +164,8 @@
         android:layout_marginTop="@dimen/padding_margin_xlarge"
         android:text="@string/sign_out"
         android:textAllCaps="true"
-        app:layout_constraintEnd_toEndOf="@+id/edit_btn"
-        app:layout_constraintStart_toStartOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="@+id/email"
+        app:layout_constraintStart_toStartOf="@+id/email"
         app:layout_constraintTop_toBottomOf="@id/change_password_layout" />
 
     <LinearLayout

@@ -10,7 +10,6 @@ interface UserRepository {
 
     suspend fun setUserPersonalData(data: UserModel, userUid: String): Boolean?
     suspend fun getUserPersonalData(userUid: String): UserModel?
-    fun getUserPersonalDataAsFlow(userUid: String): Flow<UserModel?>
 
     suspend fun getAddressByUid(uid: String, userUid: String): AddressModel?
     suspend fun updateAddress(address: AddressModel, addressUid: String, userUid: String): Boolean?

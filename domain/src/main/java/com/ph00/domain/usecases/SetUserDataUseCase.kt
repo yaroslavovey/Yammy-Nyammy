@@ -7,18 +7,15 @@ import kotlinx.coroutines.withContext
 
 class SetUserDataUseCase(
     private val userRepository: UserRepository,
-    private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase,
-    private val getCurrentUserEmailUseCase: GetCurrentUserEmailUseCase
+    private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase
 ) {
 
     suspend fun execute(data: UserModel): Boolean? =
         withContext(IO) {
-            getCurrentUserEmailUseCase.execute()?.let { email ->
-                getCurrentUserUidUseCase.execute()?.let { uid ->
-                    userRepository.setUserPersonalData(
-                        UserModel(phoneNum = data.phoneNum, name = data.name, email = email), uid
-                    )
-                }
+            getCurrentUserUidUseCase.execute()?.let { uid ->
+                userRepository.setUserPersonalData(
+                    UserModel(phoneNum = data.phoneNum, name = data.name), uid
+                )
             }
         }
 
