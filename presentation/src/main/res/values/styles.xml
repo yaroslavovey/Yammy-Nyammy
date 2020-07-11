@@ -130,7 +130,7 @@
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:backgroundTint">@color/color_secondary</item>
         <item name="android:textSize">@dimen/text_medium</item>
-        <item name="rippleColor">@color/launcher_button_ripple_color</item>>
+        <item name="rippleColor">@color/login_button_ripple_color</item>>
         <item name="android:letterSpacing">.01</item>
     </style>
 
