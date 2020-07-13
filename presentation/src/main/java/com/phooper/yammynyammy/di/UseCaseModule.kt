@@ -1,18 +1,20 @@
 package com.phooper.yammynyammy.di
 
 import com.ph00.domain.usecases.*
+import kotlinx.coroutines.FlowPreview
 import org.koin.dsl.module
 
+@FlowPreview
 val useCaseModule = module {
     //Addresses
     single { AddAddressUseCase(get(), get()) }
     single { DeleteAddressByUidUseCase(get(), get()) }
     single { GetAddressByUidUseCase(get(), get()) }
     single { UpdateAddressByUidUseCase(get(), get()) }
-    single { GetAllAddressesAsFlowUseCase(get(), get()) }
+    single { GetAllAddressesUseCase(get(), get()) }
 
     //Orders
-    single { AddOrderUseCase(get(), get()) }
+    single { AddOrderUseCase(get(), get(), get(), get(), get()) }
     single { GetOrderListUseCase(get(), get()) }
     single { GetOrderByUidUseCase(get(), get()) }
     single { GetDeliveryPriceUseCase(get()) }
@@ -22,13 +24,8 @@ val useCaseModule = module {
     single { RemoveProductsFromCartUseCase(get()) }
     single { GetAllCartProductCountUseCase(get()) }
     single { DropCartUseCase(get()) }
-
-    single { GetAllProductInCartUseCase(get(), get()) }
-    single { GetAllProductInCartAsFlowUseCase(get(), get()) }
-
+    single { GetAllProductsInCartUseCase(get(), get()) }
     single { GetAllCartProductIdAndCountUseCase(get()) }
-    single { GetAllCartProductIdAndCountAsFLowUseCase(get()) }
-
 
     //Products
     single { GetProductByIdUseCase(get()) }
@@ -47,6 +44,6 @@ val useCaseModule = module {
     single { SignUpViaEmailAndPasswordUseCase(get()) }
     single { UpdateUserPasswordUseCase(get()) }
     single { ReauthenticateUseCase(get(), get()) }
-    single { GetIsUserSignedInFlow(get()) }
+    single { GetIsUserSignedInUseCase(get()) }
 
 }

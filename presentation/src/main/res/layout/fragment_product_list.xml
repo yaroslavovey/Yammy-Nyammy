@@ -19,4 +19,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/no_network_layout"
+        layout="@layout/no_network_layout"
+        android:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

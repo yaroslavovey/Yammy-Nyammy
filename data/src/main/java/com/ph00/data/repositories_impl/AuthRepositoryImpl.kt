@@ -7,13 +7,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
 class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepository {
 
-    override fun getCurrentUserUid(): String? = firebaseAuth.currentUser?.uid
+    override fun getCurrentUserUid(): Flow<String> =
+        flow { firebaseAuth.currentUser?.uid?.let { emit(it) } }
 
-    override fun getCurrentUserEmail(): String? = firebaseAuth.currentUser?.email
+    override fun getCurrentUserEmail() = flow { firebaseAuth.currentUser?.email?.let { emit(it) } }
 
     @ExperimentalCoroutinesApi
     override fun getIsUserSignedInFlow(): Flow<Boolean> =
@@ -27,63 +29,38 @@ class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepositor
             awaitClose { firebaseAuth.removeAuthStateListener(subscription) }
         }
 
-    override suspend fun signInViaEmailAndPassword(email: String, password: String): Boolean? {
-        return try {
+    override fun signInViaEmailAndPassword(email: String, password: String): Flow<Unit> =
+        flow {
             firebaseAuth
                 .signInWithEmailAndPassword(email, password)
                 .await()
-            true
-        } catch (e: Exception) {
-            null
+                .let { emit(Unit) }
         }
+
+    override fun signOut() = flow { emit(firebaseAuth.signOut()) }
+
+    override fun signUpViaEmailAndPassword(email: String, password: String): Flow<Unit> = flow {
+        firebaseAuth
+            .createUserWithEmailAndPassword(email, password)
+            .await()
+            .let { emit(Unit) }
     }
 
-    override suspend fun signOut() = firebaseAuth.signOut()
-
-    override suspend fun signInAnonymously(): Boolean? {
-        return try {
-            firebaseAuth
-                .signInAnonymously()
-                .await()
-            true
-        } catch (e: Exception) {
-            null
-        }
+    override fun updatePassword(newPassword: String): Flow<Unit> = flow {
+        firebaseAuth
+            .currentUser
+            ?.updatePassword(newPassword)
+            ?.await()
+            ?.let { emit(Unit) }
     }
 
-    override suspend fun signUpViaEmailAndPassword(email: String, password: String): Boolean? {
-        return try {
-            firebaseAuth
-                .createUserWithEmailAndPassword(email, password)
-                .await()
-            true
-        } catch (e: Exception) {
-            return null
-        }
+    override fun reauthenticate(email: String, password: String) = flow {
+        val credential = EmailAuthProvider.getCredential(email, password)
+        firebaseAuth
+            .currentUser
+            ?.reauthenticate(credential)
+            ?.await()
+            ?.let { emit(Unit) }
     }
 
-    override suspend fun updatePassword(newPassword: String): Boolean? {
-        return try {
-            firebaseAuth
-                .currentUser
-                ?.updatePassword(newPassword)
-                ?.await()
-            true
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    override suspend fun reauthenticate(email: String, password: String): Boolean? {
-        return try {
-            val credential = EmailAuthProvider.getCredential(email, password)
-            firebaseAuth
-                .currentUser
-                ?.reauthenticate(credential)
-                ?.await()
-            true
-        } catch (e: Exception) {
-            null
-        }
-    }
 }

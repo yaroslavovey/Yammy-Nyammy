@@ -11,8 +11,12 @@ import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.utils.showMessageAboveBottomNav
 import com.phooper.yammynyammy.viewmodels.UpdatePasswordViewModel
 import kotlinx.android.synthetic.main.fragment_update_password.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class UpdatePasswordFragment : BaseFragment() {
 
     override val layoutRes = R.layout.fragment_update_password

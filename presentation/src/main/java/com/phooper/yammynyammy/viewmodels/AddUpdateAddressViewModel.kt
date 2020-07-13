@@ -12,8 +12,13 @@ import com.ph00.domain.usecases.UpdateAddressByUidUseCase
 import com.phooper.yammynyammy.entities.Address
 import com.phooper.yammynyammy.utils.Event
 import com.phooper.yammynyammy.utils.toPresentation
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
+import timber.log.Timber
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class AddUpdateAddressViewModel(
     private val addressUid: String?,
     private val getAddressByUidUseCase: GetAddressByUidUseCase,
@@ -25,7 +30,7 @@ class AddUpdateAddressViewModel(
     private val _event = MutableLiveData<Event<ViewEvent>>()
     val event: LiveData<Event<ViewEvent>> get() = _event
 
-    private val _state = MutableLiveData<ViewState>()
+    private val _state = MutableLiveData<ViewState>(ViewState.LOADING)
     val state: LiveData<ViewState> get() = _state
 
     private val _mode = MutableLiveData<ViewMode>()
@@ -35,78 +40,66 @@ class AddUpdateAddressViewModel(
     val addressLiveData: LiveData<Address> get() = _addressLiveData
 
     init {
-        viewModelScope.launch {
-            checkBundle()
-        }
+        checkBundle()
     }
 
-    private suspend fun checkBundle() {
-        _state.postValue(ViewState.LOADING)
-        addressUid?.let { uid ->
-            getAddressByUidUseCase.execute(uid)?.toPresentation()?.let {
-                _state.postValue(ViewState.DEFAULT)
-                _mode.postValue(ViewMode.UPDATE_ADDRESS)
-                _addressLiveData.postValue(it)
-                return
-            }
+    private fun checkBundle() {
+        if (addressUid.isNullOrEmpty()) {
+            _state.value = ViewState.DEFAULT
+            _mode.value = ViewMode.NEW_ADDRESS
+        } else {
+            getAddressByUidUseCase
+                .execute(addressUid)
+                .onEach { addressModel ->
+                    _addressLiveData.value = addressModel.toPresentation()
+                    _mode.value = ViewMode.UPDATE_ADDRESS
+                }.onCompletion { _state.value = ViewState.DEFAULT }
+                .catch { _state.value = ViewState.NETWORK_ERROR }
+                .launchIn(viewModelScope)
         }
-        _state.postValue(ViewState.DEFAULT)
-        _mode.postValue(ViewMode.NEW_ADDRESS)
     }
 
     fun addAddress(street: String, houseNum: String, apartNum: String) {
-        viewModelScope.launch {
-            _state.postValue(ViewState.LOADING)
-            addAddressUseCase.execute(
-                AddressModel(
-                    street = street,
-                    houseNum = houseNum,
-                    apartNum = apartNum
-                )
-            )?.let {
-                _event.postValue(Event(ViewEvent.CREATE_SUCCESS))
-                return@launch
-            }
-            _event.postValue(Event(ViewEvent.ERROR))
-        }
+        addAddressUseCase
+            .execute(AddressModel(street = street, houseNum = houseNum, apartNum = apartNum))
+            .onStart { _state.value = ViewState.LOADING }
+            .onCompletion { _state.value = ViewState.DEFAULT }
+            .onEach { _event.value = Event(ViewEvent.CREATE_SUCCESS) }
+            .catch { _event.value = Event(ViewEvent.ERROR) }
+            .launchIn(viewModelScope)
     }
 
     fun deleteAddress() {
-        viewModelScope.launch {
-            _state.postValue(ViewState.LOADING)
-            addressUid?.let { uid ->
-                deleteAddressByUidUseCase.execute(uid)?.let {
-                    _event.postValue(Event(ViewEvent.DELETE_SUCCESS))
-                    return@launch
-                }
-                _event.postValue(Event(ViewEvent.ERROR))
-            }
+        addressUid?.let {
+            deleteAddressByUidUseCase
+                .execute(it)
+                .onStart { _state.value = ViewState.LOADING }
+                .onCompletion { _state.value = ViewState.DEFAULT }
+                .onEach { _event.value = Event(ViewEvent.DELETE_SUCCESS) }
+                .catch { _event.value = Event(ViewEvent.ERROR) }
+                .launchIn(viewModelScope)
         }
     }
 
     fun updateAddress(street: String, houseNum: String, apartNum: String) {
-        viewModelScope.launch {
-            _state.postValue(ViewState.LOADING)
-            addressUid?.let { uid ->
-                updateAddressByUidUseCase.execute(
-                    uid,
-                    AddressModel(
-                        street = street,
-                        houseNum = houseNum,
-                        apartNum = apartNum
-                    )
+        addressUid?.let {
+            updateAddressByUidUseCase
+                .execute(
+                    it,
+                    AddressModel(street = street, houseNum = houseNum, apartNum = apartNum)
                 )
-            }?.let {
-                _event.postValue(Event(ViewEvent.UPDATE_SUCCESS))
-                return@launch
-            }
-            _event.postValue(Event(ViewEvent.ERROR))
+                .onStart { _state.value = ViewState.LOADING }
+                .onCompletion { _state.value = ViewState.DEFAULT }
+                .onEach { _event.value = Event(ViewEvent.UPDATE_SUCCESS) }
+                .catch { _event.value = Event(ViewEvent.ERROR) }
+                .launchIn(viewModelScope)
         }
     }
 
     enum class ViewState {
         LOADING,
-        DEFAULT
+        DEFAULT,
+        NETWORK_ERROR
     }
 
     enum class ViewMode {

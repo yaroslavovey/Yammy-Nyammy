@@ -7,8 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.ph00.domain.usecases.GetCurrentUserEmailUseCase
 import com.ph00.domain.usecases.SignOutUseCase
 import com.phooper.yammynyammy.utils.Event
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class ProfileViewModel(
     private val getCurrentUserEmailUseCase: GetCurrentUserEmailUseCase,
     private val signOutUseCase: SignOutUseCase
@@ -28,14 +31,22 @@ class ProfileViewModel(
     }
 
     private fun loadUserEmail() {
-        getCurrentUserEmailUseCase.execute()?.let {
-            _email.value = it
-        }
-        _state.postValue(ViewState.DEFAULT)
+        getCurrentUserEmailUseCase
+            .execute()
+            .onStart { _state.value = ViewState.LOADING }
+            .onEach { _email.value = it }
+            .onCompletion { _state.value = ViewState.DEFAULT }
+            .catch { _event.value = Event(ViewEvent.ERROR) }
+            .launchIn(viewModelScope)
     }
 
-    fun signOut() = viewModelScope.launch {
-        signOutUseCase.execute()
+    fun signOut() {
+        signOutUseCase
+            .execute()
+            .onStart { _state.value = ViewState.LOADING }
+            .onCompletion { _state.value = ViewState.DEFAULT }
+            .catch { _event.value = Event(ViewEvent.ERROR) }
+            .launchIn(viewModelScope)
     }
 
     enum class ViewState {

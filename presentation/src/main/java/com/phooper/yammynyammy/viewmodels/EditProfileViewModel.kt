@@ -10,10 +10,14 @@ import com.ph00.domain.usecases.SetUserDataUseCase
 import com.phooper.yammynyammy.entities.User
 import com.phooper.yammynyammy.utils.Event
 import com.phooper.yammynyammy.utils.toPresentation
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
 
-open class EditProfileViewModel(
+@FlowPreview
+@ExperimentalCoroutinesApi
+class EditProfileViewModel(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val setUserDataUseCase: SetUserDataUseCase
 ) : ViewModel() {
@@ -27,48 +31,45 @@ open class EditProfileViewModel(
     private val _userData = MutableLiveData<User>()
     val userData: LiveData<User> get() = _userData
 
-    init {
-        viewModelScope.launch {
-            loadUser()
-        }
-    }
+    private var getUserModelJob: Job? = null
+    private var setUserModelJob: Job? = null
 
-    private suspend fun loadUser() {
-        getUserDataUseCase.execute()?.toPresentation()?.let {
-            _userData.postValue(it)
-            return
-        }
-        delay(5000)
+    init {
         loadUser()
     }
 
+    fun loadUser() {
+        getUserModelJob =
+            getUserDataUseCase
+                .execute()
+                .buffer()
+                .onStart { _state.value = ViewState.LOADING }
+                .onCompletion { _state.value = ViewState.DEFAULT }
+                .onEach { userModel -> _userData.value = userModel.toPresentation() }
+                .catch { _state.value = ViewState.NO_NETWORK }
+                .launchIn(viewModelScope)
+    }
+
     fun saveUser(name: String, phone: String) {
-        _state.value = ViewState.LOADING
-        viewModelScope.launch {
-            setUserDataUseCase.execute(
-                UserModel(
-                    name = name,
-                    phoneNum = phone
-                )
-            )?.let {
-                _event.postValue(Event(ViewEvent.SUCCESS))
-                _state.value = ViewState.DEFAULT
-                return@launch
-            }
-            //TODO Never reached :(
-            //Need to set firestore request timeout
-            _event.postValue(Event(ViewEvent.FAILURE))
-            _state.value = ViewState.DEFAULT
-        }
+        setUserModelJob =
+            setUserDataUseCase
+                .execute(UserModel(name = name, phoneNum = phone))
+                .buffer()
+                .onStart { _state.value = ViewState.LOADING }
+                .onCompletion { _state.value = ViewState.DEFAULT }
+                .onEach { _event.value = Event(ViewEvent.SUCCESS) }
+                .catch { _event.value = Event(ViewEvent.FAILURE) }
+                .launchIn(viewModelScope)
     }
 
     enum class ViewState {
         DEFAULT,
         LOADING,
+        NO_NETWORK
     }
 
     enum class ViewEvent {
-        FAILURE,
-        SUCCESS
+        SUCCESS,
+        FAILURE
     }
 }

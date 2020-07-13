@@ -13,9 +13,14 @@ import com.phooper.yammynyammy.utils.Constants.Companion.ARG_OBJECT
 import com.phooper.yammynyammy.utils.showMessageAboveBottomNav
 import com.phooper.yammynyammy.viewmodels.ProductListViewModel
 import kotlinx.android.synthetic.main.fragment_product_list.*
+import kotlinx.android.synthetic.main.no_network_layout.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class ProductListFragment : BaseFragment() {
 
     override val layoutRes = R.layout.fragment_product_list
@@ -64,14 +69,24 @@ class ProductListFragment : BaseFragment() {
             }
         })
 
+        refresh_btn.setOnClickListener {
+            viewModel.loadProducts()
+        }
+
         viewModel.state.observe(viewLifecycleOwner, Observer {
             it?.let { state ->
                 when (state) {
                     ProductListViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
+                        no_network_layout.visibility = View.GONE
                     }
                     ProductListViewModel.ViewState.LOADING -> {
                         progress_bar.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
+                    }
+                    ProductListViewModel.ViewState.NETWORK_ERROR -> {
+                        no_network_layout.visibility = View.VISIBLE
+                        progress_bar.visibility = View.GONE
                     }
                 }
             }

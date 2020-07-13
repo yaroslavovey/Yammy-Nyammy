@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.Order
-import com.phooper.yammynyammy.utils.formatToRussianString
+import com.phooper.yammynyammy.utils.formatToString
 import kotlinx.android.synthetic.main.item_order_preview.view.*
 
 class OrderPreviewAdapter :
@@ -42,7 +42,7 @@ class OrderPreviewAdapter :
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         holder.apply {
-            date.text = dataList[position].timestamp?.formatToRussianString()
+            date.text = dataList[position].timestamp?.formatToString()
             status.text = dataList[position].addressAndStatus.status
             totalSum.text = "${dataList[position].totalPrice} $"
         }

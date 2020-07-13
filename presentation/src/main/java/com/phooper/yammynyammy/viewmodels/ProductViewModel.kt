@@ -8,9 +8,12 @@ import com.ph00.domain.usecases.AddProductsToCartUseCase
 import com.ph00.domain.usecases.GetProductByIdUseCase
 import com.phooper.yammynyammy.entities.Product
 import com.phooper.yammynyammy.utils.toPresentation
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class ProductViewModel(
     private val productId: Int,
     private val getProductByIdUseCase: GetProductByIdUseCase,
@@ -35,24 +38,23 @@ class ProductViewModel(
     val product: LiveData<Product> get() = _product
 
     init {
-        viewModelScope.launch {
-            loadProduct()
-        }
+        loadProduct()
     }
 
-    private suspend fun loadProduct() {
-        getProductByIdUseCase.execute(productId)?.let { product ->
-            _product.postValue(product.toPresentation())
-            _state.postValue(ViewState.DEFAULT)
-            return
-        }
-        delay(5000)
-        loadProduct()
+    fun loadProduct() {
+        getProductByIdUseCase
+            .execute(productId)
+            .onStart { _state.value = ViewState.LOADING }
+            .onEach { _product.value = it.toPresentation() }
+            .onCompletion { _state.value = ViewState.DEFAULT }
+            .catch { _state.value = ViewState.NETWORK_ERROR }
+            .launchIn(viewModelScope)
     }
 
     enum class ViewState {
         DEFAULT,
-        LOADING
+        LOADING,
+        NETWORK_ERROR
     }
 
 }

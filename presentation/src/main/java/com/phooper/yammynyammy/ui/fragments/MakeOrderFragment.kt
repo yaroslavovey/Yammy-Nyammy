@@ -13,9 +13,15 @@ import com.phooper.yammynyammy.utils.showMessageAboveBottomNav
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.MakeOrderViewModel
 import kotlinx.android.synthetic.main.fragment_make_order.*
+import kotlinx.android.synthetic.main.fragment_make_order.no_network_layout
+import kotlinx.android.synthetic.main.fragment_make_order.progress_bar
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class MakeOrderFragment : BaseFragment() {
 
     private val viewModel by viewModel<MakeOrderViewModel>()
@@ -41,7 +47,7 @@ class MakeOrderFragment : BaseFragment() {
             if (areSomeInputsEmpty()) {
                 showFillFieldsError()
             } else {
-                viewModel.makeOrder(
+                viewModel.saveUserAndMakeOrder(
                     name_input.text.toString(),
                     phone_number_input.text.toString(),
                     address_input.text.toString()
@@ -73,9 +79,17 @@ class MakeOrderFragment : BaseFragment() {
                 when (it) {
                     MakeOrderViewModel.ViewState.LOADING -> {
                         progress_bar.visibility = View.VISIBLE
+                        make_order_layout.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
                     }
                     MakeOrderViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
+                        make_order_layout.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
+                    }
+                    MakeOrderViewModel.ViewState.NO_NETWORK -> {
+                        make_order_layout.visibility = View.GONE
+                        no_network_layout.visibility = View.VISIBLE
                     }
                 }
             }

@@ -7,8 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.ph00.domain.usecases.GetOrderListUseCase
 import com.phooper.yammynyammy.entities.Order
 import com.phooper.yammynyammy.utils.toPresentation
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class OrdersViewModel(private val getOrderListUseCase: GetOrderListUseCase) : ViewModel() {
 
     private val _state = MutableLiveData<ViewState>()
@@ -18,25 +25,29 @@ class OrdersViewModel(private val getOrderListUseCase: GetOrderListUseCase) : Vi
     val orderList: LiveData<List<Order>> get() = _orderList
 
     init {
-        viewModelScope.launch { loadOrderList() }
+        loadOrderList()
     }
 
-    private suspend fun loadOrderList() {
-        _state.postValue(ViewState.LOADING)
-        getOrderListUseCase.execute().let { list ->
-            if (list.isNullOrEmpty()) {
-                _state.postValue(ViewState.NO_ORDERS)
-            } else {
-                _orderList.postValue(list.map { it.toPresentation() })
-                _state.postValue(ViewState.DEFAULT)
+    fun loadOrderList() {
+        getOrderListUseCase
+            .execute()
+            .onStart { _state.value = ViewState.LOADING }
+            .onEach { list ->
+                if (list.isEmpty()) {
+                    _state.value = ViewState.NO_ORDERS
+                } else {
+                    _orderList.value = list.map { it.toPresentation() }
+                    _state.value = ViewState.DEFAULT
+                }
             }
-        }
-
+            .catch { _state.value = ViewState.NETWORK_ERROR }
+            .launchIn(viewModelScope)
     }
 
     enum class ViewState {
         DEFAULT,
         LOADING,
-        NO_ORDERS
+        NO_ORDERS,
+        NETWORK_ERROR
     }
 }

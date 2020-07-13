@@ -2,18 +2,19 @@ package com.ph00.domain.usecases
 
 import com.ph00.domain.models.OrderModel
 import com.ph00.domain.repositories.UserRepository
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapConcat
 
+@FlowPreview
 class GetOrderByUidUseCase(
     private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase,
     private val userRepository: UserRepository
 ) {
 
-    suspend fun execute(orderUid: String): OrderModel? =
-        withContext(IO) {
-            getCurrentUserUidUseCase.execute()?.let { userUid ->
-                userRepository.getOrderByUid(orderUid, userUid)
-            }
+    fun execute(orderUid: String): Flow<OrderModel> =
+        getCurrentUserUidUseCase.execute().flatMapConcat { userUid ->
+            userRepository.getOrderByUid(orderUid, userUid)
         }
+
 }

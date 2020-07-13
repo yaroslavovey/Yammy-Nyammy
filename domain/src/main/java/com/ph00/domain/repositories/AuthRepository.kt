@@ -3,13 +3,12 @@ package com.ph00.domain.repositories
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
-    fun getCurrentUserUid(): String?
-    fun getCurrentUserEmail(): String?
+    fun getCurrentUserUid(): Flow<String>
+    fun getCurrentUserEmail(): Flow<String>
+    fun signOut(): Flow<Unit>
     fun getIsUserSignedInFlow(): Flow<Boolean>
-    suspend fun signInViaEmailAndPassword(email: String, password: String): Boolean?
-    suspend fun signUpViaEmailAndPassword(email: String, password: String): Boolean?
-    suspend fun signInAnonymously(): Boolean?
-    suspend fun signOut()
-    suspend fun updatePassword(newPassword: String): Boolean?
-    suspend fun reauthenticate(email: String, password: String): Boolean?
+    fun signInViaEmailAndPassword(email: String, password: String): Flow<Unit>
+    fun signUpViaEmailAndPassword(email: String, password: String): Flow<Unit>
+    fun updatePassword(newPassword: String): Flow<Unit>
+    fun reauthenticate(email: String, password: String): Flow<Unit>
 }

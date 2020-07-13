@@ -10,8 +10,10 @@ import com.phooper.yammynyammy.utils.isEmailValid
 import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_register.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
+@ExperimentalCoroutinesApi
 class RegisterFragment : BaseFragment() {
 
     override val layoutRes = R.layout.fragment_register

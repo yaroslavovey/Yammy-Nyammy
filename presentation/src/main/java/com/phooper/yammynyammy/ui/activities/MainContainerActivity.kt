@@ -14,8 +14,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import kotlinx.android.synthetic.main.activity_main_container.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class MainContainerActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -72,14 +76,6 @@ class MainContainerActivity : AppCompatActivity(),
             }
         })
 
-        viewModel.userIsSignedIn.observe(this, Observer {
-            if (!it) {
-                startActivity(Intent(this, LoginActivity::class.java))
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                finish()
-            }
-        })
-
         viewModel.event.observe(this, Observer {
             it?.getContentIfNotHandled()?.let { event ->
                 when (event) {
@@ -91,6 +87,11 @@ class MainContainerActivity : AppCompatActivity(),
                         )
                             .setAction(R.string.go_to_cart) { navController.navigate(R.id.cart_fragment) }
                             .show()
+                    }
+                    MainContainerViewModel.ViewEvent.NAVIGATE_TO_LOGIN_ACTIVITY -> {
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        finish()
                     }
                 }
             }

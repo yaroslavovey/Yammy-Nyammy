@@ -11,27 +11,24 @@ import kotlinx.coroutines.flow.Flow
 interface CartProductsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addToCart(cartProduct: ProductIdAndCountEntity)
+    fun addToCart(cartProduct: ProductIdAndCountEntity)
 
     @Query("SELECT * FROM products WHERE product_id = :id")
-    suspend fun getProductById(id: Int): ProductIdAndCountEntity?
+    fun getProductById(id: Int): ProductIdAndCountEntity?
 
     @Query("DELETE FROM products WHERE product_id = :id")
-    suspend fun deleteProductById(id: Int)
+    fun deleteProductById(id: Int)
 
     @Query("UPDATE products SET count = count + :count WHERE product_id = :productId")
-    suspend fun increaseProductCount(productId: Int, count: Int)
+    fun increaseProductCount(productId: Int, count: Int)
 
     @Query("UPDATE products SET count = count - :count WHERE product_id = :productId")
-    suspend fun decreaseProductCount(productId: Int, count: Int)
+    fun decreaseProductCount(productId: Int, count: Int)
 
     @Query("SELECT * FROM products")
-    suspend fun getAllCartProducts(): List<ProductIdAndCountEntity>?
-
-    @Query("SELECT * FROM products")
-    fun getAllCartProductsFlow(): Flow<List<ProductIdAndCountEntity>>
+    fun getAllCartProducts(): Flow<List<ProductIdAndCountEntity>?>
 
     @Query("DELETE FROM products")
-    suspend fun deleteAllCartProducts()
+    fun deleteAllCartProducts()
 
 }

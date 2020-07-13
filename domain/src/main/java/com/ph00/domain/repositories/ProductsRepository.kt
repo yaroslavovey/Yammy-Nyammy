@@ -1,9 +1,10 @@
 package com.ph00.domain.repositories
 
 import com.ph00.domain.models.ProductModel
+import kotlinx.coroutines.flow.Flow
 
 interface ProductsRepository {
-    suspend fun getProductListByCategory(category: String): List<ProductModel>?
-    suspend fun getProductById(id: Int): ProductModel?
-    suspend fun getProductListByIds(ids: List<Int>): List<ProductModel>?
+    fun getProductListByCategory(category: String): Flow<List<ProductModel>>
+    fun getProductById(id: Int): Flow<ProductModel>
+    fun getProductListByIds(ids: List<Int>): Flow<List<ProductModel>>
 }

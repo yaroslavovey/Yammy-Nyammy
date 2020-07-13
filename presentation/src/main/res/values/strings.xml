@@ -14,7 +14,6 @@
     <string name="fill_email">Enter your email</string>
     <string name="fill_name">Enter your name</string>
     <string name="fill_phone">Enter your phone number</string>
-    <string name="we_need_your_phone_number_and_name_for_register">We need your name and phone number to log in.</string>
     <string name="ice_cream">Icecream</string>
     <string name="cupcakes">Cakes</string>
     <string name="cookies">Cookies</string>
@@ -82,5 +81,8 @@
     <string name="address_will_be_deleted">The address will be deleted.</string>
     <string name="apartment_short">Apt.</string>
     <string name="personal_data">Personal data</string>
+    <string name="network_error">An network error occurred</string>
+    <string name="reconnect">reconnect</string>
+    <string name="no_network">No network :(</string>
 
 </resources>

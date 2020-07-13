@@ -7,8 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.ph00.domain.usecases.ReauthenticateUseCase
 import com.ph00.domain.usecases.UpdateUserPasswordUseCase
 import com.phooper.yammynyammy.utils.Event
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class UpdatePasswordViewModel(
     private val updateUserPasswordUseCase: UpdateUserPasswordUseCase,
     private val reauthenticateUseCase: ReauthenticateUseCase
@@ -22,18 +26,14 @@ class UpdatePasswordViewModel(
     val event: LiveData<Event<ViewEvent>> get() = _event
 
     fun updatePassword(currentPassword: String, newPassword: String) {
-        _state.value = ViewState.LOADING
-        viewModelScope.launch {
-            reauthenticateUseCase.execute(currentPassword)?.let {
-                updateUserPasswordUseCase.execute(newPassword)?.let {
-                    _state.postValue(ViewState.DEFAULT)
-                    _event.postValue(Event(ViewEvent.SUCCESS))
-                    return@launch
-                }
-            }
-            _state.postValue(ViewState.DEFAULT)
-            _event.postValue(Event(ViewEvent.FAILURE))
+        reauthenticateUseCase.execute(currentPassword).flatMapConcat {
+            updateUserPasswordUseCase.execute(newPassword)
         }
+            .onStart { _state.value = ViewState.LOADING }
+            .onCompletion { _state.value = ViewState.DEFAULT }
+            .onEach { _event.value = Event(ViewEvent.SUCCESS) }
+            .catch { _event.value = Event(ViewEvent.FAILURE) }
+            .launchIn(viewModelScope)
     }
 
     enum class ViewState {

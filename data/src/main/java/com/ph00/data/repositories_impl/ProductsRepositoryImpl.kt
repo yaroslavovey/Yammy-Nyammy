@@ -4,30 +4,19 @@ import com.ph00.data.api.ShopApi
 import com.ph00.data.toModel
 import com.ph00.domain.models.ProductModel
 import com.ph00.domain.repositories.ProductsRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class ProductsRepositoryImpl(private val shopApi: ShopApi) : ProductsRepository {
 
-    override suspend fun getProductListByCategory(category: String): List<ProductModel>? {
-        return try {
-            shopApi.getProductListByCategory(category).map { it.toModel() }
-        } catch (e: Exception) {
-            null
-        }
+    override fun getProductListByCategory(category: String): Flow<List<ProductModel>> = flow {
+        emit(shopApi.getProductListByCategory(category).map { it.toModel() })
     }
 
-    override suspend fun getProductById(id: Int): ProductModel? {
-        return try {
-            shopApi.getProductById(id).toModel()
-        } catch (e: Exception) {
-            null
-        }
-    }
+    override fun getProductById(id: Int): Flow<ProductModel> =
+        flow {emit(shopApi.getProductById(id).toModel())}
 
-    override suspend fun getProductListByIds(ids: List<Int>): List<ProductModel>? {
-        return try {
-            shopApi.getProductListByIds(ids).map { it.toModel() }
-        } catch (e: Exception) {
-            null
-        }
-    }
+    override fun getProductListByIds(ids: List<Int>) =
+        flow { emit(shopApi.getProductListByIds(ids).map { it.toModel() }) }
+
 }

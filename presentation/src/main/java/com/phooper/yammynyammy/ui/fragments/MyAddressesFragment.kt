@@ -16,10 +16,14 @@ import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.MyAddressesViewModel
 import kotlinx.android.synthetic.main.fragment_my_addresses.*
 import kotlinx.android.synthetic.main.item_add_new_address_btn.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class MyAddressesFragment : BaseFragment() {
 
     private val delegateAdapter = DiffUtilCompositeAdapter.Builder()
@@ -82,10 +86,10 @@ class MyAddressesFragment : BaseFragment() {
         }
 
         add_new_address_btn.setOnClickListener {
-            navController.navigate(MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress())
+            navController.navigate(MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress(null))
         }
-        //TODO fix addresses list nullability
-        viewModel.addressesList?.observe(viewLifecycleOwner, Observer {
+
+        viewModel.addressesList.observe(viewLifecycleOwner, Observer {
             delegateAdapter.swapData(it)
         })
 
@@ -106,6 +110,9 @@ class MyAddressesFragment : BaseFragment() {
                         progress_bar.visibility = View.GONE
                         recycler_view.visibility = View.GONE
                         no_addresses_layout.visibility = View.VISIBLE
+                    }
+                    MyAddressesViewModel.ViewState.NETWORK_ERROR -> {
+                        //TODO
                     }
                 }
             }

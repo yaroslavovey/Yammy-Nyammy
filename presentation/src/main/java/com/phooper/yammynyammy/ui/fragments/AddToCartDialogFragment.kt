@@ -14,10 +14,15 @@ import com.phooper.yammynyammy.utils.Constants.Companion.PRODUCT_ID
 import com.phooper.yammynyammy.viewmodels.AddToCartDialogViewModel
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import timber.log.Timber
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class AddToCartDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var navController: NavController
@@ -57,8 +62,22 @@ class AddToCartDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initViews() {
-        viewModel.itemCount.observe(this, Observer {
+        viewModel.itemCount.observe(viewLifecycleOwner, Observer {
             count_text.text = it
+        })
+
+        viewModel.event.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let { event ->
+                when (event) {
+                    AddToCartDialogViewModel.ViewEvent.SUCCESS -> {
+                        sharedViewModel.triggerAddedToCartEvent()
+                        dismiss()
+                    }
+                    AddToCartDialogViewModel.ViewEvent.FAILURE -> {
+
+                    }
+                }
+            }
         })
 
         close_btn.setOnClickListener {
@@ -67,8 +86,6 @@ class AddToCartDialogFragment : BottomSheetDialogFragment() {
 
         add_to_cart_btn.setOnClickListener {
             viewModel.addProductsToCart()
-            sharedViewModel.triggerAddedToCartEvent()
-            dismiss()
         }
 
         plus_btn.setOnClickListener {

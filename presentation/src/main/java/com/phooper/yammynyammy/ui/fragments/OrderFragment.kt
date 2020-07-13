@@ -12,9 +12,13 @@ import com.phooper.yammynyammy.ui.adapters.TotalPriceDelegateAdapter
 import com.phooper.yammynyammy.utils.setAppBarTitle
 import com.phooper.yammynyammy.viewmodels.OrderViewModel
 import kotlinx.android.synthetic.main.fragment_order.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class OrderFragment : BaseFragment() {
 
     override val layoutRes = R.layout.fragment_order
@@ -57,6 +61,9 @@ class OrderFragment : BaseFragment() {
                     }
                     OrderViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
+                    }
+                    OrderViewModel.ViewState.NETWORK_ERROR -> {
+                        //TODO
                     }
                 }
             }

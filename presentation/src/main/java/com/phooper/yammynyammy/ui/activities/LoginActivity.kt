@@ -11,8 +11,12 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class LoginActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<LoginViewModel>()
@@ -32,12 +36,6 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(Intent(this, MainContainerActivity::class.java))
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                         finish()
-                    }
-                    LoginViewModel.ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_LOGIN -> {
-                        navController.navigate(R.id.action_loginFragment_to_namePhoneVerificationFragment)
-                    }
-                    LoginViewModel.ViewEvent.NAVIGATE_TO_PHONE_NAME_FRAGMENT_FROM_REGISTER -> {
-                        navController.navigate(R.id.action_registerFragment_to_namePhoneVerificationFragment)
                     }
                     LoginViewModel.ViewEvent.ERROR -> {
                         showMessage(R.string.error)

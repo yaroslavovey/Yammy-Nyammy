@@ -14,6 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.ph00.domain.models.*
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.*
+import kotlinx.coroutines.Job
 import java.text.DateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -55,7 +56,7 @@ fun Fragment.showMessageAboveBottomNav(msgRes: Int) =
         Snackbar.LENGTH_SHORT
     ).show()
 
-fun Date.formatToRussianString(): String =
+fun Date?.formatToString(): String = if (this == null) "" else
     DateFormat.getDateTimeInstance(
         DateFormat.MEDIUM,
         DateFormat.SHORT,
@@ -102,3 +103,9 @@ fun OrderModel.toPresentation(): Order =
 
 fun formatAddress(houseNum: String, apartNum: String, street: String) =
     "Apt. $apartNum $houseNum $street"
+
+fun Job?.cancelIfActive() {
+    if (this?.isActive == true) {
+        cancel()
+    }
+}

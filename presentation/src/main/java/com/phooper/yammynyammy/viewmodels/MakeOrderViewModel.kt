@@ -4,23 +4,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ph00.domain.models.OrderAddressAndStatusModel
-import com.ph00.domain.models.OrderModel
 import com.ph00.domain.models.UserModel
-import com.ph00.domain.usecases.*
+import com.ph00.domain.usecases.AddOrderUseCase
+import com.ph00.domain.usecases.GetUserDataUseCase
+import com.ph00.domain.usecases.SetUserDataUseCase
 import com.phooper.yammynyammy.entities.User
 import com.phooper.yammynyammy.utils.Event
 import com.phooper.yammynyammy.utils.toPresentation
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.plus
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class MakeOrderViewModel(
     private val getUserDataUseCase: GetUserDataUseCase,
     private val setUserDataUseCase: SetUserDataUseCase,
-    private val getAllProductInCartUseCase: GetAllProductInCartUseCase,
-    private val dropCartUseCase: DropCartUseCase,
-    private val addOrderUseCase: AddOrderUseCase,
-    private val getDeliveryPriceUseCase: GetDeliveryPriceUseCase
+    private val addOrderUseCase: AddOrderUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<ViewState>(ViewState.LOADING)
@@ -33,55 +35,46 @@ class MakeOrderViewModel(
     val userData: LiveData<User> get() = _userData
 
     init {
-        viewModelScope.launch {
-            loadUser()
-        }
-    }
-
-    private suspend fun loadUser() {
-        getUserDataUseCase.execute()?.let {
-            _userData.postValue(it.toPresentation())
-            _state.postValue(ViewState.DEFAULT)
-            return
-        }
-        _event.postValue(Event(ViewEvent.FAILURE))
-        delay(5000)
         loadUser()
     }
 
-    fun makeOrder(name: String, phone: String, address: String) {
-        _state.value = ViewState.LOADING
-        viewModelScope.launch {
-            //Update current user data
-            setUserDataUseCase.execute(
-                UserModel(
-                    name = name,
-                    phoneNum = phone
-                )
-            )?.let {
-                //Make order
-                getAllProductInCartUseCase.execute()?.let { productInCartList ->
-                    addOrderUseCase.execute(
-                        OrderModel(
-                            addressAndStatus = OrderAddressAndStatusModel(address = address),
-                            products = productInCartList,
-                            deliveryPrice = getDeliveryPriceUseCase.execute()
-                        )
-                    )?.let {
-                        dropCartUseCase.execute()
-                        _event.postValue(Event(ViewEvent.SUCCESS))
-                        return@launch
-                    }
-                }
+    fun loadUser() {
+        getUserDataUseCase
+            .execute()
+            .buffer()
+            .onStart { _state.value = ViewState.LOADING }
+            .onCompletion { _state.value = ViewState.DEFAULT }
+            .onEach { userModel -> _userData.value = userModel.toPresentation() }
+            .catch { _state.value = ViewState.NO_NETWORK }
+            .launchIn(viewModelScope)
+    }
+
+    fun saveUserAndMakeOrder(name: String, phone: String, address: String) {
+        setUserDataUseCase
+            .execute(UserModel(name = name, phoneNum = phone))
+            .buffer()
+            .onStart { _state.value = ViewState.LOADING }
+            .onEach {
+                //Make order if user data updated
+                addOrder(address)
             }
-            _state.postValue(ViewState.DEFAULT)
-            _event.postValue(Event(ViewEvent.FAILURE))
-        }
+            .catch { _event.value = Event(ViewEvent.FAILURE) }
+            .launchIn(viewModelScope)
+    }
+
+    private fun addOrder(address: String) {
+        addOrderUseCase
+            .execute(address)
+            .buffer()
+            .onEach { _event.postValue(Event(ViewEvent.SUCCESS)) }
+            .catch { _event.postValue(Event(ViewEvent.FAILURE)) }
+            .launchIn(viewModelScope + IO)
     }
 
     enum class ViewState {
         DEFAULT,
         LOADING,
+        NO_NETWORK
     }
 
     enum class ViewEvent {

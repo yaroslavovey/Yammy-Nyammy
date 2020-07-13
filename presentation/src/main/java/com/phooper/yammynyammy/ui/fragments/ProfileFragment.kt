@@ -9,8 +9,10 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.utils.showMessageAboveBottomNav
 import com.phooper.yammynyammy.viewmodels.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalCoroutinesApi
 class ProfileFragment : BaseFragment() {
 
     override val layoutRes = R.layout.fragment_profile

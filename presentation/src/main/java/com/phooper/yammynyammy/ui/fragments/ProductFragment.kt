@@ -15,11 +15,15 @@ import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.count_text
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.minus_btn
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.plus_btn
 import kotlinx.android.synthetic.main.fragment_product.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class ProductFragment : BaseFragment() {
 
     override val layoutRes = R.layout.fragment_product
@@ -66,6 +70,9 @@ class ProductFragment : BaseFragment() {
                     }
                     ProductViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
+                    }
+                    ProductViewModel.ViewState.NETWORK_ERROR -> {
+                        //TODO
                     }
                 }
             }

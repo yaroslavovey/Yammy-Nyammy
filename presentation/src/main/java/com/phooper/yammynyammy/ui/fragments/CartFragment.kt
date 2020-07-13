@@ -7,17 +7,19 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.livermor.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
-import com.livermor.delegateadapter.delegate.diff.DiffUtilItem
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.ui.adapters.CartProductDelegateAdapter
 import com.phooper.yammynyammy.ui.adapters.TotalPriceDelegateAdapter
 import com.phooper.yammynyammy.viewmodels.CartViewModel
-import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import kotlinx.android.synthetic.main.fragment_cart.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import kotlinx.android.synthetic.main.no_network_layout.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class CartFragment : BaseFragment() {
 
     private val viewModel by viewModel<CartViewModel>()
@@ -54,7 +56,7 @@ class CartFragment : BaseFragment() {
         }
 
         viewModel.productsInCart.observe(viewLifecycleOwner, Observer {
-            delegateAdapter.swapData(it as List<DiffUtilItem>)
+            delegateAdapter.swapData(it)
         })
 
         viewModel.state.observe(viewLifecycleOwner, Observer { viewState ->
@@ -62,25 +64,37 @@ class CartFragment : BaseFragment() {
                 when (it) {
                     CartViewModel.ViewState.LOADING -> {
                         progress_bar.visibility = View.VISIBLE
-                        recycler_view.visibility = View.VISIBLE
-                        make_order_btn.visibility = View.VISIBLE
                         no_products_in_cart_layout.visibility = View.GONE
+                        no_network_layout.visibility = View.GONE
                     }
                     CartViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
                         recycler_view.visibility = View.VISIBLE
                         make_order_btn.visibility = View.VISIBLE
                         no_products_in_cart_layout.visibility = View.GONE
+                        no_network_layout.visibility = View.GONE
                     }
                     CartViewModel.ViewState.NO_PRODUCTS_IN_CART -> {
                         progress_bar.visibility = View.GONE
                         make_order_btn.visibility = View.GONE
                         recycler_view.visibility = View.GONE
                         no_products_in_cart_layout.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
+                    }
+                    CartViewModel.ViewState.NO_NETWORK -> {
+                        progress_bar.visibility = View.GONE
+                        make_order_btn.visibility = View.GONE
+                        recycler_view.visibility = View.GONE
+                        no_products_in_cart_layout.visibility = View.GONE
+                        no_network_layout.visibility = View.VISIBLE
                     }
                 }
             }
         })
+
+        refresh_btn.setOnClickListener {
+            viewModel.getCartProducts()
+        }
 
         go_back_to_menu_btn.setOnClickListener {
             navController.navigate(R.id.menu_fragment)

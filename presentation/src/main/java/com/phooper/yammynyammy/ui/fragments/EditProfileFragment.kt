@@ -8,10 +8,18 @@ import androidx.navigation.fragment.findNavController
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.utils.showMessage
+import com.phooper.yammynyammy.utils.showMessageAboveBottomNav
 import com.phooper.yammynyammy.viewmodels.EditProfileViewModel
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
+import kotlinx.android.synthetic.main.no_network_layout.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@FlowPreview
+@ExperimentalCoroutinesApi
+@InternalCoroutinesApi
 class EditProfileFragment : BaseFragment() {
 
     private val viewModel by viewModel<EditProfileViewModel>()
@@ -48,9 +56,17 @@ class EditProfileFragment : BaseFragment() {
                 when (state) {
                     EditProfileViewModel.ViewState.LOADING -> {
                         progress_bar.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
+                        edit_profile_layout.visibility = View.VISIBLE
                     }
                     EditProfileViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
+                        edit_profile_layout.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
+                    }
+                    EditProfileViewModel.ViewState.NO_NETWORK -> {
+                        edit_profile_layout.visibility = View.GONE
+                        no_network_layout.visibility = View.VISIBLE
                     }
                 }
             }
@@ -60,15 +76,20 @@ class EditProfileFragment : BaseFragment() {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
                     EditProfileViewModel.ViewEvent.FAILURE -> {
-                        requireActivity().showMessage(R.string.error)
+                        showMessage(R.string.error)
                     }
                     EditProfileViewModel.ViewEvent.SUCCESS -> {
-                        requireActivity().showMessage(R.string.your_data_has_been_updated)
+                        showMessageAboveBottomNav(R.string.your_data_has_been_updated)
                         navController.popBackStack()
                     }
                 }
             }
         })
+
+        refresh_btn.setOnClickListener {
+            viewModel.loadUser()
+        }
+
     }
 
     private fun areSomeInputsEmpty() =

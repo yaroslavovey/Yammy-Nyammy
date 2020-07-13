@@ -10,7 +10,9 @@ import com.phooper.yammynyammy.utils.hideKeyboard
 import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class LoginFragment : BaseFragment() {
 
     private lateinit var navController: NavController

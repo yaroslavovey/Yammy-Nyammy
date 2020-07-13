@@ -7,10 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.ph00.domain.usecases.GetProductListByCategoryUseCase
 import com.phooper.yammynyammy.entities.Product
 import com.phooper.yammynyammy.utils.Event
+import com.phooper.yammynyammy.utils.cancelIfActive
 import com.phooper.yammynyammy.utils.toPresentation
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
 
+@ExperimentalCoroutinesApi
 class ProductListViewModel(
     private val category: Int?,
     private val getProductListByCategoryUseCase: GetProductListByCategoryUseCase
@@ -25,21 +28,22 @@ class ProductListViewModel(
     private val _state = MutableLiveData<ViewState>()
     val state: LiveData<ViewState> get() = _state
 
+    private var loadProductsJob: Job? = null
+
     init {
-        viewModelScope.launch {
-            loadProducts()
-        }
+        loadProducts()
     }
 
-    private suspend fun loadProducts() {
-        getProductListByCategoryUseCase.execute(category.toString())?.let {list ->
-            _products.postValue(list.map { it.toPresentation() })
-            _state.postValue(ViewState.DEFAULT)
-            return
-        }
-        _event.postValue(Event(ViewEvent.ERROR))
-        delay(5000)
-        loadProducts()
+    fun loadProducts() {
+        loadProductsJob.cancelIfActive()
+        loadProductsJob =
+            getProductListByCategoryUseCase
+                .execute(category.toString())
+                .onStart { _state.value = ViewState.LOADING }
+                .onCompletion { _state.value = ViewState.DEFAULT }
+                .onEach { list -> _products.value = list.map { it.toPresentation() } }
+                .catch { _state.value = ViewState.NETWORK_ERROR }
+                .launchIn(viewModelScope)
     }
 
     enum class ViewEvent {
@@ -48,6 +52,7 @@ class ProductListViewModel(
 
     enum class ViewState {
         DEFAULT,
-        LOADING
+        LOADING,
+        NETWORK_ERROR
     }
 }

@@ -13,9 +13,13 @@ import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.viewmodels.AddUpdateAddressViewModel
 import kotlinx.android.synthetic.main.fragment_add_update_address.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class AddUpdateAddressFragment : BaseFragment() {
 
     private lateinit var navController: NavController
@@ -94,6 +98,9 @@ class AddUpdateAddressFragment : BaseFragment() {
                     }
                     AddUpdateAddressViewModel.ViewState.LOADING -> {
                         progress_bar.visibility = View.VISIBLE
+                    }
+                    AddUpdateAddressViewModel.ViewState.NETWORK_ERROR -> {
+                        //TODO
                     }
                 }
             }
