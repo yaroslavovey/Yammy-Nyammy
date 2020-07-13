@@ -1,6 +1,7 @@
 package com.ph00.data.repositories_impl
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.ph00.data.Constants.Companion.ADDRESSES_COLLECTION
@@ -130,7 +131,7 @@ class UserRepositoryImpl(
             .collection(USERS_COLLECTION)
             .document(userUid)
             .collection(ORDERS_COLLECTION)
-            .orderBy("timestamp")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
 
         val subscription = eventCollection.addSnapshotListener { querySnapshot, _ ->
             querySnapshot?.toObjects<OrderEntity>()?.map { it.toModel() }?.let { offer(it) }
