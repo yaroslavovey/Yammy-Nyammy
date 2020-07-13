@@ -6,8 +6,8 @@ import com.ph00.domain.repositories.UserRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.take
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -22,12 +22,8 @@ class AddOrderUseCase(
     fun execute(address: String): Flow<Unit> =
         getCurrentUserUidUseCase.execute().flatMapConcat { userUid ->
             getDeliveryPriceUseCase.execute().flatMapConcat { deliveryPrice ->
-                getAllProductsInCartUseCase.execute().flatMapConcat { listCartProductModel ->
-                    /**TODO Come up with something better
-                     * When cart drops it triggers addOrderAgain
-                     * Which ends up with empty order
-                     */
-                    if (!listCartProductModel.isNullOrEmpty()) {
+                getAllProductsInCartUseCase.execute().take(1)
+                    .flatMapConcat { listCartProductModel ->
                         userRepository.addOrder(
                             OrderModel(
                                 addressAndStatus = OrderAddressAndStatusModel(address = address),
@@ -37,10 +33,7 @@ class AddOrderUseCase(
                         ).flatMapConcat {
                             dropCartUseCase.execute()
                         }
-                    } else {
-                        emptyFlow()
                     }
-                }
             }
         }
 }
