@@ -52,20 +52,8 @@ class MakeOrderViewModel(
     fun saveUserAndMakeOrder(name: String, phone: String, address: String) {
         setUserDataUseCase
             .execute(UserModel(name = name, phoneNum = phone))
-            .buffer()
-            .onStart { _state.value = ViewState.LOADING }
-            .onEach {
-                //Make order if user data updated
-                addOrder(address)
-            }
-            .catch { _event.value = Event(ViewEvent.FAILURE) }
-            .launchIn(viewModelScope)
-    }
-
-    private fun addOrder(address: String) {
-        addOrderUseCase
-            .execute(address)
-            .buffer()
+            .flatMapConcat { addOrderUseCase.execute(address) }
+            .onStart { _state.postValue(ViewState.LOADING) }
             .onEach { _event.postValue(Event(ViewEvent.SUCCESS)) }
             .catch { _event.postValue(Event(ViewEvent.FAILURE)) }
             .launchIn(viewModelScope + IO)
