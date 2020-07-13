@@ -1,5 +1,6 @@
 package com.ph00.data.repositories_impl
 
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.ph00.domain.repositories.AuthRepository
@@ -51,16 +52,16 @@ class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepositor
             .currentUser
             ?.updatePassword(newPassword)
             ?.await()
-            ?.let { emit(Unit) }
+            .let { emit(Unit) }
     }
 
     override fun reauthenticate(email: String, password: String) = flow {
-        val credential = EmailAuthProvider.getCredential(email, password)
+        val credential: AuthCredential = EmailAuthProvider.getCredential(email, password)
         firebaseAuth
             .currentUser
             ?.reauthenticate(credential)
             ?.await()
-            ?.let { emit(Unit) }
+            .let { emit(Unit) }
     }
 
 }

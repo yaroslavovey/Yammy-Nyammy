@@ -10,6 +10,7 @@ import com.phooper.yammynyammy.utils.Event
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -26,9 +27,9 @@ class UpdatePasswordViewModel(
     val event: LiveData<Event<ViewEvent>> get() = _event
 
     fun updatePassword(currentPassword: String, newPassword: String) {
-        reauthenticateUseCase.execute(currentPassword).flatMapConcat {
-            updateUserPasswordUseCase.execute(newPassword)
-        }
+        reauthenticateUseCase
+            .execute(currentPassword)
+            .flatMapConcat { updateUserPasswordUseCase.execute(newPassword) }
             .onStart { _state.value = ViewState.LOADING }
             .onCompletion { _state.value = ViewState.DEFAULT }
             .onEach { _event.value = Event(ViewEvent.SUCCESS) }
