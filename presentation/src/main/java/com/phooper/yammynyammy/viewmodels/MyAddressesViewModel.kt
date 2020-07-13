@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.livermor.delegateadapter.delegate.diff.KDiffUtilItem
 import com.ph00.domain.usecases.GetAllAddressesUseCase
+import com.phooper.yammynyammy.entities.AddAddressButton
 import com.phooper.yammynyammy.utils.toPresentation
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -43,7 +44,7 @@ class MyAddressesViewModel(
                 if (list.isNullOrEmpty()) {
                     _state.value = ViewState.NO_ADDRESSES
                 } else {
-                    _addressesList.value = list.map { it.toPresentation() }
+                    _addressesList.value = list.map { it.toPresentation() }.plus(AddAddressButton())
                     _state.value = ViewState.DEFAULT
                 }
             }

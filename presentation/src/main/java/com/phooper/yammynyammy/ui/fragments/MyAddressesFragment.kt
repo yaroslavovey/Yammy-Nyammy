@@ -28,7 +28,7 @@ class MyAddressesFragment : BaseFragment() {
 
     private val delegateAdapter = DiffUtilCompositeAdapter.Builder()
         .add(AddAddressButtonDelegateAdapter {
-            navController.navigate(MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress())
+            navController.navigate(MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress(null))
         })
         .add(
             AddressDelegateAdapter(

@@ -6,8 +6,8 @@ import com.ph00.domain.repositories.UserRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.flow
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -38,7 +38,7 @@ class AddOrderUseCase(
                             dropCartUseCase.execute()
                         }
                     } else {
-                        flow {}
+                        emptyFlow()
                     }
                 }
             }
