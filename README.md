@@ -28,16 +28,5 @@
     > ![](https://sun1-98.userapi.com/DISNMaTtvVJvqW69oJzuQ1ZKUtgnvCrz0zVgPw/vS9ygGkCMrs.jpg)  
   
  ---
-### Here some screens from the app.
- Auth | Menu | Cart 
-:--------: |:-----:| :-------:
- ![](https://vk.com/doc63877244_558288802?hash=050ff48cd4765a2f46&dl=db555507e437cc5e3c&wnd=1)  | ![](https://vk.com/doc63877244_558288813?hash=e5e330d332fd0dd6c7&dl=852c6627bbf2354be6&wnd=1)  | ![](https://vk.com/doc63877244_558288819?hash=59df345f830394804f&dl=a52a64a1707e769fc7&wnd=1)  
- 
-  My addresses | Checkout | Profile 
-:--------: |:-----:| :-------:
- ![](https://vk.com/doc63877244_558288810?hash=70eeb9d8162b11f88b&dl=ca8ea0d2be4e22853b&wnd=1)  | ![](https://vk.com/doc63877244_558288790?hash=437f10a7bbe95796fd&dl=314bf336b43ec3230e&wnd=1)  | ![](https://vk.com/doc63877244_558288807?hash=7edac5de9eb5316116&dl=f7efef73a9e810098c&wnd=1)
- 
-  Select count | Order details
-:--------: |:-----:
- ![](https://vk.com/doc63877244_558288793?hash=ef233efd412f185b19&dl=ed1d2f400eab31bb2d&wnd=1)  | ![](https://vk.com/doc63877244_558288825?hash=8318d436ca038200f9&dl=83a42c1b433caf3ef5&wnd=1)  
- 
+### Here some screens from the app.  
+![](https://psv4.userapi.com/c856528/u63877244/docs/d9/780db6b9ba5a/tbbeb-n0df9.jpg?extra=jAOCCPlmKlXWTbuw0kezgYHGB1cIdphTYFDk_WWNoau9ZkgjyxPu-ZkJsH9lJ76-dTLn5LmiJCbgkLWwX0GXPSnNZrFc1gww1ggYsPa_ifYNoXCGllseHzVgGEpbSCNdQTa9IzOeZfTS65MgaXScY2Q)  
