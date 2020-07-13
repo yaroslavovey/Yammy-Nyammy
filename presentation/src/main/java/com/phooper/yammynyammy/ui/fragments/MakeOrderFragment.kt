@@ -13,8 +13,7 @@ import com.phooper.yammynyammy.utils.showMessageAboveBottomNav
 import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.MakeOrderViewModel
 import kotlinx.android.synthetic.main.fragment_make_order.*
-import kotlinx.android.synthetic.main.fragment_make_order.no_network_layout
-import kotlinx.android.synthetic.main.fragment_make_order.progress_bar
+import kotlinx.android.synthetic.main.no_network_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -53,6 +52,10 @@ class MakeOrderFragment : BaseFragment() {
                     address_input.text.toString()
                 )
             }
+        }
+
+        refresh_btn.setOnClickListener {
+            viewModel.loadUser()
         }
 
         address_input.setOnClickListener {
