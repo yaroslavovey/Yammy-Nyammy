@@ -3,10 +3,13 @@ package com.ph00.domain.usecases
 import com.ph00.domain.models.OrderAddressAndStatusModel
 import com.ph00.domain.models.OrderModel
 import com.ph00.domain.repositories.UserRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flow
 
+@ExperimentalCoroutinesApi
 @FlowPreview
 class AddOrderUseCase(
     private val userRepository: UserRepository,
@@ -20,17 +23,24 @@ class AddOrderUseCase(
         getCurrentUserUidUseCase.execute().flatMapConcat { userUid ->
             getDeliveryPriceUseCase.execute().flatMapConcat { deliveryPrice ->
                 getAllProductsInCartUseCase.execute().flatMapConcat { listCartProductModel ->
-                    userRepository.addOrder(
-                        OrderModel(
-                            addressAndStatus = OrderAddressAndStatusModel(address = address),
-                            products = listCartProductModel,
-                            deliveryPrice = deliveryPrice
-                        ), userUid
-                    ).flatMapConcat {
-                        dropCartUseCase.execute()
+                    /**TODO Come up with something better
+                     * When cart drops it triggers addOrderAgain
+                     * Which ends up with empty order
+                     */
+                    if (!listCartProductModel.isNullOrEmpty()) {
+                        userRepository.addOrder(
+                            OrderModel(
+                                addressAndStatus = OrderAddressAndStatusModel(address = address),
+                                products = listCartProductModel,
+                                deliveryPrice = deliveryPrice
+                            ), userUid
+                        ).flatMapConcat {
+                            dropCartUseCase.execute()
+                        }
+                    } else {
+                        flow {}
                     }
                 }
             }
         }
-
 }
