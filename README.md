@@ -6,6 +6,7 @@
 - **Stack**:
     - MVVM
     - Koin
+    - Kotlin Flows
     - Firebase (Firestore + Firebase Auth)
     - Kotlin Coroutines
     - Material Design
@@ -16,7 +17,7 @@
     
 - **If you want to try this app follow these steps:**  
     - Get google-services.json file following [this guide](https://firebase.google.com/docs/android/setup?hl=ru#console).  
-    - Drop it at root of presentation folder.  
+    - Drop it at root of the presentation folder.  
     > ⠀⠀  
     > ![](https://sun1-30.userapi.com/dKGoqY54DTzOFhWjXBZ53DiVMK0meVXmyR9p_A/uAQsHZ_1ZjQ.jpg)  
     - Enable email & password authentication in firebase console.  
@@ -27,7 +28,7 @@
     > ![](https://sun1-98.userapi.com/DISNMaTtvVJvqW69oJzuQ1ZKUtgnvCrz0zVgPw/vS9ygGkCMrs.jpg)  
   
  ---
-### Here some screens from app.
+### Here some screens from the app.
  Auth | Menu | Cart 
 :--------: |:-----:| :-------:
  ![](https://vk.com/doc63877244_558288802?hash=050ff48cd4765a2f46&dl=db555507e437cc5e3c&wnd=1)  | ![](https://vk.com/doc63877244_558288813?hash=e5e330d332fd0dd6c7&dl=852c6627bbf2354be6&wnd=1)  | ![](https://vk.com/doc63877244_558288819?hash=59df345f830394804f&dl=a52a64a1707e769fc7&wnd=1)  
