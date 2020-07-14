@@ -2,7 +2,6 @@ package com.phooper.yammynyammy.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -16,6 +15,7 @@ import com.phooper.yammynyammy.viewmodels.MainContainerViewModel
 import com.phooper.yammynyammy.viewmodels.MyAddressesViewModel
 import kotlinx.android.synthetic.main.fragment_my_addresses.*
 import kotlinx.android.synthetic.main.item_add_new_address_btn.*
+import kotlinx.android.synthetic.main.no_network_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -28,7 +28,11 @@ class MyAddressesFragment : BaseFragment() {
 
     private val delegateAdapter = DiffUtilCompositeAdapter.Builder()
         .add(AddAddressButtonDelegateAdapter {
-            navController.navigate(MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress(null))
+            navController.navigate(
+                MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress(
+                    null
+                )
+            )
         })
         .add(
             AddressDelegateAdapter(
@@ -86,8 +90,14 @@ class MyAddressesFragment : BaseFragment() {
         }
 
         add_new_address_btn.setOnClickListener {
-            navController.navigate(MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress(null))
+            navController.navigate(
+                MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress(
+                    null
+                )
+            )
         }
+
+        refresh_btn.setOnClickListener { viewModel.loadAddresses() }
 
         viewModel.addressesList.observe(viewLifecycleOwner, Observer {
             delegateAdapter.swapData(it)
@@ -100,19 +110,25 @@ class MyAddressesFragment : BaseFragment() {
                         progress_bar.visibility = View.GONE
                         no_addresses_layout.visibility = View.GONE
                         recycler_view.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
                     }
                     MyAddressesViewModel.ViewState.LOADING -> {
                         progress_bar.visibility = View.VISIBLE
                         no_addresses_layout.visibility = View.GONE
                         recycler_view.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
                     }
                     MyAddressesViewModel.ViewState.NO_ADDRESSES -> {
                         progress_bar.visibility = View.GONE
-                        recycler_view.visibility = View.GONE
                         no_addresses_layout.visibility = View.VISIBLE
+                        recycler_view.visibility = View.GONE
+                        no_network_layout.visibility = View.GONE
                     }
                     MyAddressesViewModel.ViewState.NETWORK_ERROR -> {
-                        //TODO
+                        progress_bar.visibility = View.GONE
+                        no_addresses_layout.visibility = View.GONE
+                        recycler_view.visibility = View.GONE
+                        no_network_layout.visibility = View.VISIBLE
                     }
                 }
             }

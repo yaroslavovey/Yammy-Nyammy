@@ -15,7 +15,6 @@ import com.phooper.yammynyammy.utils.toPresentation
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
-import timber.log.Timber
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -36,8 +35,8 @@ class AddUpdateAddressViewModel(
     private val _mode = MutableLiveData<ViewMode>()
     val mode: LiveData<ViewMode> get() = _mode
 
-    private val _addressLiveData = MutableLiveData<Address>()
-    val addressLiveData: LiveData<Address> get() = _addressLiveData
+    private val _address = MutableLiveData<Address>()
+    val address: LiveData<Address> get() = _address
 
     init {
         checkBundle()
@@ -48,15 +47,23 @@ class AddUpdateAddressViewModel(
             _state.value = ViewState.DEFAULT
             _mode.value = ViewMode.NEW_ADDRESS
         } else {
-            getAddressByUidUseCase
-                .execute(addressUid)
-                .onEach { addressModel ->
-                    _addressLiveData.value = addressModel.toPresentation()
-                    _mode.value = ViewMode.UPDATE_ADDRESS
-                }.onCompletion { _state.value = ViewState.DEFAULT }
-                .catch { _state.value = ViewState.NETWORK_ERROR }
-                .launchIn(viewModelScope)
+            _mode.value = ViewMode.UPDATE_ADDRESS
+            loadAddress()
         }
+    }
+
+    fun loadAddress() {
+        getAddressByUidUseCase
+            /**
+             * Load address is available only in update address viewMode
+             * so it is always not null
+             * */
+            .execute(addressUid!!)
+            .onEach { addressModel ->
+                _address.value = addressModel.toPresentation()
+            }.onCompletion { _state.value = ViewState.DEFAULT }
+            .catch { _state.value = ViewState.NETWORK_ERROR }
+            .launchIn(viewModelScope)
     }
 
     fun addAddress(street: String, houseNum: String, apartNum: String) {

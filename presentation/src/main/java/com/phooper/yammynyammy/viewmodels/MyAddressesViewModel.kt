@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.livermor.delegateadapter.delegate.diff.KDiffUtilItem
 import com.ph00.domain.usecases.GetAllAddressesUseCase
 import com.phooper.yammynyammy.entities.AddAddressButton
+import com.phooper.yammynyammy.utils.cancelIfActive
 import com.phooper.yammynyammy.utils.toPresentation
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -31,25 +33,30 @@ class MyAddressesViewModel(
     val addressesList: LiveData<List<KDiffUtilItem>> get() = _addressesList
     private val _addressesList = MutableLiveData<List<KDiffUtilItem>>()
 
+    private var loadAddressesJob: Job? = null
+
     init {
         setViewMode()
         loadAddresses()
     }
 
-    private fun loadAddresses() {
-        getAllUserAddressesUseCase
-            .execute()
-            .onStart { _state.value = ViewState.LOADING }
-            .onEach { list ->
-                if (list.isNullOrEmpty()) {
-                    _state.value = ViewState.NO_ADDRESSES
-                } else {
-                    _addressesList.value = list.map { it.toPresentation() }.plus(AddAddressButton())
-                    _state.value = ViewState.DEFAULT
+    fun loadAddresses() {
+        loadAddressesJob.cancelIfActive()
+        loadAddressesJob =
+            getAllUserAddressesUseCase
+                .execute()
+                .onStart { _state.value = ViewState.LOADING }
+                .onEach { list ->
+                    if (list.isNullOrEmpty()) {
+                        _state.value = ViewState.NO_ADDRESSES
+                    } else {
+                        _addressesList.value =
+                            list.map { it.toPresentation() }.plus(AddAddressButton())
+                        _state.value = ViewState.DEFAULT
+                    }
                 }
-            }
-            .catch { _state.value = ViewState.NETWORK_ERROR }
-            .launchIn(viewModelScope)
+                .catch { _state.value = ViewState.NETWORK_ERROR }
+                .launchIn(viewModelScope)
     }
 
     private fun setViewMode() {

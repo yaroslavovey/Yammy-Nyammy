@@ -13,6 +13,7 @@ import com.phooper.yammynyammy.utils.setHideLayoutErrorOnTextChangedListener
 import com.phooper.yammynyammy.utils.showMessage
 import com.phooper.yammynyammy.viewmodels.AddUpdateAddressViewModel
 import kotlinx.android.synthetic.main.fragment_add_update_address.*
+import kotlinx.android.synthetic.main.no_network_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.android.inject
@@ -94,23 +95,34 @@ class AddUpdateAddressFragment : BaseFragment() {
             it?.let { state ->
                 when (state) {
                     AddUpdateAddressViewModel.ViewState.DEFAULT -> {
+                        add_update_btn.visibility = View.VISIBLE
                         progress_bar.visibility = View.GONE
+                        no_network_layout.visibility = View.GONE
+                        inputs_scroll_view.visibility = View.VISIBLE
                     }
                     AddUpdateAddressViewModel.ViewState.LOADING -> {
+                        add_update_btn.visibility = View.VISIBLE
                         progress_bar.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
+                        inputs_scroll_view.visibility = View.VISIBLE
                     }
                     AddUpdateAddressViewModel.ViewState.NETWORK_ERROR -> {
-                        //TODO
+                        add_update_btn.visibility = View.GONE
+                        no_network_layout.visibility = View.VISIBLE
+                        progress_bar.visibility = View.GONE
+                        inputs_scroll_view.visibility = View.GONE
                     }
                 }
             }
         })
 
-        viewModel.addressLiveData.observe(viewLifecycleOwner, Observer { address ->
+        viewModel.address.observe(viewLifecycleOwner, Observer { address ->
             street_input.setText(address.street)
             house_num_input.setText(address.houseNum)
             apartment_num_input.setText(address.apartNum)
         })
+
+        refresh_btn.setOnClickListener { viewModel.loadAddress() }
 
         delete_address_btn.setOnClickListener { showDeleteDialog() }
 

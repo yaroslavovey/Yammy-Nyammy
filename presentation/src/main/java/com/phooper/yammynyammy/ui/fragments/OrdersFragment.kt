@@ -10,6 +10,7 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.ui.adapters.OrderPreviewAdapter
 import com.phooper.yammynyammy.viewmodels.OrdersViewModel
 import kotlinx.android.synthetic.main.fragment_orders.*
+import kotlinx.android.synthetic.main.no_network_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -56,21 +57,31 @@ class OrdersFragment : BaseFragment() {
                         no_orders_layout.visibility = View.VISIBLE
                         recycler_view.visibility = View.GONE
                         progress_bar.visibility = View.GONE
+                        no_network_layout.visibility = View.GONE
                     }
                     OrdersViewModel.ViewState.LOADING -> {
+                        no_orders_layout.visibility = View.GONE
+                        recycler_view.visibility = View.GONE
                         progress_bar.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
                     }
                     OrdersViewModel.ViewState.DEFAULT -> {
                         no_orders_layout.visibility = View.GONE
                         recycler_view.visibility = View.VISIBLE
                         progress_bar.visibility = View.GONE
+                        no_network_layout.visibility = View.GONE
                     }
                     OrdersViewModel.ViewState.NETWORK_ERROR -> {
-                        //TODO
+                        no_orders_layout.visibility = View.GONE
+                        recycler_view.visibility = View.GONE
+                        progress_bar.visibility = View.GONE
+                        no_network_layout.visibility = View.VISIBLE
                     }
                 }
             }
         })
+
+        refresh_btn.setOnClickListener { viewModel.loadOrderList() }
 
     }
 }

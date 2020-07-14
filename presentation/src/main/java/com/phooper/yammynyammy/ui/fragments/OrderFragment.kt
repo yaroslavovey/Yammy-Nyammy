@@ -12,6 +12,7 @@ import com.phooper.yammynyammy.ui.adapters.TotalPriceDelegateAdapter
 import com.phooper.yammynyammy.utils.setAppBarTitle
 import com.phooper.yammynyammy.viewmodels.OrderViewModel
 import kotlinx.android.synthetic.main.fragment_order.*
+import kotlinx.android.synthetic.main.no_network_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -58,15 +59,24 @@ class OrderFragment : BaseFragment() {
                 when (it) {
                     OrderViewModel.ViewState.LOADING -> {
                         progress_bar.visibility = View.VISIBLE
+                        recycler_view.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
                     }
                     OrderViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
+                        recycler_view.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
                     }
                     OrderViewModel.ViewState.NETWORK_ERROR -> {
-                        //TODO
+                        progress_bar.visibility = View.GONE
+                        recycler_view.visibility = View.GONE
+                        no_network_layout.visibility = View.VISIBLE
                     }
                 }
             }
         })
+
+        refresh_btn.setOnClickListener { viewModel.loadOrder() }
+
     }
 }

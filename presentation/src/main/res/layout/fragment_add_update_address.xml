@@ -4,8 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        layout="@layout/no_network_layout"
+        android:visibility="gone" />
+
     <ScrollView
-        android:id="@+id/scroll_view"
+        android:id="@+id/inputs_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">

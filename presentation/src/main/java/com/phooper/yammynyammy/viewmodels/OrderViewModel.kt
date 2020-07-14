@@ -40,16 +40,12 @@ class OrderViewModel(
                 .onStart { _state.value = ViewState.LOADING }
                 .onCompletion { _state.value = ViewState.DEFAULT }
                 .onEach { orderModel ->
-                    _appBarTitleDate.value = orderModel.timestamp.formatToString()
-                    _orderInfo.value =
-                        listOf<KDiffUtilItem>(orderModel.addressAndStatus.toPresentation())
-                            .plus(orderModel.products.map { product -> product.toPresentation() }
-                                .plus(
-                                    TotalAndDeliveryPrice(
-                                        orderModel.deliveryPrice,
-                                        orderModel.totalPrice
-                                    )
-                                ))
+                    with(orderModel) {
+                        _appBarTitleDate.value = timestamp.formatToString()
+                        _orderInfo.value = listOf<KDiffUtilItem>(addressAndStatus.toPresentation())
+                            .plus(products.map { product -> product.toPresentation() }
+                                .plus(TotalAndDeliveryPrice(deliveryPrice, totalPrice)))
+                    }
                 }
                 .catch { _state.value = ViewState.NETWORK_ERROR }
                 .launchIn(viewModelScope)

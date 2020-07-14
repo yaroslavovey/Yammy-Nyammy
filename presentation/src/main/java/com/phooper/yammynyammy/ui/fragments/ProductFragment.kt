@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.count_text
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.minus_btn
 import kotlinx.android.synthetic.main.dialog_fragment_add_to_cart.plus_btn
 import kotlinx.android.synthetic.main.fragment_product.*
+import kotlinx.android.synthetic.main.no_network_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.ext.android.inject
@@ -67,12 +68,18 @@ class ProductFragment : BaseFragment() {
                 when (it) {
                     ProductViewModel.ViewState.LOADING -> {
                         progress_bar.visibility = View.VISIBLE
+                        product_constraint_layout.visibility = View.GONE
+                        no_network_layout.visibility = View.VISIBLE
                     }
                     ProductViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
+                        product_constraint_layout.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
                     }
                     ProductViewModel.ViewState.NETWORK_ERROR -> {
-                        //TODO
+                        progress_bar.visibility = View.GONE
+                        product_constraint_layout.visibility = View.GONE
+                        no_network_layout.visibility = View.VISIBLE
                     }
                 }
             }
@@ -91,6 +98,8 @@ class ProductFragment : BaseFragment() {
         minus_btn.setOnClickListener {
             viewModel.decreaseItemCountByOne()
         }
+
+        refresh_btn.setOnClickListener { viewModel.loadProduct() }
 
     }
 }
