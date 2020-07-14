@@ -1,9 +1,11 @@
 package com.phooper.yammynyammy.di
 
 import com.ph00.domain.usecases.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.dsl.module
 
+@ExperimentalCoroutinesApi
 @FlowPreview
 val useCaseModule = module {
     //Addresses
