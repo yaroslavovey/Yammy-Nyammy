@@ -13,6 +13,7 @@ import com.ph00.domain.usecases.RemoveProductsFromCartUseCase
 import com.phooper.yammynyammy.entities.TotalAndDeliveryPrice
 import com.phooper.yammynyammy.utils.cancelIfActive
 import com.phooper.yammynyammy.utils.toPresentation
+import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -46,36 +47,39 @@ class CartViewModel(
         cartProductModelListJob =
             getAllProductsInCartUseCase
                 .execute()
-                .onEach {
-                    processCartProductModelList(it)
-                }
+                /**
+                 * TODO:: Find better way to get deliveryPrice
+                 */
+                .combine(getDeliveryPriceUseCase.execute())
+                { cartProductsList, deliveryPrice -> Pair(cartProductsList, deliveryPrice) }
+                .onEach { processCartProductModelList(it) }
                 .onStart { _state.postValue(ViewState.LOADING) }
                 .onCompletion { _state.postValue(ViewState.DEFAULT) }
                 .catch { _state.postValue(ViewState.NO_NETWORK) }
-                .launchIn(viewModelScope + IO)
+                .launchIn(viewModelScope + Default)
     }
 
-    private fun processCartProductModelList(cartProductModelList: List<CartProductModel>) {
+    private fun processCartProductModelList(pairOfProductListAndDeliveryPrice: Pair<List<CartProductModel>, Int>) {
         when {
-            cartProductModelList.isNullOrEmpty() -> {
+            pairOfProductListAndDeliveryPrice.first.isNullOrEmpty() -> {
                 _state.postValue(ViewState.NO_PRODUCTS_IN_CART)
             }
             else -> {
-                _productsInCart.postValue(prepareCartProductList(cartProductModelList))
+                _productsInCart.postValue(prepareCartProductList(pairOfProductListAndDeliveryPrice))
                 _state.postValue(ViewState.DEFAULT)
             }
         }
     }
 
-    private fun prepareCartProductList(cartProductModelList: List<CartProductModel>): List<KDiffUtilItem> =
-        (cartProductModelList.map { it.toPresentation() }
-            .plus(getTotalAndDeliveryPrice(cartProductModelList)))
+    private fun prepareCartProductList(pairOfProductListAndDeliveryPrice: Pair<List<CartProductModel>, Int>): List<KDiffUtilItem> =
+        (pairOfProductListAndDeliveryPrice.first.map { it.toPresentation() }
+            .plus(getTotalAndDeliveryPrice(pairOfProductListAndDeliveryPrice)))
 
-    //TODO GET DELIVERY PRICE
-    private fun getTotalAndDeliveryPrice(cartProductModelList: List<CartProductModel>): TotalAndDeliveryPrice =
+    private fun getTotalAndDeliveryPrice(pairOfProductListAndDeliveryPrice: Pair<List<CartProductModel>, Int>): TotalAndDeliveryPrice =
         TotalAndDeliveryPrice(
-            10,
-            cartProductModelList.sumBy { it.totalPrice } + 10)
+            pairOfProductListAndDeliveryPrice.second,
+            pairOfProductListAndDeliveryPrice.first
+                .sumBy { it.totalPrice } + pairOfProductListAndDeliveryPrice.second)
 
     fun addOneProductToCart(productId: Int) {
         _state.value = ViewState.LOADING
