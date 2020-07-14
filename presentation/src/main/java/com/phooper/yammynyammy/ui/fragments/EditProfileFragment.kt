@@ -39,11 +39,7 @@ class EditProfileFragment : BaseFragment() {
         phone_number_input.setHideLayoutErrorOnTextChangedListener(phone_number_input_layout)
 
         save_btn.setOnClickListener {
-            if (areSomeInputsEmpty()) {
-                showFillFieldsError()
-            } else {
-                viewModel.saveUser(name_input.text.toString(), phone_number_input.text.toString())
-            }
+            viewModel.saveUser(name_input.text.toString(), phone_number_input.text.toString())
         }
 
         viewModel.userData.observe(viewLifecycleOwner, Observer {
@@ -86,23 +82,15 @@ class EditProfileFragment : BaseFragment() {
             }
         })
 
-        refresh_btn.setOnClickListener {
-            viewModel.loadUser()
-        }
-
-    }
-
-    private fun areSomeInputsEmpty() =
-        name_input.text.toString().isEmpty() ||
-                phone_number_input.text.toString().isEmpty()
-
-    private fun showFillFieldsError() {
-        if (name_input.text.toString().isEmpty())
+        viewModel.inputValidator.observe(viewLifecycleOwner, Observer { inputValidator ->
             name_input_layout.error =
-                getString(R.string.fill_name)
+                inputValidator.nameInputErrorResId?.let { getString(it) }
 
-        if (phone_number_input.text.toString().isEmpty())
-            phone_number_input_layout.error = getString(R.string.fill_phone)
+            phone_number_input_layout.error =
+                inputValidator.phoneNumInputErrorResId?.let { getString(it) }
+        })
+
+        refresh_btn.setOnClickListener { viewModel.loadUser() }
 
     }
 }

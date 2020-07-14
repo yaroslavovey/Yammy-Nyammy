@@ -73,7 +73,7 @@
     <string name="new_password_repeat">New password (repeat)</string>
     <string name="password_updated">Password successfully updated</string>
     <string name="passwords_does_not_match">Passwords don\'t match</string>
-    <string name="passwords_are_to_short">Passwords are too short</string>
+    <string name="passwords_are_too_short">Passwords are too short</string>
     <string name="update_password">Change password</string>
     <string name="current_password">Current password</string>
     <string name="invalid_email">Invalid email</string>

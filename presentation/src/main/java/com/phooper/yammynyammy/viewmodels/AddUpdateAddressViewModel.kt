@@ -9,6 +9,7 @@ import com.ph00.domain.usecases.AddAddressUseCase
 import com.ph00.domain.usecases.DeleteAddressByUidUseCase
 import com.ph00.domain.usecases.GetAddressByUidUseCase
 import com.ph00.domain.usecases.UpdateAddressByUidUseCase
+import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.Address
 import com.phooper.yammynyammy.utils.Event
 import com.phooper.yammynyammy.utils.toPresentation
@@ -38,6 +39,9 @@ class AddUpdateAddressViewModel(
     private val _address = MutableLiveData<Address>()
     val address: LiveData<Address> get() = _address
 
+    private val _inputValidator = MutableLiveData<InputValidator>()
+    val inputValidator: LiveData<InputValidator> get() = _inputValidator
+
     init {
         checkBundle()
     }
@@ -66,7 +70,24 @@ class AddUpdateAddressViewModel(
             .launchIn(viewModelScope)
     }
 
-    fun addAddress(street: String, houseNum: String, apartNum: String) {
+    fun addUpdateAddress(street: String, houseNum: String, apartNum: String) {
+        if (street.isEmpty() || houseNum.isEmpty() || apartNum.isEmpty()) {
+            _inputValidator.value = InputValidator(
+                streetInputErrorResId = if (street.isEmpty()) R.string.fill_street else null,
+                houseNumInputErrorResId = if (houseNum.isEmpty()) R.string.fill_house_num else null,
+                apartNumInputErrorResId = if (apartNum.isEmpty()) R.string.fill_apart_num else null
+            )
+            return
+        }
+
+        if (addressUid == null) {
+            addAddress(street, houseNum, apartNum)
+        } else {
+            updateAddress(street, houseNum, apartNum)
+        }
+    }
+
+    private fun addAddress(street: String, houseNum: String, apartNum: String) {
         addAddressUseCase
             .execute(AddressModel(street = street, houseNum = houseNum, apartNum = apartNum))
             .onStart { _state.value = ViewState.LOADING }
@@ -76,19 +97,7 @@ class AddUpdateAddressViewModel(
             .launchIn(viewModelScope)
     }
 
-    fun deleteAddress() {
-        addressUid?.let {
-            deleteAddressByUidUseCase
-                .execute(it)
-                .onStart { _state.value = ViewState.LOADING }
-                .onCompletion { _state.value = ViewState.DEFAULT }
-                .onEach { _event.value = Event(ViewEvent.DELETE_SUCCESS) }
-                .catch { _event.value = Event(ViewEvent.ERROR) }
-                .launchIn(viewModelScope)
-        }
-    }
-
-    fun updateAddress(street: String, houseNum: String, apartNum: String) {
+    private fun updateAddress(street: String, houseNum: String, apartNum: String) {
         addressUid?.let {
             updateAddressByUidUseCase
                 .execute(
@@ -98,6 +107,18 @@ class AddUpdateAddressViewModel(
                 .onStart { _state.value = ViewState.LOADING }
                 .onCompletion { _state.value = ViewState.DEFAULT }
                 .onEach { _event.value = Event(ViewEvent.UPDATE_SUCCESS) }
+                .catch { _event.value = Event(ViewEvent.ERROR) }
+                .launchIn(viewModelScope)
+        }
+    }
+
+    fun deleteAddress() {
+        addressUid?.let {
+            deleteAddressByUidUseCase
+                .execute(it)
+                .onStart { _state.value = ViewState.LOADING }
+                .onCompletion { _state.value = ViewState.DEFAULT }
+                .onEach { _event.value = Event(ViewEvent.DELETE_SUCCESS) }
                 .catch { _event.value = Event(ViewEvent.ERROR) }
                 .launchIn(viewModelScope)
         }
@@ -120,5 +141,11 @@ class AddUpdateAddressViewModel(
         UPDATE_SUCCESS,
         CREATE_SUCCESS
     }
+
+    data class InputValidator(
+        val streetInputErrorResId: Int? = null,
+        val houseNumInputErrorResId: Int? = null,
+        val apartNumInputErrorResId: Int? = null
+    )
 
 }

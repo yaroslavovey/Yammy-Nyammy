@@ -46,44 +46,27 @@ class AddUpdateAddressFragment : BaseFragment() {
         house_num_input.setHideLayoutErrorOnTextChangedListener(house_num_input_layout)
         apartment_num_input.setHideLayoutErrorOnTextChangedListener(apartment_num_input_layout)
 
+        viewModel.inputValidator.observe(viewLifecycleOwner, Observer { inputValidator ->
+            street_input_layout.error =
+                inputValidator.streetInputErrorResId?.let { getString(it) }
+
+            apartment_num_input_layout.error =
+                inputValidator.apartNumInputErrorResId?.let { getString(it) }
+
+            house_num_input_layout.error =
+                inputValidator.houseNumInputErrorResId?.let { getString(it) }
+        })
+
         viewModel.mode.observe(viewLifecycleOwner, Observer {
             it?.let { mode ->
                 when (mode) {
                     AddUpdateAddressViewModel.ViewMode.UPDATE_ADDRESS -> {
-                        add_update_btn.apply {
-                            text = getString(R.string.update_address)
-                            setOnClickListener {
-                                if (areSomeInputsEmpty()) {
-                                    showFillFieldsError()
-                                } else {
-                                    hideKeyboard()
-                                    viewModel.updateAddress(
-                                        street_input.text.toString(),
-                                        house_num_input.text.toString(),
-                                        apartment_num_input.text.toString()
-                                    )
-                                }
-                            }
-                        }
+                        add_update_btn.text = getString(R.string.update_address)
                         setAppBarTitle(getString(R.string.edit_address))
                         delete_address_btn.visibility = View.VISIBLE
                     }
                     AddUpdateAddressViewModel.ViewMode.NEW_ADDRESS -> {
-                        add_update_btn.apply {
-                            text = getString(R.string.add_address)
-                            setOnClickListener {
-                                if (areSomeInputsEmpty()) {
-                                    showFillFieldsError()
-                                } else {
-                                    hideKeyboard()
-                                    viewModel.addAddress(
-                                        street_input.text.toString(),
-                                        house_num_input.text.toString(),
-                                        apartment_num_input.text.toString()
-                                    )
-                                }
-                            }
-                        }
+                        add_update_btn.text = getString(R.string.add_address)
                         setAppBarTitle(getString(R.string.new_address))
                         delete_address_btn.visibility = View.GONE
                     }
@@ -122,10 +105,6 @@ class AddUpdateAddressFragment : BaseFragment() {
             apartment_num_input.setText(address.apartNum)
         })
 
-        refresh_btn.setOnClickListener { viewModel.loadAddress() }
-
-        delete_address_btn.setOnClickListener { showDeleteDialog() }
-
         viewModel.event.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { event ->
                 when (event) {
@@ -145,6 +124,19 @@ class AddUpdateAddressFragment : BaseFragment() {
                 navController.popBackStack()
             }
         })
+
+        add_update_btn.setOnClickListener {
+            hideKeyboard()
+            viewModel.addUpdateAddress(
+                street_input.text.toString(),
+                house_num_input.text.toString(),
+                apartment_num_input.text.toString()
+            )
+        }
+
+        refresh_btn.setOnClickListener { viewModel.loadAddress() }
+
+        delete_address_btn.setOnClickListener { showDeleteDialog() }
     }
 
     private fun showDeleteDialog() {
@@ -157,22 +149,5 @@ class AddUpdateAddressFragment : BaseFragment() {
                 viewModel.deleteAddress()
             }
             .show()
-    }
-
-    private fun areSomeInputsEmpty() =
-        street_input.text.toString().isEmpty() ||
-                apartment_num_input.text.toString().isEmpty() ||
-                house_num_input.text.toString().isEmpty()
-
-    private fun showFillFieldsError() {
-        if (street_input.text.toString().isEmpty())
-            street_input_layout.error =
-                getString(R.string.fill_street)
-
-        if (house_num_input.text.toString().isEmpty())
-            house_num_input_layout.error = getString(R.string.fill_house_num)
-
-        if (apartment_num_input.text.toString().isEmpty())
-            apartment_num_input_layout.error = getString(R.string.fill_apart_num)
     }
 }

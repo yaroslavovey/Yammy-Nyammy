@@ -32,29 +32,22 @@ class UpdatePasswordFragment : BaseFragment() {
     }
 
     private fun initViews() {
+        current_password_input
+            .setHideLayoutErrorOnTextChangedListener(current_password_input_layout)
         new_password_input
             .setHideLayoutErrorOnTextChangedListener(new_password_input_layout)
+        new_password_input
+            .setHideLayoutErrorOnTextChangedListener(new_password_repeat_input_layout)
         new_password_repeat_input
             .setHideLayoutErrorOnTextChangedListener(new_password_repeat_input_layout)
+        new_password_repeat_input
+            .setHideLayoutErrorOnTextChangedListener(new_password_input_layout)
 
         update_btn.setOnClickListener {
-            if (areSomeInputsEmpty()) {
-                showFillFieldsError()
-                return@setOnClickListener
-            }
-
-            if (!doesPasswordsMatch()) {
-                showPasswordsDoesNotMatchError()
-                return@setOnClickListener
-            }
-
-            if (arePasswordsTooShort()) {
-                showPasswordsTooShortError()
-                return@setOnClickListener
-            }
             viewModel.updatePassword(
                 currentPassword = current_password_input.text.toString(),
-                newPassword = new_password_input.text.toString()
+                newPassword = new_password_input.text.toString(),
+                newPasswordRepeat = new_password_repeat_input.text.toString()
             )
         }
 
@@ -84,39 +77,17 @@ class UpdatePasswordFragment : BaseFragment() {
                 }
             }
         })
-    }
 
-    private fun areSomeInputsEmpty() =
-        new_password_input.text.toString().isEmpty() ||
-                new_password_repeat_input.text.toString().isEmpty() ||
-                current_password_input.text.toString().isEmpty()
+        viewModel.inputValidator.observe(viewLifecycleOwner, Observer { inputValidator ->
+            current_password_input_layout.error =
+                inputValidator.currentPasswordInputErrorResId?.let { getString(it) }
 
-    private fun showFillFieldsError() {
-        if (new_password_input.text.toString().isEmpty())
             new_password_input_layout.error =
-                getString(R.string.fill_password)
+                inputValidator.newPasswordInputErrorResId?.let { getString(it) }
 
-        if (new_password_repeat_input.text.toString().isEmpty())
-            new_password_repeat_input_layout.error = getString(R.string.fill_password)
+            new_password_repeat_input_layout.error =
+                inputValidator.newPasswordRepeatInputErrorResId?.let { getString(it) }
+        })
 
-        if (current_password_input.text.toString().isEmpty())
-            current_password_input_layout.error = getString(R.string.fill_password)
-    }
-
-    private fun doesPasswordsMatch() =
-        new_password_input.text.toString() ==
-                new_password_repeat_input.text.toString()
-
-    private fun showPasswordsDoesNotMatchError() {
-        new_password_input_layout.error = getString(R.string.passwords_does_not_match)
-        new_password_repeat_input_layout.error = getString(R.string.passwords_does_not_match)
-    }
-
-    private fun arePasswordsTooShort() =
-        new_password_input.text.toString().length < 7
-
-    private fun showPasswordsTooShortError() {
-        new_password_input_layout.error = getString(R.string.passwords_are_to_short)
-        new_password_repeat_input_layout.error = getString(R.string.passwords_are_to_short)
     }
 }

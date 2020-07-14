@@ -44,6 +44,7 @@ class RegisterFragment : BaseFragment() {
         password_repeat_input.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 signUp()
+                hideKeyboard()
                 return@setOnEditorActionListener true
             }
             false
@@ -71,7 +72,6 @@ class RegisterFragment : BaseFragment() {
             return
         }
 
-        hideKeyboard()
 
         sharedViewModel.signUpViaEmail(
             email = email_input.text.toString(),
@@ -110,7 +110,7 @@ class RegisterFragment : BaseFragment() {
         password_input.text.toString().length < 7
 
     private fun showPasswordsTooShortError() {
-        password_input_layout.error = getString(R.string.passwords_are_to_short)
-        password_repeat_input_layout.error = getString(R.string.passwords_are_to_short)
+        password_input_layout.error = getString(R.string.passwords_are_too_short)
+        password_repeat_input_layout.error = getString(R.string.passwords_are_too_short)
     }
 }

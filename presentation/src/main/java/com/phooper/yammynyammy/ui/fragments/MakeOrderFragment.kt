@@ -43,15 +43,11 @@ class MakeOrderFragment : BaseFragment() {
         address_input.setHideLayoutErrorOnTextChangedListener(address_input_layout)
 
         accept_order_btn.setOnClickListener {
-            if (areSomeInputsEmpty()) {
-                showFillFieldsError()
-            } else {
-                viewModel.saveUserAndMakeOrder(
-                    name_input.text.toString(),
-                    phone_number_input.text.toString(),
-                    address_input.text.toString()
-                )
-            }
+            viewModel.saveUserAndMakeOrder(
+                name_input.text.toString(),
+                phone_number_input.text.toString(),
+                address_input.text.toString()
+            )
         }
 
         refresh_btn.setOnClickListener {
@@ -112,23 +108,17 @@ class MakeOrderFragment : BaseFragment() {
                 }
             }
         })
-    }
 
-    private fun areSomeInputsEmpty() =
-        name_input.text.toString().isEmpty() ||
-                phone_number_input.text.toString().isEmpty() ||
-                address_input.text.toString().isEmpty()
-
-    private fun showFillFieldsError() {
-        if (name_input.text.toString().isEmpty())
+        viewModel.inputValidator.observe(viewLifecycleOwner, Observer { inputValidator ->
             name_input_layout.error =
-                getString(R.string.fill_name)
+                inputValidator.nameInputErrorResId?.let { getString(it) }
 
-        if (phone_number_input.text.toString().isEmpty())
-            phone_number_input_layout.error = getString(R.string.fill_phone)
+            phone_number_input_layout.error =
+                inputValidator.phoneNumInputErrorResId?.let { getString(it) }
 
-        if (address_input.text.toString().isEmpty())
-            address_input_layout.error = getString(R.string.fill_address)
+            address_input_layout.error =
+                inputValidator.addressInputErrorResId?.let { getString(it) }
+        })
 
     }
 }

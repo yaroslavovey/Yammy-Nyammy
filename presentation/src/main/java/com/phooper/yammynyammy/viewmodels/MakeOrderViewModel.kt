@@ -8,6 +8,7 @@ import com.ph00.domain.models.UserModel
 import com.ph00.domain.usecases.AddOrderUseCase
 import com.ph00.domain.usecases.GetUserDataUseCase
 import com.ph00.domain.usecases.SetUserDataUseCase
+import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.User
 import com.phooper.yammynyammy.utils.Event
 import com.phooper.yammynyammy.utils.toPresentation
@@ -34,6 +35,9 @@ class MakeOrderViewModel(
     private val _userData = MutableLiveData<User>()
     val userData: LiveData<User> get() = _userData
 
+    private val _inputValidator = MutableLiveData<InputValidator>()
+    val inputValidator: LiveData<InputValidator> get() = _inputValidator
+
     init {
         loadUser()
     }
@@ -50,6 +54,17 @@ class MakeOrderViewModel(
     }
 
     fun saveUserAndMakeOrder(name: String, phone: String, address: String) {
+
+        if (name.isEmpty() || phone.isEmpty() || address.isEmpty()) {
+            _inputValidator.value = InputValidator(
+                nameInputErrorResId = if (name.isEmpty()) R.string.fill_name else null,
+                phoneNumInputErrorResId = if (phone.isEmpty()) R.string.fill_phone else null,
+                addressInputErrorResId = if (address.isEmpty()) R.string.fill_address else null
+            )
+            return
+        }
+
+
         setUserDataUseCase
             .execute(UserModel(name = name, phoneNum = phone))
             .flatMapConcat { addOrderUseCase.execute(address) }
@@ -69,4 +84,11 @@ class MakeOrderViewModel(
         FAILURE,
         SUCCESS
     }
+
+    data class InputValidator(
+        val nameInputErrorResId: Int? = null,
+        val phoneNumInputErrorResId: Int? = null,
+        val addressInputErrorResId: Int? = null
+    )
+
 }
