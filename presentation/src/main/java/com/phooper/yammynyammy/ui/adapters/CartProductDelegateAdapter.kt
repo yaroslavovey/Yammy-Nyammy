@@ -1,6 +1,5 @@
 package com.phooper.yammynyammy.ui.adapters
 
-import android.annotation.SuppressLint
 import com.livermor.delegateadapter.delegate.KDelegateAdapter
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.CartProduct
@@ -19,13 +18,12 @@ class CartProductDelegateAdapter(
 
     override fun isForViewType(item: Any): Boolean = item is CartProduct
 
-    @SuppressLint("SetTextI18n")
     override fun KViewHolder.onBind(item: CartProduct) {
         picasso.load(item.product.imageURL).into(product_image)
         product_description.text = item.product.desc
         product_title.text = item.product.title
         product_count.text = item.count.toString()
-        product_price.text = "${item.totalPrice}  $"
+        product_price.text = item.totalPrice.toString()
         minus_btn.setOnClickListener { onMinusClickListener.invoke(item.product.id) }
         plus_btn.setOnClickListener { onPlusClickListener.invoke(item.product.id) }
     }

@@ -30,7 +30,7 @@ class ProductViewModel(
     val totalPrice: LiveData<String> =
         Transformations.switchMap(_itemCount) { count ->
             Transformations.map(_product) { product ->
-                return@map "${count * product.price} $"
+                return@map "${count * product.price}"
             }
         }
 

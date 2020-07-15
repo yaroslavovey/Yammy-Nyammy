@@ -1,11 +1,8 @@
 package com.phooper.yammynyammy.ui.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.Product
@@ -30,11 +27,6 @@ class ProductAdapter :
                 onAddToCartBtnClick?.invoke(dataList[adapterPosition].id)
             }
         }
-
-        val title: TextView = itemView.product_title
-        val description: TextView = itemView.product_description
-        val image: ImageView = itemView.product_image
-        val price: TextView = itemView.product_price
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -48,13 +40,12 @@ class ProductAdapter :
 
     override fun getItemCount() = dataList.size
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         holder.apply {
-            title.text = dataList[position].title
-            description.text = dataList[position].desc
-            price.text = "${dataList[position].price} $"
-            picasso.load(dataList[position].imageURL).into(image)
+            itemView.product_title.text = dataList[position].title
+            itemView.product_description.text = dataList[position].desc
+            itemView.product_price.text = dataList[position].price.toString()
+            picasso.load(dataList[position].imageURL).into(itemView.product_image)
         }
     }
 

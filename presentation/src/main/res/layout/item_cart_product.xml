@@ -51,15 +51,25 @@
             app:layout_constraintTop_toBottomOf="@id/product_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/product_price"
+            android:id="@+id/dollar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_xlarge"
-            android:text="1223 ₽"
+            android:layout_margin="@dimen/padding_margin_xlarge"
+            android:text="@string/spaced_dollar"
             android:textSize="@dimen/text_medium"
             app:fontFamily="@font/roboto_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123"
+            android:textSize="@dimen/text_medium"
+            app:fontFamily="@font/roboto_medium"
+            app:layout_constraintBottom_toBottomOf="@id/dollar"
+            app:layout_constraintEnd_toStartOf="@id/dollar" />
 
         <LinearLayout
             android:id="@+id/choose_count_layout"

@@ -57,22 +57,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding_margin_xlarge"
-            android:text="x2"
+            android:text="2"
             android:textSize="@dimen/text_medium"
             app:fontFamily="@font/roboto_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/product_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/product_price"
+            android:id="@+id/x"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/x"
+            android:textSize="@dimen/text_medium"
+            app:fontFamily="@font/roboto_medium"
+            app:layout_constraintEnd_toStartOf="@id/product_count"
+            app:layout_constraintTop_toTopOf="@id/product_count" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dollar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_margin_xlarge"
-            android:text="1223 ₽"
+            android:text="@string/spaced_dollar"
             android:textSize="@dimen/text_medium"
             app:fontFamily="@font/roboto_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123"
+            android:textSize="@dimen/text_medium"
+            app:fontFamily="@font/roboto_medium"
+            app:layout_constraintBottom_toBottomOf="@id/dollar"
+            app:layout_constraintEnd_toStartOf="@id/dollar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

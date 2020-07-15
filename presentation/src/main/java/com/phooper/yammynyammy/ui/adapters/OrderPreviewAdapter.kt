@@ -39,12 +39,11 @@ class OrderPreviewAdapter :
 
     override fun getItemCount() = dataList.size
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         holder.apply {
             date.text = dataList[position].timestamp?.formatToString()
             status.text = dataList[position].addressAndStatus.status
-            totalSum.text = "${dataList[position].totalPrice} $"
+            totalSum.text = dataList[position].totalPrice.toString()
         }
     }
 

@@ -84,5 +84,7 @@
     <string name="network_error">An network error occurred</string>
     <string name="reconnect">reconnect</string>
     <string name="no_network">No network :(</string>
+    <string name="spaced_dollar">" $"</string>
+    <string name="x">x</string>
 
 </resources>

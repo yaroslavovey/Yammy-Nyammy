@@ -1,6 +1,5 @@
 package com.phooper.yammynyammy.ui.adapters
 
-import android.annotation.SuppressLint
 import com.livermor.delegateadapter.delegate.KDelegateAdapter
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.TotalAndDeliveryPrice
@@ -12,9 +11,8 @@ class TotalPriceDelegateAdapter : KDelegateAdapter<TotalAndDeliveryPrice>() {
 
     override fun getLayoutId() = R.layout.item_total_delivery_price
 
-    @SuppressLint("SetTextI18n")
     override fun KViewHolder.onBind(item: TotalAndDeliveryPrice) {
-        delivery_price.text = "${item.deliveryPrice} $"
-        total_price.text = "${item.totalPrice} $"
+        delivery_price.text = item.deliveryPrice.toString()
+        total_price.text = item.totalPrice.toString()
     }
 }

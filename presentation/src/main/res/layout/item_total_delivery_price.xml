@@ -16,16 +16,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/delivery_price"
+        android:id="@+id/dollar_first"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/spaced_dollar"
         android:textSize="@dimen/text_medium"
         app:fontFamily="@font/roboto_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView2"
+        android:id="@+id/delivery_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_medium"
+        app:fontFamily="@font/roboto_medium"
+        app:layout_constraintStart_toEndOf="@id/dollar_first"
+        app:layout_constraintTop_toTopOf="@id/dollar_first" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/total_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_margin_xlarge"
@@ -37,14 +47,26 @@
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dollar_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/spaced_dollar"
+        android:textSize="@dimen/text_xlarge"
+        app:fontFamily="@font/roboto_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/total_label" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/total_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_xlarge"
         app:fontFamily="@font/roboto_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/materialTextView2" />
+        app:layout_constraintBottom_toBottomOf="@id/dollar_second"
+        app:layout_constraintEnd_toStartOf="@id/dollar_second"
+        app:layout_constraintTop_toTopOf="@id/dollar_second" />
+
 
     <View
         android:id="@+id/divider"

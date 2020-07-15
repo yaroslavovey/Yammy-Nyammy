@@ -48,6 +48,16 @@
 
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dollar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/spaced_dollar"
+            android:textSize="@dimen/text_medium"
+            app:layout_constraintStart_toEndOf="@id/total_sum"
+            app:layout_constraintTop_toTopOf="@id/total_sum_label" />
+
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
