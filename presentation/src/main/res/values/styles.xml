@@ -26,9 +26,7 @@
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="materialAlertDialogTheme">@style/Theme.MaterialComponents.Light.Dialog.Alert
         </item>
-        <item name="bottomNavigationStyle">
-            @style/AppBottomNav
-        </item>
+        <item name="bottomNavigationStyle">@style/AppBottomNav</item>
     </style>
 
     <style name="AppTextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
@@ -60,7 +58,7 @@
         <item name="backgroundTint">@color/color_surface</item>
     </style>
 
-    <style name="AppTheme.LoginTheme.Splash">
+    <style name="AppTheme.Splash">
         <item name="android:windowBackground">@drawable/splash_centered</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

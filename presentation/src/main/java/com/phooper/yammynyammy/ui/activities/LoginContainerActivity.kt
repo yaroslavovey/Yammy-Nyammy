@@ -23,7 +23,6 @@ class LoginContainerActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme_LoginTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_container)
 

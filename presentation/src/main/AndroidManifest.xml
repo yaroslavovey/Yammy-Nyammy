@@ -16,11 +16,12 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustNothing"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.LoginContainerActivity" />
+        <activity android:name=".ui.activities.LoginContainerActivity"
+            android:theme="@style/AppTheme.LoginTheme"/>
 
         <activity
             android:name=".ui.activities.MainContainerActivity"
-            android:theme="@style/AppTheme.LoginTheme.Splash">
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
