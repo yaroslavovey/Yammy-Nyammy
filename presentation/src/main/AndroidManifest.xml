@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustNothing"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.LoginActivity" />
+        <activity android:name=".ui.activities.LoginContainerActivity" />
 
         <activity
             android:name=".ui.activities.MainContainerActivity"

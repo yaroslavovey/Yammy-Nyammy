@@ -89,7 +89,7 @@ class MainContainerActivity : AppCompatActivity(),
                             .show()
                     }
                     MainContainerViewModel.ViewEvent.NAVIGATE_TO_LOGIN_ACTIVITY -> {
-                        startActivity(Intent(this, LoginActivity::class.java))
+                        startActivity(Intent(this, LoginContainerActivity::class.java))
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                         finish()
                     }

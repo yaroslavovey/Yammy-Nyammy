@@ -4,7 +4,7 @@
     android:id="@+id/frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.LoginActivity">
+    tools:context=".ui.activities.LoginContainerActivity">
 
     <fragment
         android:id="@+id/login_nav_host_fragment"
@@ -13,22 +13,5 @@
         android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/login_nav_graph" />
-
-    <LinearLayout
-        android:id="@+id/progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/color_progress_bar_cover"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:translationZ="90dp"
-        android:visibility="gone">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
 
 </FrameLayout>

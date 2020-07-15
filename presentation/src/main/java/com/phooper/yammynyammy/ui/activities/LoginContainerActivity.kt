@@ -9,49 +9,33 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.utils.showMessage
-import com.phooper.yammynyammy.viewmodels.LoginViewModel
-import kotlinx.android.synthetic.main.activity_login.*
+import com.phooper.yammynyammy.viewmodels.LoginContainerViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class LoginActivity : AppCompatActivity() {
+class LoginContainerActivity : AppCompatActivity() {
 
-    private val viewModel by viewModel<LoginViewModel>()
+    private val viewModel by viewModel<LoginContainerViewModel>()
+
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme_LoginTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_login_container)
 
         navController = findNavController(R.id.login_nav_host_fragment)
 
         viewModel.event.observe(this, Observer {
             it.getContentIfNotHandled()?.let { loginEvent ->
                 when (loginEvent) {
-                    LoginViewModel.ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY -> {
+                    LoginContainerViewModel.ViewEvent.NAVIGATE_TO_MAIN_ACTIVITY -> {
                         startActivity(Intent(this, MainContainerActivity::class.java))
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                         finish()
-                    }
-                    LoginViewModel.ViewEvent.ERROR -> {
-                        showMessage(R.string.error)
-                    }
-                }
-            }
-        })
-
-        viewModel.state.observe(this, Observer { loginState ->
-            loginState?.let {
-                when (it) {
-                    LoginViewModel.ViewState.LOADING -> {
-                        progress_bar.visibility = View.VISIBLE
-                    }
-                    LoginViewModel.ViewState.DEFAULT -> {
-                        progress_bar.visibility = View.GONE
                     }
                 }
             }
