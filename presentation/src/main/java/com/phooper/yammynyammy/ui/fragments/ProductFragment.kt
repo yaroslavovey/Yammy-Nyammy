@@ -69,7 +69,7 @@ class ProductFragment : BaseFragment() {
                     ProductViewModel.ViewState.LOADING -> {
                         progress_bar.visibility = View.VISIBLE
                         product_constraint_layout.visibility = View.GONE
-                        no_network_layout.visibility = View.VISIBLE
+                        no_network_layout.visibility = View.GONE
                     }
                     ProductViewModel.ViewState.DEFAULT -> {
                         progress_bar.visibility = View.GONE
