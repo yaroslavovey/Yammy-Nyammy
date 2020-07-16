@@ -1,6 +1,7 @@
 # Yammy Nyammy
 ### Online fake store for delivering sweets.
 ### **[Figma template (click)](https://www.figma.com/file/zYyr1oB31QX1yDd2RIYqJV/YammyNyammy?node-id=0%3A1)**  
+[![codebeat badge](https://codebeat.co/badges/1c14a73f-7be7-471e-9c1d-9ba5b24d18cc)](https://codebeat.co/projects/github-com-ph00per-yammy-nyammy-master)
 ## **Stack**
 - MVVM
 - Koin
