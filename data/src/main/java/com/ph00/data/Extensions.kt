@@ -8,6 +8,9 @@ import com.ph00.domain.models.AddressModel
 import com.ph00.domain.models.OrderModel
 import com.ph00.domain.models.ProductIdAndCountModel
 import com.ph00.domain.models.ProductModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.retry
 
 fun ProductIdAndCountEntity.toModel(): ProductIdAndCountModel =
     ProductIdAndCountModel(productId = productId, count = count)
@@ -43,3 +46,8 @@ fun OrderEntity.toModel(): OrderModel =
         deliveryPrice = deliveryPrice,
         totalPrice = totalPrice
     )
+
+
+@ExperimentalCoroutinesApi
+fun <T> kotlinx.coroutines.flow.Flow<T>.applyTwoRetriesOnError() =
+    retry(2) { e -> (e is Exception).also { if (it) delay(1500) } }

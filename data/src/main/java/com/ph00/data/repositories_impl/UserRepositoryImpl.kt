@@ -8,6 +8,7 @@ import com.ph00.data.Constants.Companion.ADDRESSES_COLLECTION
 import com.ph00.data.Constants.Companion.DELIVERY_PRICE
 import com.ph00.data.Constants.Companion.ORDERS_COLLECTION
 import com.ph00.data.Constants.Companion.USERS_COLLECTION
+import com.ph00.data.applyTwoRetriesOnError
 import com.ph00.data.db.dao.CartProductsDao
 import com.ph00.data.entities.AddressEntity
 import com.ph00.data.entities.OrderEntity
@@ -39,7 +40,7 @@ class UserRepositoryImpl(
             .set(data)
             .await()
             .let { emit(Unit) }
-    }
+    }.applyTwoRetriesOnError()
 
     override fun getUserPersonalData(userUid: String): Flow<UserModel> = flow {
         firebaseFirestone
@@ -49,7 +50,7 @@ class UserRepositoryImpl(
             .await()
             .toObject<UserModel>()
             ?.let { emit(it) }
-    }
+    }.applyTwoRetriesOnError()
 
     override fun getAddressByUid(uid: String, userUid: String): Flow<AddressModel> = flow {
         firebaseFirestone
@@ -62,7 +63,7 @@ class UserRepositoryImpl(
             .toObject<AddressEntity>()
             ?.toModel()
             ?.let { emit(it) }
-    }
+    }.applyTwoRetriesOnError()
 
     override fun updateAddress(address: AddressModel, addressUid: String, userUid: String) = flow {
         firebaseFirestone
@@ -73,7 +74,7 @@ class UserRepositoryImpl(
             .set(address.toEntity())
             .await()
             .let { emit(Unit) }
-    }
+    }.applyTwoRetriesOnError()
 
     @ExperimentalCoroutinesApi
     override fun getAllAddresses(userUid: String): Flow<List<AddressModel>> =
@@ -91,7 +92,8 @@ class UserRepositoryImpl(
             }
 
             awaitClose { subscription.remove() }
-        }
+
+        }.applyTwoRetriesOnError()
 
 
     override fun deleteAddressByUid(uid: String, userUid: String) = flow {
@@ -103,7 +105,7 @@ class UserRepositoryImpl(
             .delete()
             .await()
             .let { emit(Unit) }
-    }
+    }.applyTwoRetriesOnError()
 
     override fun addAddress(address: AddressModel, userUid: String) =
         flow {
@@ -114,7 +116,7 @@ class UserRepositoryImpl(
                 .add(address.toEntity())
                 .await()
                 .let { emit(Unit) }
-        }
+        }.applyTwoRetriesOnError()
 
     override fun addOrder(order: OrderModel, userUid: String): Flow<Unit> = flow {
         firebaseFirestone
@@ -124,7 +126,7 @@ class UserRepositoryImpl(
             .add(order.toEntity())
             .await()
             ?.let { emit(Unit) }
-    }
+    }.applyTwoRetriesOnError()
 
     override fun getOrdersList(userUid: String): Flow<List<OrderModel>> = callbackFlow {
         val eventCollection = firebaseFirestone
@@ -138,7 +140,8 @@ class UserRepositoryImpl(
         }
 
         awaitClose { subscription.remove() }
-    }
+
+    }.applyTwoRetriesOnError()
 
     override fun getOrderByUid(orderUid: String, userUid: String) = flow {
         firebaseFirestone
@@ -151,7 +154,7 @@ class UserRepositoryImpl(
             .toObject<OrderEntity>()
             ?.toModel()
             ?.let { emit(it) }
-    }
+    }.applyTwoRetriesOnError()
 
     override fun getDeliveryPrice(addressUid: String?): Flow<Int> = flow { emit(DELIVERY_PRICE) }
 
