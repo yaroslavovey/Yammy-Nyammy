@@ -15,7 +15,11 @@ import com.phooper.yammynyammy.utils.Constants.Companion.CUPCAKES_CATEGORY
 import com.phooper.yammynyammy.utils.Constants.Companion.ICE_CREAM_CATEGORY
 import kotlinx.android.synthetic.main.activity_main_container.*
 import kotlinx.android.synthetic.main.fragment_menu.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class MenuFragment : BaseFragment() {
     override val layoutRes = R.layout.fragment_menu
     private lateinit var navController: NavController

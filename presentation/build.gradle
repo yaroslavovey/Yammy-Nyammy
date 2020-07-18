@@ -77,7 +77,6 @@ dependencies {
     implementation rootProject.ext.legacySupport
 
     implementation rootProject.ext.firebaseAuth
-    implementation rootProject.ext.firebaseCore
     implementation rootProject.ext.fireStore
 
     implementation rootProject.ext.timber
