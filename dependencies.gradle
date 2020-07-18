@@ -23,6 +23,8 @@ ext {
     //Tests
     jUnit = 'junit:junit:4.13'
     androidJUnit = 'androidx.test.ext:junit:1.1.1'
+    mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    coroutinesTests = 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.7'
     androidEspresso = 'androidx.test.espresso:espresso-core:3.2.0'
 
     //Coroutines

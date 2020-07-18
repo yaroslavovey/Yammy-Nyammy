@@ -1,5 +1,6 @@
 package com.ph00.data
 
+import com.ph00.data.Constants.Companion.FLOW_RETRY_DELAY
 import com.ph00.data.entities.AddressEntity
 import com.ph00.data.entities.OrderEntity
 import com.ph00.data.entities.ProductEntity
@@ -50,4 +51,4 @@ fun OrderEntity.toModel(): OrderModel =
 
 @ExperimentalCoroutinesApi
 fun <T> kotlinx.coroutines.flow.Flow<T>.applyTwoRetriesOnError() =
-    retry(2) { e -> (e is Exception).also { if (it) delay(1500) } }
+    retry(2) { e -> (e is Exception).also { if (it) delay(FLOW_RETRY_DELAY) } }

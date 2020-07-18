@@ -8,5 +8,4 @@ dependencies {
     implementation rootProject.ext.coroutinesCore
 
     testImplementation rootProject.ext.jUnit
-    testImplementation rootProject.ext.androidJUnit
 }

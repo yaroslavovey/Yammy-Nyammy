@@ -44,6 +44,8 @@ dependencies {
 
     testImplementation rootProject.ext.jUnit
     testImplementation rootProject.ext.androidJUnit
+    testImplementation rootProject.ext.mockitoKotlin
+    testImplementation rootProject.ext.coroutinesTests
 
     implementation project(":domain")
 }
