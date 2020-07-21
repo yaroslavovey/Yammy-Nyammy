@@ -1,5 +1,6 @@
 package com.ph00.data.di.modules
 
+import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -7,6 +8,7 @@ import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import com.ph00.data.Constants.Companion.BASE_URL
 import com.ph00.data.di.scopes.DataScope
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -15,6 +17,13 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
 class NetworkModule {
+
+    @Provides
+    @DataScope
+    fun providePicasso(context: Context): Picasso =
+        Picasso
+            .Builder(context)
+            .build()
 
     @Provides
     @DataScope

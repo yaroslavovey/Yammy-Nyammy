@@ -45,6 +45,8 @@ dependencies {
     implementation rootProject.ext.rxJavaBridge
     implementation rootProject.ext.rxJavaRetrofitAdapter
 
+    implementation rootProject.ext.picasso
+
     testImplementation rootProject.ext.jUnit
     testImplementation rootProject.ext.androidJUnit
     testImplementation rootProject.ext.mockitoKotlin

@@ -2,7 +2,7 @@ package com.phooper.yammynyammy
 
 import android.app.Application
 import com.ph00.data.di.components.DaggerDataComponent
-import com.phooper.yammynyammy.di.DaggerAppComponent
+import com.phooper.yammynyammy.di.components.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

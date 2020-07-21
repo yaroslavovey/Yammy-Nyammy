@@ -1,5 +1,6 @@
-package com.phooper.yammynyammy.di
+package com.phooper.yammynyammy.di.modules
 
+import com.phooper.yammynyammy.di.scopes.AppScope
 import com.phooper.yammynyammy.utils.Constants.Companion.FLOW
 import com.phooper.yammynyammy.utils.Constants.Companion.GLOBAL
 import dagger.Module

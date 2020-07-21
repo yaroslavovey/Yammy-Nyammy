@@ -10,7 +10,7 @@ import javax.inject.Inject
 class ProductsRepositoryImpl @Inject constructor
     (private val shopApi: ShopApi) : ProductsRepository {
 
-    override fun getProductListByCategory(category: String): Single<List<ProductModel>> =
+    override fun getProductListByCategory(category: Int): Single<List<ProductModel>> =
         shopApi.getProductListByCategory(category).map { list -> list.map { it.toModel() } }
 
     override fun getProductById(id: Int): Single<ProductModel> =

@@ -1,6 +1,7 @@
-package com.phooper.yammynyammy.di
+package com.phooper.yammynyammy.di.modules
 
 import android.content.Context
+import com.phooper.yammynyammy.di.scopes.AppScope
 import com.phooper.yammynyammy.utils.StringProvider
 import com.phooper.yammynyammy.utils.SystemMessageNotifier
 import dagger.Module

@@ -48,8 +48,8 @@ class RegisterPresenter @Inject constructor(
 
         signUpViaEmailAndPasswordUseCase
             .execute(email, password)
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
             .doOnSubscribe { viewState.showLoading() }
             .doFinally { viewState.hideLoading() }
             .doOnError { systemMessageNotifier.sendMessage(R.string.error) }

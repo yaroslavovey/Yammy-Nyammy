@@ -99,6 +99,17 @@ fun AddressModel.toPresentation() =
 fun ProductModel.toPresentation(): Product =
     Product(id = id, imageURL = imageURL, title = title, desc = desc, price = price)
 
+fun List<ProductModel>.toPresentation(): List<Product> =
+    this.map {
+        Product(
+            id = it.id,
+            imageURL = it.imageURL,
+            title = it.title,
+            desc = it.desc,
+            price = it.price
+        )
+    }
+
 fun CartProductModel.toPresentation(): CartProduct =
     CartProduct(totalPrice = totalPrice, count = count, product = product.toPresentation())
 

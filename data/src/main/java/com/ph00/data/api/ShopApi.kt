@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface ShopApi {
 
     @GET("ph00per/Fake-json-server-for-Yammy-Nyammy/goods")
-    fun getProductListByCategory(@Query("category") category: String): Single<List<ProductEntity>>
+    fun getProductListByCategory(@Query("category") category: Int): Single<List<ProductEntity>>
 
     @GET("ph00per/Fake-json-server-for-Yammy-Nyammy/goods/{id}")
     fun getProductById(@Path("id") id: Int): Single<ProductEntity>

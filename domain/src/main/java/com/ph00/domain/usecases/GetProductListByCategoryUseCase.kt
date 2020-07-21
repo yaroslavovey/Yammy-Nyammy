@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class GetProductListByCategoryUseCase@Inject constructor(private val productsRepository: ProductsRepository) {
 
-    fun execute(category: String): Single<List<ProductModel>> =
+    fun execute(category: Int): Single<List<ProductModel>> =
         productsRepository.getProductListByCategory(category)
 
 }

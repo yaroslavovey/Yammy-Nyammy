@@ -1,4 +1,4 @@
-package com.phooper.yammynyammy.di
+package com.phooper.yammynyammy.di.modules
 
 import com.phooper.yammynyammy.ui.bottom_nav.BottomNavFlowFragment
 import com.phooper.yammynyammy.ui.MainContainerActivity
@@ -43,7 +43,7 @@ abstract class ScreenBindingModule {
     @ContributesAndroidInjector
     abstract fun profileFragment(): ProfileFragment
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [ProductListModule::class])
     abstract fun productListFragment(): ProductListFragment
 
 }

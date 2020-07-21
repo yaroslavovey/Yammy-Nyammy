@@ -13,5 +13,6 @@ class Constants {
         const val ADD_ADDRESS_BUTTON_ID = 666
         const val FLOW = "flow"
         const val GLOBAL = "global"
+        const val CATEGORY = "category"
     }
 }

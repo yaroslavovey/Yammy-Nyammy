@@ -8,11 +8,11 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.Product
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_product.view.*
+import javax.inject.Inject
 
-class ProductAdapter :
-    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>()
-{
-//    private val picasso by inject<Picasso>()
+class ProductAdapter @Inject constructor(private val picasso: Picasso) :
+    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+
     var dataList = mutableListOf<Product>()
     var onItemClick: ((Int) -> Unit)? = null
     var onAddToCartBtnClick: ((Int) -> Unit)? = null
@@ -44,7 +44,7 @@ class ProductAdapter :
             itemView.product_title.text = dataList[position].title
             itemView.product_description.text = dataList[position].desc
             itemView.product_price.text = dataList[position].price.toString()
-//            picasso.load(dataList[position].imageURL).into(itemView.product_image)
+            picasso.load(dataList[position].imageURL).into(itemView.product_image)
         }
     }
 
