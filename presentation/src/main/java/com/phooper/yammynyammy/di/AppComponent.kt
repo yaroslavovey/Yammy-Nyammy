@@ -1,16 +1,32 @@
 package com.phooper.yammynyammy.di
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import android.content.Context
+import com.ph00.data.di.components.DataComponent
+import com.phooper.yammynyammy.App
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 
-@FlowPreview
-@ExperimentalCoroutinesApi
-val appComponent = listOf(
-    firebaseModule,
-    viewModelModule,
-    useCaseModule,
-    repositoryModule,
-    apiModule,
-    networkModule,
-    roomModule
+@AppScope
+@Component(
+    modules = [
+        AndroidSupportInjectionModule::class,
+        AndroidInjectionModule::class,
+        NavigationModule::class,
+        ScreenBindingModule::class,
+        UtilsModule::class],
+    dependencies = [DataComponent::class]
 )
+interface AppComponent : AndroidInjector<App> {
+
+    @Component.Factory
+    interface Factory {
+        fun create(
+            @BindsInstance applicationContext: Context,
+            dataComponent: DataComponent
+        ): AppComponent
+    }
+
+}

@@ -2,11 +2,12 @@ package com.ph00.domain.usecases
 
 import com.ph00.domain.models.ProductModel
 import com.ph00.domain.repositories.ProductsRepository
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class GetProductListByCategoryUseCase(private val productsRepository: ProductsRepository) {
+class GetProductListByCategoryUseCase@Inject constructor(private val productsRepository: ProductsRepository) {
 
-    fun execute(category: String): Flow<List<ProductModel>> =
+    fun execute(category: String): Single<List<ProductModel>> =
         productsRepository.getProductListByCategory(category)
 
 }

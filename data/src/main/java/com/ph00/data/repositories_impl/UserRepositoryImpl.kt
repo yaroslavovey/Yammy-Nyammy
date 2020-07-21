@@ -8,7 +8,6 @@ import com.ph00.data.Constants.Companion.ADDRESSES_COLLECTION
 import com.ph00.data.Constants.Companion.DELIVERY_PRICE
 import com.ph00.data.Constants.Companion.ORDERS_COLLECTION
 import com.ph00.data.Constants.Companion.USERS_COLLECTION
-import com.ph00.data.applyTwoRetriesOnError
 import com.ph00.data.db.dao.CartProductsDao
 import com.ph00.data.entities.AddressEntity
 import com.ph00.data.entities.OrderEntity
@@ -19,66 +18,73 @@ import com.ph00.domain.models.OrderModel
 import com.ph00.domain.models.ProductIdAndCountModel
 import com.ph00.domain.models.UserModel
 import com.ph00.domain.repositories.UserRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.tasks.await
+import hu.akarnokd.rxjava3.bridge.RxJavaBridge
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-class UserRepositoryImpl(
+class UserRepositoryImpl
+@Inject constructor(
     private val firebaseFirestone: FirebaseFirestore,
     private val cartProductsDao: CartProductsDao
 ) : UserRepository {
 
-    override fun setUserPersonalData(data: UserModel, userUid: String): Flow<Unit> = flow {
-        firebaseFirestone
-            .collection(USERS_COLLECTION)
-            .document(userUid)
-            .set(data)
-            .await()
-            .let { emit(Unit) }
-    }.applyTwoRetriesOnError()
+    override fun setUserPersonalData(data: UserModel, userUid: String): Completable =
+        Completable.create { emitter ->
+            firebaseFirestone
+                .collection(USERS_COLLECTION)
+                .document(userUid)
+                .set(data)
+                .addOnFailureListener { emitter.onError(it) }
+                .addOnSuccessListener { emitter.onComplete() }
+        }
 
-    override fun getUserPersonalData(userUid: String): Flow<UserModel> = flow {
-        firebaseFirestone
-            .collection(USERS_COLLECTION)
-            .document(userUid)
-            .get()
-            .await()
-            .toObject<UserModel>()
-            ?.let { emit(it) }
-    }.applyTwoRetriesOnError()
+    override fun getUserPersonalData(userUid: String): Single<UserModel> =
+        Single.create { emitter ->
+            firebaseFirestone
+                .collection(USERS_COLLECTION)
+                .document(userUid)
+                .get()
+                .addOnFailureListener { emitter.onError(it) }
+                .addOnSuccessListener { emitter.onSuccess(it.toObject<UserModel>()) }
 
-    override fun getAddressByUid(uid: String, userUid: String): Flow<AddressModel> = flow {
-        firebaseFirestone
-            .collection(USERS_COLLECTION)
-            .document(userUid)
-            .collection(ADDRESSES_COLLECTION)
-            .document(uid)
-            .get()
-            .await()
-            .toObject<AddressEntity>()
-            ?.toModel()
-            ?.let { emit(it) }
-    }.applyTwoRetriesOnError()
+        }
 
-    override fun updateAddress(address: AddressModel, addressUid: String, userUid: String) = flow {
-        firebaseFirestone
-            .collection(USERS_COLLECTION)
-            .document(userUid)
-            .collection(ADDRESSES_COLLECTION)
-            .document(addressUid)
-            .set(address.toEntity())
-            .await()
-            .let { emit(Unit) }
-    }.applyTwoRetriesOnError()
+    override fun getAddressByUid(uid: String, userUid: String): Single<AddressModel> =
+        Single.create { emitter ->
+            firebaseFirestone
+                .collection(USERS_COLLECTION)
+                .document(userUid)
+                .collection(ADDRESSES_COLLECTION)
+                .document(uid)
+                .get()
+                .addOnFailureListener { emitter.onError(it) }
+                .addOnSuccessListener { emitter.onSuccess(it.toObject<AddressEntity>()?.toModel()) }
+        }
 
-    @ExperimentalCoroutinesApi
-    override fun getAllAddresses(userUid: String): Flow<List<AddressModel>> =
-        callbackFlow {
+    override fun updateAddress(
+        address: AddressModel,
+        addressUid: String,
+        userUid: String
+    ): Completable =
+
+        Completable.create { emitter ->
+            firebaseFirestone
+                .collection(USERS_COLLECTION)
+                .document(userUid)
+                .collection(ADDRESSES_COLLECTION)
+                .document(addressUid)
+                .set(address.toEntity())
+                .addOnFailureListener { emitter.onError(it) }
+                .addOnSuccessListener { emitter.onComplete() }
+
+        }
+
+    override fun getAllAddresses(userUid: String): Observable<List<AddressModel>> =
+        Observable.create { emitter ->
+
             val eventCollection = firebaseFirestone
                 .collection(USERS_COLLECTION)
                 .document(userUid)
@@ -88,102 +94,102 @@ class UserRepositoryImpl(
                 querySnapshot
                     ?.documents
                     ?.mapNotNull { it.toObject<AddressEntity>()?.toModel() }
-                    ?.let { addressModelList -> offer(addressModelList) }
+                    ?.let { addressModelList -> emitter.onNext(addressModelList) }
             }
 
-            awaitClose { subscription.remove() }
+            emitter.setCancellable { subscription.remove() }
 
-        }.applyTwoRetriesOnError()
+        }
 
+    override fun deleteAddressByUid(uid: String, userUid: String): Completable =
+        Completable.create { emitter ->
+            firebaseFirestone
+                .collection(USERS_COLLECTION)
+                .document(userUid)
+                .collection(ADDRESSES_COLLECTION)
+                .document(uid)
+                .delete()
+                .addOnFailureListener { emitter.onError(it) }
+                .addOnSuccessListener { emitter.onComplete() }
+        }
 
-    override fun deleteAddressByUid(uid: String, userUid: String) = flow {
-        firebaseFirestone
-            .collection(USERS_COLLECTION)
-            .document(userUid)
-            .collection(ADDRESSES_COLLECTION)
-            .document(uid)
-            .delete()
-            .await()
-            .let { emit(Unit) }
-    }.applyTwoRetriesOnError()
-
-    override fun addAddress(address: AddressModel, userUid: String) =
-        flow {
+    override fun addAddress(address: AddressModel, userUid: String): Completable =
+        Completable.create { emitter ->
             firebaseFirestone
                 .collection(USERS_COLLECTION)
                 .document(userUid)
                 .collection(ADDRESSES_COLLECTION)
                 .add(address.toEntity())
-                .await()
-                .let { emit(Unit) }
-        }.applyTwoRetriesOnError()
-
-    override fun addOrder(order: OrderModel, userUid: String): Flow<Unit> = flow {
-        firebaseFirestone
-            .collection(USERS_COLLECTION)
-            .document(userUid)
-            .collection(ORDERS_COLLECTION)
-            .add(order.toEntity())
-            .await()
-            ?.let { emit(Unit) }
-    }.applyTwoRetriesOnError()
-
-    override fun getOrdersList(userUid: String): Flow<List<OrderModel>> = callbackFlow {
-        val eventCollection = firebaseFirestone
-            .collection(USERS_COLLECTION)
-            .document(userUid)
-            .collection(ORDERS_COLLECTION)
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-
-        val subscription = eventCollection.addSnapshotListener { querySnapshot, _ ->
-            querySnapshot?.toObjects<OrderEntity>()?.map { it.toModel() }?.let { offer(it) }
+                .addOnFailureListener { emitter.onError(it) }
+                .addOnSuccessListener { emitter.onComplete() }
         }
 
-        awaitClose { subscription.remove() }
+    override fun addOrder(order: OrderModel, userUid: String): Completable =
+        Completable.create { emitter ->
+            firebaseFirestone
+                .collection(USERS_COLLECTION)
+                .document(userUid)
+                .collection(ORDERS_COLLECTION)
+                .add(order.toEntity())
+                .addOnFailureListener { emitter.onError(it) }
+                .addOnSuccessListener { emitter.onComplete() }
+        }
 
-    }.applyTwoRetriesOnError()
+    override fun getOrdersList(userUid: String): Observable<List<OrderModel>> =
+        Observable.create { emitter ->
 
-    override fun getOrderByUid(orderUid: String, userUid: String) = flow {
-        firebaseFirestone
-            .collection(USERS_COLLECTION)
-            .document(userUid)
-            .collection(ORDERS_COLLECTION)
-            .document(orderUid)
-            .get()
-            .await()
-            .toObject<OrderEntity>()
-            ?.toModel()
-            ?.let { emit(it) }
-    }.applyTwoRetriesOnError()
+            val eventCollection = firebaseFirestone
+                .collection(USERS_COLLECTION)
+                .document(userUid)
+                .collection(ORDERS_COLLECTION)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
 
-    override fun getDeliveryPrice(addressUid: String?): Flow<Int> = flow { emit(DELIVERY_PRICE) }
+            val subscription = eventCollection.addSnapshotListener { querySnapshot, _ ->
+                querySnapshot?.toObjects<OrderEntity>()?.map { it.toModel() }
+                    ?.let { emitter.onNext(it) }
+            }
 
-    override fun addCartProduct(cartProduct: ProductIdAndCountModel): Flow<Unit> = flow {
-        emit(cartProductsDao.addToCart(cartProduct.toEntity()))
-    }
+            emitter.setCancellable { subscription.remove() }
 
-    override fun getAllCartProducts(): Flow<List<ProductIdAndCountModel>?> =
-        cartProductsDao.getAllCartProducts().map { list -> list?.map { it.toModel() } }
+        }
 
-    override fun increaseCartProductCount(productId: Int, count: Int): Flow<Unit> = flow {
-        emit(cartProductsDao.increaseProductCount(productId, count))
-    }
+    override fun getOrderByUid(orderUid: String, userUid: String): Single<OrderModel> =
+        Single.create { emitter ->
+            firebaseFirestone
+                .collection(USERS_COLLECTION)
+                .document(userUid)
+                .collection(ORDERS_COLLECTION)
+                .document(orderUid)
+                .get()
+                .addOnFailureListener { emitter.onError(it) }
+                .addOnSuccessListener { emitter.onSuccess(it.toObject<OrderEntity>()?.toModel()) }
+        }
 
-    override fun decreaseCartProductCount(productId: Int, count: Int): Flow<Unit> = flow {
-        emit(cartProductsDao.decreaseProductCount(productId, count))
-    }
+    override fun getDeliveryPrice(addressUid: String?): Single<Int> =
+        Single.create { emitter -> emitter.onSuccess(DELIVERY_PRICE) }
 
-    override fun deleteCartProductById(productId: Int): Flow<Unit> = flow {
-        emit(cartProductsDao.deleteProductById(productId))
-    }
+    override fun addCartProduct(cartProduct: ProductIdAndCountModel): Completable =
+        RxJavaBridge.toV3Completable(cartProductsDao.addToCart(cartProduct.toEntity()))
 
-    override fun deleteAllCartProducts(): Flow<Unit> = flow {
-        emit(cartProductsDao.deleteAllCartProducts())
-    }
+    override fun getAllCartProducts(): Observable<List<ProductIdAndCountModel>?> =
+        RxJavaBridge
+            .toV3Observable(
+                cartProductsDao.getAllCartProducts().map { list -> list.map { it.toModel() } })
 
-    override fun getCartProductById(productId: Int): Flow<ProductIdAndCountModel?> = flow {
-        emit(cartProductsDao.getProductById(productId)?.toModel())
-    }
+    override fun increaseCartProductCount(productId: Int, count: Int): Completable =
+        RxJavaBridge.toV3Completable(cartProductsDao.increaseProductCount(productId, count))
+
+    override fun decreaseCartProductCount(productId: Int, count: Int): Completable =
+        RxJavaBridge.toV3Completable(cartProductsDao.decreaseProductCount(productId, count))
+
+    override fun deleteCartProductById(productId: Int): Completable =
+        RxJavaBridge.toV3Completable(cartProductsDao.deleteProductById(productId))
+
+    override fun deleteAllCartProducts(): Completable =
+        RxJavaBridge.toV3Completable(cartProductsDao.deleteAllCartProducts())
+
+    override fun getCartProductById(productId: Int): Maybe<ProductIdAndCountModel> =
+        RxJavaBridge.toV3Maybe(cartProductsDao.getProductById(productId).map { it.toModel() })
 
 }
 

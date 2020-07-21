@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
@@ -14,7 +15,12 @@ import com.google.android.material.textfield.TextInputLayout
 import com.ph00.domain.models.*
 import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.*
-import kotlinx.coroutines.Job
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import ru.terrakok.cicerone.Navigator
+import ru.terrakok.cicerone.android.support.SupportAppScreen
+import ru.terrakok.cicerone.commands.BackTo
+import ru.terrakok.cicerone.commands.Replace
 import java.text.DateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -30,24 +36,37 @@ fun TextInputEditText.setHideLayoutErrorOnTextChangedListener(textInputLayout: T
     })
 }
 
-fun Context.hideKeyboard(view: View) {
+fun Context.hideKeyboardKtx(view: View) {
     (getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
         .hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun Fragment.hideKeyboard() {
-    view?.let { activity?.hideKeyboard(it) }
+fun Fragment.hideKeyboardKtx() {
+    view?.let { activity?.hideKeyboardKtx(it) }
 }
 
-fun Fragment.setAppBarTitle(title: String) {
-    (requireActivity() as AppCompatActivity).supportActionBar?.title = title
+fun Fragment.setAppBarTitle(titleResId: Int) {
+    (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(titleResId)
 }
 
-fun Activity.showMessage(msgRes: Int) =
-    Snackbar.make(findViewById(android.R.id.content), msgRes, Snackbar.LENGTH_SHORT).show()
+fun Fragment.hideAppBar() {
+    (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+}
 
-fun Fragment.showMessage(msgRes: Int) =
-    requireActivity().showMessage(msgRes)
+
+fun Fragment.showAppBar() {
+    (requireActivity() as AppCompatActivity).supportActionBar?.show()
+}
+
+fun Activity.showMessageKtx(msg: String) =
+    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+//    Snackbar.make(findViewById(android.R.id.content), msg, Snackbar.LENGTH_SHORT).show()
+
+//fun Activity.showMessageKtx(msg: String) =
+//    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+
+fun Fragment.showMessageKtx(msg: String) =
+    requireActivity().showMessageKtx(msg)
 
 fun Fragment.showMessageAboveBottomNav(msgRes: Int) =
     Snackbar.make(
@@ -104,8 +123,15 @@ fun OrderModel.toPresentation(): Order =
 fun formatAddress(houseNum: String, apartNum: String, street: String) =
     "Apt. $apartNum $houseNum $street"
 
-fun Job?.cancelIfActive() {
-    if (this?.isActive == true) {
-        cancel()
-    }
+fun Navigator.setLaunchScreen(screen: SupportAppScreen) {
+    applyCommands(
+        arrayOf(
+            BackTo(null),
+            Replace(screen)
+        )
+    )
+}
+
+fun Disposable.addTo(compositeDisposable: CompositeDisposable) {
+    compositeDisposable.add(this)
 }

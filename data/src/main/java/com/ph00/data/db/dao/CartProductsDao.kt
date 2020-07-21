@@ -5,30 +5,32 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ph00.data.entities.ProductIdAndCountEntity
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.Completable
+import io.reactivex.Maybe
+import io.reactivex.Observable
 
 @Dao
 interface CartProductsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addToCart(cartProduct: ProductIdAndCountEntity)
+    fun addToCart(cartProduct: ProductIdAndCountEntity): Completable
 
     @Query("SELECT * FROM products WHERE product_id = :id")
-    fun getProductById(id: Int): ProductIdAndCountEntity?
+    fun getProductById(id: Int): Maybe<ProductIdAndCountEntity>
 
     @Query("DELETE FROM products WHERE product_id = :id")
-    fun deleteProductById(id: Int)
+    fun deleteProductById(id: Int): Completable
 
     @Query("UPDATE products SET count = count + :count WHERE product_id = :productId")
-    fun increaseProductCount(productId: Int, count: Int)
+    fun increaseProductCount(productId: Int, count: Int): Completable
 
     @Query("UPDATE products SET count = count - :count WHERE product_id = :productId")
-    fun decreaseProductCount(productId: Int, count: Int)
+    fun decreaseProductCount(productId: Int, count: Int): Completable
 
     @Query("SELECT * FROM products")
-    fun getAllCartProducts(): Flow<List<ProductIdAndCountEntity>?>
+    fun getAllCartProducts(): Observable<List<ProductIdAndCountEntity>?>
 
     @Query("DELETE FROM products")
-    fun deleteAllCartProducts()
+    fun deleteAllCartProducts(): Completable
 
 }

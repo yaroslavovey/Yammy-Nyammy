@@ -1,17 +1,17 @@
 package com.ph00.domain.usecases
 
+import com.ph00.domain.models.OrderModel
 import com.ph00.domain.repositories.UserRepository
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.flatMapConcat
+import io.reactivex.rxjava3.core.Observable
+import javax.inject.Inject
 
-@FlowPreview
-class GetOrderListUseCase(
+class GetOrderListUseCase@Inject constructor(
     private val userRepository: UserRepository,
     private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase
 ) {
 
-    fun execute() =
-        getCurrentUserUidUseCase.execute().flatMapConcat { userUid ->
+    fun execute(): Observable<List<OrderModel>> =
+        getCurrentUserUidUseCase.execute().flatMapObservable { userUid ->
             userRepository.getOrdersList(userUid)
         }
 

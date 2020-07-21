@@ -1,10 +1,10 @@
 package com.ph00.domain.repositories
 
 import com.ph00.domain.models.ProductModel
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.rxjava3.core.Single
 
 interface ProductsRepository {
-    fun getProductListByCategory(category: String): Flow<List<ProductModel>>
-    fun getProductById(id: Int): Flow<ProductModel>
-    fun getProductListByIds(ids: List<Int>): Flow<List<ProductModel>>
+    fun getProductListByCategory(category: String): Single<List<ProductModel>>
+    fun getProductById(id: Int): Single<ProductModel>
+    fun getProductListByIds(ids: List<Int>): Single<List<ProductModel>>
 }

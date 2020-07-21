@@ -1,6 +1,5 @@
 package com.ph00.data
 
-import com.ph00.data.Constants.Companion.FLOW_RETRY_DELAY
 import com.ph00.data.entities.AddressEntity
 import com.ph00.data.entities.OrderEntity
 import com.ph00.data.entities.ProductEntity
@@ -9,9 +8,6 @@ import com.ph00.domain.models.AddressModel
 import com.ph00.domain.models.OrderModel
 import com.ph00.domain.models.ProductIdAndCountModel
 import com.ph00.domain.models.ProductModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.retry
 
 fun ProductIdAndCountEntity.toModel(): ProductIdAndCountModel =
     ProductIdAndCountModel(productId = productId, count = count)
@@ -49,6 +45,16 @@ fun OrderEntity.toModel(): OrderModel =
     )
 
 
-@ExperimentalCoroutinesApi
-fun <T> kotlinx.coroutines.flow.Flow<T>.applyTwoRetriesOnError() =
-    retry(2) { e -> (e is Exception).also { if (it) delay(FLOW_RETRY_DELAY) } }
+//fun <T> Single<T>.retryWithDelay(maxRetries: Int): Single<T> {
+//    var retryCount = 0
+//
+//    return retryWhen { thSingle ->
+//        thSingle.map { throwable ->
+//            if (++retryCount < maxRetries) {
+//                Single.timer(1500L, TimeUnit.MILLISECONDS)
+//            } else {
+//                Single.error(throwable)
+//            }
+//        }
+//    }
+//}

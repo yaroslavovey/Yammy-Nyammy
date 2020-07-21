@@ -1,9 +1,11 @@
 package com.ph00.domain.usecases
 
 import com.ph00.domain.repositories.AuthRepository
+import io.reactivex.rxjava3.core.Observable
+import javax.inject.Inject
 
-class GetIsUserSignedInUseCase(private val authRepository: AuthRepository) {
+class GetIsUserSignedInUseCase @Inject constructor(private val authRepository: AuthRepository) {
 
-    fun execute() = authRepository.getIsUserSignedInFlow()
+    fun execute(): Observable<Boolean> = authRepository.getIsUserSignedInObservable()
 
 }

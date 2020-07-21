@@ -1,11 +1,12 @@
 package com.ph00.domain.usecases
 
 import com.ph00.domain.repositories.AuthRepository
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class GetCurrentUserEmailUseCase(private val authRepository: AuthRepository) {
+class GetCurrentUserEmailUseCase@Inject constructor(private val authRepository: AuthRepository) {
 
-    fun execute(): Flow<String> =
+    fun execute(): Single<String> =
         authRepository.getCurrentUserEmail()
 
 }

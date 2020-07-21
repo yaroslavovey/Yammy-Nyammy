@@ -1,17 +1,16 @@
 package com.ph00.domain.usecases
 
 import com.ph00.domain.repositories.AuthRepository
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.flatMapConcat
+import io.reactivex.rxjava3.core.Completable
+import javax.inject.Inject
 
-@FlowPreview
-class ReauthenticateUseCase(
+class ReauthenticateUseCase@Inject constructor(
     private val getCurrentUserEmailUseCase: GetCurrentUserEmailUseCase,
     private val authRepository: AuthRepository
 ) {
 
-    fun execute(currentPassword: String) =
-        getCurrentUserEmailUseCase.execute().flatMapConcat { email ->
+    fun execute(currentPassword: String): Completable =
+        getCurrentUserEmailUseCase.execute().flatMapCompletable { email ->
             authRepository.reauthenticate(email, currentPassword)
         }
 

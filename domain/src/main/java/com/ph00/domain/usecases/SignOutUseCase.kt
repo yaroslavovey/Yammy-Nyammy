@@ -1,13 +1,11 @@
 package com.ph00.domain.usecases
 
 import com.ph00.domain.repositories.AuthRepository
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
+import io.reactivex.rxjava3.core.Completable
+import javax.inject.Inject
 
-class SignOutUseCase(private val authRepository: AuthRepository) {
+class SignOutUseCase@Inject constructor(private val authRepository: AuthRepository) {
 
-    fun execute(): Flow<Unit> =
-    authRepository.signOut()
+    fun execute(): Completable = authRepository.signOut()
 
 }

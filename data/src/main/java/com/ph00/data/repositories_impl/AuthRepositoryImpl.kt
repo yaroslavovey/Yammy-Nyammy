@@ -4,64 +4,71 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.ph00.domain.repositories.AuthRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.tasks.await
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class AuthRepositoryImpl(private val firebaseAuth: FirebaseAuth) : AuthRepository {
+class AuthRepositoryImpl @Inject constructor(private val firebaseAuth: FirebaseAuth) :
+    AuthRepository {
 
-    override fun getCurrentUserUid(): Flow<String> =
-        flow { firebaseAuth.currentUser?.uid?.let { emit(it) } }
+    override fun getCurrentUserUid(): Single<String> =
+        Single.create { emitter -> firebaseAuth.currentUser?.uid?.let { emitter.onSuccess(it) } }
 
-    override fun getCurrentUserEmail() = flow { firebaseAuth.currentUser?.email?.let { emit(it) } }
+    override fun getCurrentUserEmail(): Single<String> =
+        Single.create { emitter -> firebaseAuth.currentUser?.email?.let { emitter.onSuccess(it) } }
 
-    @ExperimentalCoroutinesApi
-    override fun getIsUserSignedInFlow(): Flow<Boolean> =
-        callbackFlow {
+    override fun getIsUserSignedInObservable(): Observable<Boolean> =
+        Observable.create { emitter ->
             val subscription = FirebaseAuth.AuthStateListener { auth ->
-                offer(auth.currentUser != null)
+                emitter.onNext(auth.currentUser != null)
             }
 
             firebaseAuth.addAuthStateListener(subscription)
 
-            awaitClose { firebaseAuth.removeAuthStateListener(subscription) }
+            emitter.setCancellable { firebaseAuth.removeAuthStateListener(subscription) }
         }
 
-    override fun signInViaEmailAndPassword(email: String, password: String): Flow<Unit> =
-        flow {
+    override fun signInViaEmailAndPassword(email: String, password: String): Completable =
+        Completable.create { emitter ->
             firebaseAuth
                 .signInWithEmailAndPassword(email, password)
-                .await()
-                .let { emit(Unit) }
+                .addOnFailureListener { emitter.onError(it) }
+                .addOnSuccessListener { emitter.onComplete() }
         }
 
-    override fun signOut() = flow { emit(firebaseAuth.signOut()) }
+    override fun signOut(): Completable =
+        Completable.create { emitter ->
+            firebaseAuth.signOut().let { emitter.onComplete() }
+        }
 
-    override fun signUpViaEmailAndPassword(email: String, password: String): Flow<Unit> = flow {
-        firebaseAuth
-            .createUserWithEmailAndPassword(email, password)
-            .await()
-            .let { emit(Unit) }
-    }
+    override fun signUpViaEmailAndPassword(email: String, password: String): Completable =
+        Completable.create { emitter ->
+            firebaseAuth
+                .createUserWithEmailAndPassword(email, password)
+                .addOnFailureListener { emitter.onError(it) }
+                .addOnSuccessListener { emitter.onComplete() }
+        }
 
-    override fun updatePassword(newPassword: String): Flow<Unit> = flow {
-        firebaseAuth
-            .currentUser
-            ?.updatePassword(newPassword)
-            ?.await()
-            .let { emit(Unit) }
-    }
+    override fun updatePassword(newPassword: String): Completable =
+        Completable.create { emitter ->
+            firebaseAuth
+                .currentUser
+                ?.updatePassword(newPassword)
+                ?.addOnFailureListener { emitter.onError(it) }
+                ?.addOnSuccessListener { emitter.onComplete() }
+        }
 
-    override fun reauthenticate(email: String, password: String) = flow {
-        val credential: AuthCredential = EmailAuthProvider.getCredential(email, password)
-        firebaseAuth
-            .currentUser
-            ?.reauthenticate(credential)
-            ?.await()
-            .let { emit(Unit) }
-    }
+    override fun reauthenticate(email: String, password: String): Completable =
+        Completable.create { emitter ->
+
+            val credential: AuthCredential = EmailAuthProvider.getCredential(email, password)
+
+            firebaseAuth
+                .currentUser
+                ?.reauthenticate(credential)
+                ?.addOnFailureListener { emitter.onError(it) }
+                ?.addOnSuccessListener { emitter.onComplete() }
+        }
 
 }

@@ -3,15 +3,10 @@ package com.ph00.domain.usecases
 import com.ph00.domain.models.OrderAddressAndStatusModel
 import com.ph00.domain.models.OrderModel
 import com.ph00.domain.repositories.UserRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.take
+import io.reactivex.rxjava3.core.Completable
+import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-@FlowPreview
-class AddOrderUseCase(
+class AddOrderUseCase @Inject constructor(
     private val userRepository: UserRepository,
     private val getCurrentUserUidUseCase: GetCurrentUserUidUseCase,
     private val getDeliveryPriceUseCase: GetDeliveryPriceUseCase,
@@ -19,20 +14,35 @@ class AddOrderUseCase(
     private val getAllProductsInCartUseCase: GetAllProductsInCartUseCase
 ) {
 
-    fun execute(address: String): Flow<Unit> =
-        getCurrentUserUidUseCase.execute().flatMapConcat { userUid ->
-            getDeliveryPriceUseCase.execute().flatMapConcat { deliveryPrice ->
+//    fun execute(address: String) : Completable =
+//        Single.zip(
+//            getCurrentUserUidUseCase.execute(),
+//            getDeliveryPriceUseCase.execute(),
+//            getAllProductsInCartUseCase.execute().singleOrError(),
+//            Function3<String, Int, List<CartProductModel>, Completable> { userUid, deliveryPrice, listCartProductModel ->
+//                userRepository.addOrder(
+//                    OrderModel(
+//                        addressAndStatus = OrderAddressAndStatusModel(address = address),
+//                        products = listCartProductModel,
+//                        deliveryPrice = deliveryPrice
+//                    ), userUid
+//                ).andThen { dropCartUseCase.execute() }
+//            }
+//        )
+
+    //TODO Find better solution
+    fun execute(address: String): Completable =
+        getCurrentUserUidUseCase.execute().flatMapCompletable { userUid ->
+            getDeliveryPriceUseCase.execute().flatMapCompletable { deliveryPrice ->
                 getAllProductsInCartUseCase.execute().take(1)
-                    .flatMapConcat { listCartProductModel ->
+                    .flatMapCompletable { listCartProductModel ->
                         userRepository.addOrder(
                             OrderModel(
                                 addressAndStatus = OrderAddressAndStatusModel(address = address),
                                 products = listCartProductModel,
                                 deliveryPrice = deliveryPrice
                             ), userUid
-                        ).flatMapConcat {
-                            dropCartUseCase.execute()
-                        }
+                        ).andThen { dropCartUseCase.execute() }
                     }
             }
         }

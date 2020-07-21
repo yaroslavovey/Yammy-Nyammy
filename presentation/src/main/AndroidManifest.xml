@@ -14,13 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:windowSoftInputMode="adjustNothing"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.LoginContainerActivity"
-            android:theme="@style/AppTheme.LoginTheme"/>
 
         <activity
-            android:name=".ui.activities.MainContainerActivity"
+            android:name=".ui.MainContainerActivity"
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="screenSize|orientation"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

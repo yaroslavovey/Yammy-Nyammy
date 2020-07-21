@@ -1,11 +1,11 @@
 package com.ph00.domain.usecases
 
 import com.ph00.domain.repositories.UserRepository
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.rxjava3.core.Completable
+import javax.inject.Inject
 
-class DropCartUseCase(private val userRepository: UserRepository) {
+class DropCartUseCase@Inject constructor(private val userRepository: UserRepository) {
 
-    fun execute(): Flow<Unit> =
-        userRepository.deleteAllCartProducts()
+    fun execute(): Completable = userRepository.deleteAllCartProducts()
 
 }

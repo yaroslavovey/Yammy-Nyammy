@@ -2,11 +2,12 @@ package com.ph00.domain.usecases
 
 import com.ph00.domain.models.ProductIdAndCountModel
 import com.ph00.domain.repositories.UserRepository
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.rxjava3.core.Observable
+import javax.inject.Inject
 
-class GetAllCartProductIdAndCountUseCase(private val userRepository: UserRepository) {
+class GetAllCartProductIdAndCountUseCase@Inject constructor(private val userRepository: UserRepository) {
 
-    fun execute(): Flow<List<ProductIdAndCountModel>?> =
+    fun execute(): Observable<List<ProductIdAndCountModel>?> =
         userRepository.getAllCartProducts()
 
 }

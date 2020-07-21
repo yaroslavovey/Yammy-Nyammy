@@ -34,18 +34,23 @@ dependencies {
     implementation rootProject.ext.roomRuntime
     implementation rootProject.ext.roomKtx
     kapt rootProject.ext.roomCompiler
+    implementation rootProject.ext.roomRx
 
     implementation rootProject.ext.firebaseAuth
     implementation rootProject.ext.fireStore
 
     implementation rootProject.ext.moshiConverter
 
-    implementation rootProject.ext.coroutinesPlayServices
+    implementation rootProject.ext.rxJava
+    implementation rootProject.ext.rxJavaBridge
+    implementation rootProject.ext.rxJavaRetrofitAdapter
 
     testImplementation rootProject.ext.jUnit
     testImplementation rootProject.ext.androidJUnit
     testImplementation rootProject.ext.mockitoKotlin
-    testImplementation rootProject.ext.coroutinesTests
+
+    api rootProject.ext.dagger
+    kapt rootProject.ext.daggerCompiler
 
     implementation project(":domain")
 }

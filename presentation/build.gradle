@@ -44,9 +44,10 @@ dependencies {
 
     implementation rootProject.ext.delegateAdapters
 
-    implementation rootProject.ext.koinAndroid
-    implementation rootProject.ext.koinViewmodel
-    implementation rootProject.ext.koinScope
+    api rootProject.ext.dagger
+    kapt rootProject.ext.daggerCompiler
+    api rootProject.ext.daggerAndroid
+    kapt rootProject.ext.daggerAndroidProcessor
 
     implementation rootProject.ext.materialDesign
 
@@ -56,39 +57,32 @@ dependencies {
 
     implementation rootProject.ext.picasso
 
-    implementation rootProject.ext.coroutinesCore
-    implementation rootProject.ext.coroutinesAndroid
+    implementation rootProject.ext.rxJava
 
-    implementation rootProject.ext.navigation
-    implementation rootProject.ext.navigationUi
+    implementation rootProject.ext.cicerone
 
-    implementation rootProject.ext.viewModel
-    implementation rootProject.ext.lifecycleExtensions
+    implementation rootProject.ext.moxy
+    implementation rootProject.ext.moxyMaterial
+    implementation rootProject.ext.moxyAndroidX
+    implementation rootProject.ext.moxyKtx
+    kapt rootProject.ext.moxyCompiler
 
-    implementation rootProject.ext.liveDataExtenstions
-
+    implementation rootProject.ext.fragmentKtx
     implementation rootProject.ext.activity
     implementation rootProject.ext.activityKtx
-    implementation rootProject.ext.fragmentKtx
 
     implementation rootProject.ext.kotlin
     implementation rootProject.ext.appcompate
     implementation rootProject.ext.androidCore
     implementation rootProject.ext.legacySupport
 
-    implementation rootProject.ext.firebaseAuth
-    implementation rootProject.ext.fireStore
-
     implementation rootProject.ext.timber
-
-    implementation rootProject.ext.retrofit
-    implementation rootProject.ext.moshiConverter
-
-    implementation rootProject.ext.roomRuntime
 
     testImplementation rootProject.ext.jUnit
     testImplementation rootProject.ext.androidJUnit
     testImplementation rootProject.ext.androidEspresso
+
+    implementation rootProject.ext.rxJavaAndroid
 
     implementation project(":domain")
     implementation project(":data")

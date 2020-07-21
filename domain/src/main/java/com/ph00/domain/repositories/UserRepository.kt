@@ -4,36 +4,35 @@ import com.ph00.domain.models.AddressModel
 import com.ph00.domain.models.OrderModel
 import com.ph00.domain.models.ProductIdAndCountModel
 import com.ph00.domain.models.UserModel
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 interface UserRepository {
 
-    fun setUserPersonalData(data: UserModel, userUid: String): Flow<Unit>
-    fun getUserPersonalData(userUid: String): Flow<UserModel>
+    fun setUserPersonalData(data: UserModel, userUid: String): Completable
+    fun getUserPersonalData(userUid: String): Single<UserModel>
 
-    fun getAddressByUid(uid: String, userUid: String): Flow<AddressModel>
-    fun updateAddress(
-        address: AddressModel,
-        addressUid: String,
-        userUid: String
-    ): Flow<Unit>
+    fun getAddressByUid(uid: String, userUid: String): Single<AddressModel>
+    fun updateAddress(address: AddressModel, addressUid: String, userUid: String): Completable
 
-    fun deleteAddressByUid(uid: String, userUid: String): Flow<Unit>
-    fun addAddress(address: AddressModel, userUid: String): Flow<Unit>
-    fun getAllAddresses(userUid: String): Flow<List<AddressModel>>
+    fun deleteAddressByUid(uid: String, userUid: String): Completable
+    fun addAddress(address: AddressModel, userUid: String): Completable
+    fun getAllAddresses(userUid: String): Observable<List<AddressModel>>
 
-    fun addOrder(order: OrderModel, userUid: String): Flow<Unit>
-    fun getOrdersList(userUid: String): Flow<List<OrderModel>>
-    fun getOrderByUid(orderUid: String, userUid: String): Flow<OrderModel>
+    fun addOrder(order: OrderModel, userUid: String): Completable
+    fun getOrdersList(userUid: String): Observable<List<OrderModel>>
+    fun getOrderByUid(orderUid: String, userUid: String): Single<OrderModel>
 
-    fun getDeliveryPrice(addressUid: String?): Flow<Int>
+    fun getDeliveryPrice(addressUid: String?): Single<Int>
 
-    fun decreaseCartProductCount(productId: Int, count: Int) : Flow<Unit>
-    fun increaseCartProductCount(productId: Int, count: Int) : Flow<Unit>
-    fun deleteCartProductById(productId: Int) : Flow<Unit>
-    fun deleteAllCartProducts() : Flow<Unit>
-    fun addCartProduct(cartProduct: ProductIdAndCountModel) : Flow<Unit>
-    fun getCartProductById(productId: Int): Flow<ProductIdAndCountModel?>
-    fun getAllCartProducts(): Flow<List<ProductIdAndCountModel>?>
+    fun decreaseCartProductCount(productId: Int, count: Int): Completable
+    fun increaseCartProductCount(productId: Int, count: Int): Completable
+    fun deleteCartProductById(productId: Int): Completable
+    fun deleteAllCartProducts(): Completable
+    fun addCartProduct(cartProduct: ProductIdAndCountModel): Completable
+    fun getCartProductById(productId: Int): Maybe<ProductIdAndCountModel>
+    fun getAllCartProducts(): Observable<List<ProductIdAndCountModel>?>
 
 }

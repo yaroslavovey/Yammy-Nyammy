@@ -1,12 +1,12 @@
 package com.ph00.domain.usecases
 
 import com.ph00.domain.repositories.UserRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import io.reactivex.rxjava3.core.Observable
+import javax.inject.Inject
 
-class GetAllCartProductCountUseCase(private val userRepository: UserRepository) {
+class GetAllCartProductCountUseCase@Inject constructor(private val userRepository: UserRepository) {
 
-    fun execute(): Flow<Int> =
+    fun execute(): Observable<Int> =
         userRepository.getAllCartProducts()
             .map { list -> list?.sumBy { it.count } ?: 0 }
 
