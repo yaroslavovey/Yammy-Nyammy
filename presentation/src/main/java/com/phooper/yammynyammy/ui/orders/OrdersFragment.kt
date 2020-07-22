@@ -1,27 +1,29 @@
 package com.phooper.yammynyammy.ui.orders
 
 import android.os.Bundle
-import android.view.View
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.ui.global.adapters.OrderPreviewAdapter
+import com.phooper.yammynyammy.entities.Order
+import com.phooper.yammynyammy.presenters.orders.OrdersPresenter
+import com.phooper.yammynyammy.presenters.orders.OrdersView
 import com.phooper.yammynyammy.ui.global.BaseFragment
+import com.phooper.yammynyammy.ui.global.adapters.OrderPreviewAdapter
 import kotlinx.android.synthetic.main.fragment_orders.*
-import kotlinx.android.synthetic.main.no_network_layout.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import moxy.ktx.moxyPresenter
+import javax.inject.Inject
+import javax.inject.Provider
 
-class OrdersFragment : BaseFragment() {
+class OrdersFragment : BaseFragment(), OrdersView {
 
     override val layoutRes = R.layout.fragment_orders
 
+    @Inject
+    lateinit var presenterProvider: Provider<OrdersPresenter>
+
+    private val presenter by moxyPresenter { presenterProvider.get() }
 
     private val orderAdapter = OrderPreviewAdapter().apply {
-        onItemClick =
-            {
-//                navController.navigate(OrdersFragmentDirections.actionOrdersFragmentToOrderFragment(it))
-            }
+        onItemClick = {}
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -76,5 +78,33 @@ class OrdersFragment : BaseFragment() {
 //
 //        refresh_btn.setOnClickListener { viewModel.loadOrderList() }
 
+    }
+
+    override fun showLoading() {
+        TODO("Not yet implemented")
+    }
+
+    override fun hideLoading() {
+        TODO("Not yet implemented")
+    }
+
+    override fun showNoNetwork() {
+        TODO("Not yet implemented")
+    }
+
+    override fun hideNoNetwork() {
+        TODO("Not yet implemented")
+    }
+
+    override fun showNoOrders() {
+        TODO("Not yet implemented")
+    }
+
+    override fun hideNoOrders() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setOrdersList(list: List<Order>) {
+        TODO("Not yet implemented")
     }
 }

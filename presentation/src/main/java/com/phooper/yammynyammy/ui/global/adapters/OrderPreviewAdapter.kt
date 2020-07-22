@@ -10,8 +10,7 @@ import com.phooper.yammynyammy.entities.Order
 import com.phooper.yammynyammy.utils.formatToString
 import kotlinx.android.synthetic.main.item_order_preview.view.*
 
-class OrderPreviewAdapter :
-    RecyclerView.Adapter<OrderPreviewAdapter.OrderViewHolder>() {
+class OrderPreviewAdapter : RecyclerView.Adapter<OrderPreviewAdapter.OrderViewHolder>() {
     var dataList = mutableListOf<Order>()
     var onItemClick: ((String) -> Unit)? = null
 

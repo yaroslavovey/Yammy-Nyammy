@@ -9,15 +9,19 @@ import com.phooper.yammynyammy.ui.global.adapters.OrderAddressAndStateDelegateAd
 import com.phooper.yammynyammy.ui.global.adapters.OrderProductDelegateAdapter
 import com.phooper.yammynyammy.ui.global.adapters.TotalPriceDelegateAdapter
 import kotlinx.android.synthetic.main.fragment_order.*
+import javax.inject.Inject
 
 class OrderFragment : BaseFragment() {
 
     override val layoutRes = R.layout.fragment_order
 
+    @Inject
+    lateinit var ordersProductDelegateAdapter: OrderProductDelegateAdapter
+
     private val diffAdapter =
         DiffUtilCompositeAdapter.Builder()
             .add(OrderAddressAndStateDelegateAdapter())
-            .add(OrderProductDelegateAdapter())
+            .add(ordersProductDelegateAdapter)
             .add(TotalPriceDelegateAdapter())
             .build()
 

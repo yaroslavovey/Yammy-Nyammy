@@ -5,8 +5,7 @@ import com.phooper.yammynyammy.R
 import com.phooper.yammynyammy.entities.OrderAddressAndStatus
 import kotlinx.android.synthetic.main.item_order_address_status.*
 
-class OrderAddressAndStateDelegateAdapter() :
-    KDelegateAdapter<OrderAddressAndStatus>() {
+class OrderAddressAndStateDelegateAdapter : KDelegateAdapter<OrderAddressAndStatus>() {
 
     override fun isForViewType(item: Any): Boolean = item is OrderAddressAndStatus
 

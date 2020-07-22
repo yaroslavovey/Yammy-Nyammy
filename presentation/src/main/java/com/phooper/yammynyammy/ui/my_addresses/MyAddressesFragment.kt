@@ -10,29 +10,29 @@ import com.phooper.yammynyammy.ui.global.adapters.AddressDelegateAdapter
 import kotlinx.android.synthetic.main.fragment_my_addresses.*
 
 class MyAddressesFragment : BaseFragment() {
-
-    private val delegateAdapter = DiffUtilCompositeAdapter.Builder()
-        .add(AddAddressButtonDelegateAdapter {
-//            navController.navigate(
-//                MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress(
-//                    null
-//                )
-//            )
-        })
-        .add(
-            AddressDelegateAdapter(
-                onItemClickListener =
-                { addressUid ->
-                    onItemClicked(addressUid)
-                },
-                onEditBtnClickListener = { addressUid ->
-//                    navController.navigate(
-//                        MyAddressesFragmentDirections
-//                            .actionMyAddressesFragmentToAddUpdateAddress(addressUid)
-//                    )
-                })
-        )
-        .build()
+//
+//    private val delegateAdapter = DiffUtilCompositeAdapter.Builder()
+//        .add(AddAddressButtonDelegateAdapter {
+////            navController.navigate(
+////                MyAddressesFragmentDirections.actionMyAddressesFragmentToAddUpdateAddress(
+////                    null
+////                )
+////            )
+//        })
+//        .add(
+//            AddressDelegateAdapter(
+//                onItemClickListener =
+//                { addressUid ->
+//                    onItemClicked(addressUid)
+//                },
+//                onEditBtnClickListener = { addressUid ->
+////                    navController.navigate(
+////                        MyAddressesFragmentDirections
+////                            .actionMyAddressesFragmentToAddUpdateAddress(addressUid)
+////                    )
+//                })
+//        )
+//        .build()
 
 
     override val layoutRes = R.layout.fragment_my_addresses
@@ -58,7 +58,7 @@ class MyAddressesFragment : BaseFragment() {
 //        })
 
         recycler_view.apply {
-            adapter = delegateAdapter
+//            adapter = delegateAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
 //

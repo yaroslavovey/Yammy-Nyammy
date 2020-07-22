@@ -11,18 +11,18 @@ class CartFragment : BaseFragment() {
 
     override val layoutRes = R.layout.fragment_cart
 
-    private val delegateAdapter =
-        DiffUtilCompositeAdapter.Builder()
-            .add(
-                CartProductDelegateAdapter(
-                    onPlusClickListener = {
-//                        viewModel.addOneProductToCart(it)
-                    },
-                    onMinusClickListener = {
-//                        viewModel.removeOneProductFromCart(it)
-                    })
-            ).add(TotalPriceDelegateAdapter())
-            .build()
+//    private val delegateAdapter =
+//        DiffUtilCompositeAdapter.Builder()
+//            .add(
+//                CartProductDelegateAdapter(
+//                    onPlusClickListener = {
+////                        viewModel.addOneProductToCart(it)
+//                    },
+//                    onMinusClickListener = {
+////                        viewModel.removeOneProductFromCart(it)
+//                    })
+//            ).add(TotalPriceDelegateAdapter())
+//            .build()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
