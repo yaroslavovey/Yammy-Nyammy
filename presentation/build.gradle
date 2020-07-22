@@ -49,6 +49,9 @@ dependencies {
     api rootProject.ext.daggerAndroid
     kapt rootProject.ext.daggerAndroidProcessor
 
+    compileOnly rootProject.ext.daggerAssistedInjectAnnotations
+    kapt rootProject.ext.daggerAssistedInjectProcessor
+
     implementation rootProject.ext.materialDesign
 
     implementation rootProject.ext.constraintLayout

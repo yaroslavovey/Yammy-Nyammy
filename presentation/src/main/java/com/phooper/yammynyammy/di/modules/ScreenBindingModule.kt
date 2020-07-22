@@ -1,15 +1,15 @@
 package com.phooper.yammynyammy.di.modules
 
-import com.phooper.yammynyammy.ui.bottom_nav.BottomNavFlowFragment
 import com.phooper.yammynyammy.ui.MainContainerActivity
+import com.phooper.yammynyammy.ui.bottom_nav.BottomNavFlowFragment
 import com.phooper.yammynyammy.ui.cart.CartFragment
 import com.phooper.yammynyammy.ui.login.LoginFlowFragment
 import com.phooper.yammynyammy.ui.login.LoginFragment
-import com.phooper.yammynyammy.ui.register.RegisterFragment
 import com.phooper.yammynyammy.ui.menu.MenuFragment
 import com.phooper.yammynyammy.ui.orders.OrdersFragment
 import com.phooper.yammynyammy.ui.product_list.ProductListFragment
 import com.phooper.yammynyammy.ui.profile.ProfileFragment
+import com.phooper.yammynyammy.ui.register.RegisterFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -43,7 +43,7 @@ abstract class ScreenBindingModule {
     @ContributesAndroidInjector
     abstract fun profileFragment(): ProfileFragment
 
-    @ContributesAndroidInjector(modules = [ProductListModule::class])
+    @ContributesAndroidInjector
     abstract fun productListFragment(): ProductListFragment
 
 }

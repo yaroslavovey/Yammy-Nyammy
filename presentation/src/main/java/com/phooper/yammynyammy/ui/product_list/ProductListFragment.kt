@@ -1,11 +1,9 @@
 package com.phooper.yammynyammy.ui.product_list
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.phooper.yammynyammy.R
-import com.phooper.yammynyammy.di.components.DaggerProductListComponent
 import com.phooper.yammynyammy.entities.Product
 import com.phooper.yammynyammy.presenters.product_list.ProductListPresenter
 import com.phooper.yammynyammy.presenters.product_list.ProductListView
@@ -17,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_product_list.*
 import kotlinx.android.synthetic.main.no_network_layout.*
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
-import javax.inject.Provider
 
 
 class ProductListFragment : BaseFragment(), ProductListView {
@@ -25,18 +22,14 @@ class ProductListFragment : BaseFragment(), ProductListView {
     override val layoutRes = R.layout.fragment_product_list
 
     @Inject
-    lateinit var presenterProvider: Provider<ProductListPresenter>
+    lateinit var presenterFactory: ProductListPresenter.Factory
 
-    private val presenter by moxyPresenter { presenterProvider.get() }
+    private val presenter by moxyPresenter {
+        presenterFactory.create(requireArguments().getInt(ARG_OBJECT))
+    }
 
     @Inject
     lateinit var productAdapter: ProductAdapter
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        DaggerProductListComponent.factory().create(this)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,15 +37,16 @@ class ProductListFragment : BaseFragment(), ProductListView {
     }
 
     private fun initViews() {
-
         recycler_view.apply {
             adapter = productAdapter
             layoutManager = LinearLayoutManager(this@ProductListFragment.context)
         }
+
         productAdapter.apply {
             onItemClick = {}
             onAddToCartBtnClick = { showAddToCartBottomSheet(it) }
         }
+
         refresh_btn.setOnClickListener { presenter.loadProducts() }
 
     }
