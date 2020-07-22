@@ -16,10 +16,10 @@ abstract class FlowFragment : BaseFragment() {
     @Named(Constants.FLOW)
     lateinit var navigatorHolder: NavigatorHolder
 
-    protected val currentFragment
+    open val currentFragment
         get() = childFragmentManager.findFragmentById(containerId) as? BaseFragment
 
-    protected val navigator: Navigator by lazy {
+    open val navigator: Navigator by lazy {
         SupportAppNavigator(requireActivity(), childFragmentManager, containerId)
     }
 

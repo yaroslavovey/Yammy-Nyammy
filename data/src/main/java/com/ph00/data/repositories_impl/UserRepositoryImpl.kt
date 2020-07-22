@@ -144,9 +144,16 @@ class UserRepositoryImpl
                 .collection(ORDERS_COLLECTION)
                 .orderBy("timestamp", Query.Direction.DESCENDING)
 
-            val subscription = eventCollection.addSnapshotListener { querySnapshot, _ ->
-                querySnapshot?.toObjects<OrderEntity>()?.map { it.toModel() }
-                    ?.let { emitter.onNext(it) }
+            val subscription = eventCollection.addSnapshotListener { querySnapshot, e ->
+                if (e != null){
+                    emitter.onError(e)
+                    return@addSnapshotListener
+                }
+                if (querySnapshot == null || querySnapshot.isEmpty) {
+                    emitter.onNext(emptyList())
+                } else {
+                    emitter.onNext(querySnapshot.toObjects<OrderEntity>().map { it.toModel() })
+                }
             }
 
             emitter.setCancellable { subscription.remove() }

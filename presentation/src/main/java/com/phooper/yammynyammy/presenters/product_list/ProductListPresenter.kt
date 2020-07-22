@@ -25,24 +25,23 @@ class ProductListPresenter @AssistedInject constructor(
         super.onFirstViewAttach()
         loadProducts()
     }
-    
+
     fun loadProducts() {
         getProductListByCategoryUseCase
             .execute(category)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
+            .map { list -> list.map { it.toPresentation() } }
             .doOnSubscribe {
                 viewState.run {
                     showLoading()
                     hideNoNetwork()
                 }
             }
-            .doAfterSuccess { viewState.setProductList(it.toPresentation()) }
+            .doAfterSuccess { viewState.setProductList(it) }
             .doOnError { viewState.showNoNetwork() }
             .doFinally { viewState.hideLoading() }
             .subscribe()
             .addTo(compositeDisposable)
-
     }
-
 }
